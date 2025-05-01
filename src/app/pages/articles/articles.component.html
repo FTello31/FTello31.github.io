@@ -1,0 +1,22 @@
+<div class="max-w-3xl mx-auto py-8">
+  <div class="lg:hidden sticky top-0 lg:w-full lg:opacity-0 bg-slate-900/75 backdrop-blur py-3 -mx-6 px-6 z-20">
+    <h2 class="text-sm font-bold text-slate-200 lg:sr-only tracking-widest">Articles</h2>
+  </div>
+  @for (article of articles; track article.link) {
+  <article [routerLink]="article.link"
+    class="group flex gap-6 mb-6 rounded-lg cursor-pointer transition-all duration-200 hover:-translate-y-0.5 p-4"
+    role="article" [attr.aria-labelledby]="'article-title-' + $index">
+    <div class="flex-shrink-0 w-20 h-20 overflow-hidden rounded-lg">
+      <img [src]="article.imageUrl" [alt]="article.title"
+        class="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105" loading="lazy">
+    </div>
+    <div class="flex-grow">
+      <time class="text-sm text-neutral-400 mb-2 block">{{ article.year }}</time>
+      <h2 id="article-title-{{$index}}"
+        class="text-base text-white font-medium leading-tight group-hover:text-primary-400 transition-colors duration-200">
+        {{ article.title }}
+      </h2>
+    </div>
+  </article>
+  }
+</div>

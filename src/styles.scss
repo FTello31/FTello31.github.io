@@ -1,1 +1,139 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// @import "tailwindcss/base";
+// @import "tailwindcss/components";
+// @import "tailwindcss/utilities";
+
+/* Imports para fuentes (puedes reemplazar por Google Fonts según tus preferencias) */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap");
+
+/* Variables globales CSS */
+:root {
+  --navy: #0a192f;
+  --light-navy: #112240;
+  --lightest-navy: #233554;
+  --slate: #8892b0;
+  --light-slate: #a8b2d1;
+  --lightest-slate: #ccd6f6;
+  --white: #e6f1ff;
+  --green: #64ffda;
+}
+
+// /* Estilos personalizados adicionales */
+// .text-highlight {
+//   color: #64ffda;
+// }
+
+// /* Animación de typing para usar con ngx-typed-js */
+// .typed-cursor {
+//   opacity: 1;
+//   animation: typedjsBlink 0.7s infinite;
+// }
+
+// @keyframes typedjsBlink {
+//   50% {
+//     opacity: 0;
+//   }
+// }
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-navy text-slate;
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* Estilo para links */
+  a {
+    @apply text-green transition-all duration-300;
+    text-decoration: none;
+
+    &:hover {
+      @apply text-green opacity-80;
+    }
+  }
+
+  /* Estilos para secciones */
+  section {
+    @apply max-w-5xl mx-auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-lightest-slate font-semibold;
+  }
+}
+
+@layer components {
+  /* Clases de utilidad para animaciones */
+  .fadeup-enter {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 300ms ease-in, transform 300ms ease-in;
+  }
+
+  .fadeup-enter-active {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
+  /* Para textos con efecto hover */
+  .hover-underline {
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      @apply bg-green;
+      transition: width 0.3s ease;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+
+  .numbered-heading {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin: 10px 0 40px;
+    width: 100%;
+    font-size: clamp(26px, 5vw, 32px);
+    white-space: nowrap;
+
+    &::before {
+      position: relative;
+      counter-increment: section;
+      content: "0" counter(section) ".";
+      @apply text-green mr-2 font-mono text-lg;
+    }
+
+    &::after {
+      content: "";
+      display: block;
+      position: relative;
+      width: 300px;
+      height: 1px;
+      margin-left: 20px;
+      @apply bg-lightest-navy;
+    }
+  }
+}

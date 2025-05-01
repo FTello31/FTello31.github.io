@@ -1,0 +1,191 @@
+<!-- src/app/layout/header/header.component.html
+<header [@fadeInDown]
+        class="fixed top-0 left-0 w-full z-50 transition-all duration-300"
+        [class.shadow-lg]="scrolled"
+        [class.bg-navy]="scrolled"
+        [class.bg-transparent]="!scrolled"
+        [class.py-4]="!scrolled"
+        [class.py-2]="scrolled"
+        [ngClass]="{'translate-y-0': visible, '-translate-y-full': !visible}">
+
+  <div class="container mx-auto px-6 flex justify-between items-center">
+    <!-- Logo
+    <a href="/" class="text-green text-3xl font-bold">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10">
+        <path d="M 50,10 L 90,90 L 10,90 Z" />
+      </svg>
+    </a>
+
+    <!-- Desktop Nav
+    <nav class="hidden md:flex items-center space-x-8">
+      <ol class="flex items-center space-x-5">
+        <li *ngFor="let item of navItems; let i = index">
+          <a
+            [href]="item.link"
+            class="text-lightest-slate hover:text-green transition-colors duration-300">
+            <span class="text-green font-mono text-xs">0{{i + 1}}.</span>
+            <span class="hover-underline ml-1">{{ item.name }}</span>
+          </a>
+        </li>
+      </ol>
+      <a href="/assets/resume.pdf" target="_blank" rel="noopener noreferrer"
+         class="px-4 py-2 border border-green rounded text-green font-mono text-sm hover:bg-green hover:bg-opacity-10 transition-all duration-300">
+        Resume
+      </a>
+    </nav>
+
+    <!-- Mobile Menu Button
+    <button class="md:hidden text-green focus:outline-none" (click)="toggleMobileMenu()">
+      <svg *ngIf="!mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+      </svg>
+      <svg *ngIf="mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu
+  <div *ngIf="mobileMenuOpen"
+       [@mobileMenuAnimation]
+       class="fixed inset-0 bg-light-navy bg-opacity-95 flex items-center justify-center z-50">
+    <nav class="flex flex-col items-center space-y-8">
+      <ol class="flex flex-col items-center space-y-6">
+        <li *ngFor="let item of navItems; let i = index">
+          <a
+            [href]="item.link"
+            (click)="closeMobileMenu()"
+            class="text-lightest-slate hover:text-green transition-colors duration-300 text-xl">
+            <div class="text-green font-mono text-base mb-1 text-center">0{{i + 1}}.</div>
+            <div class="hover-underline">{{ item.name }}</div>
+          </a>
+        </li>
+      </ol>
+      <a href="/assets/resume.pdf" target="_blank" rel="noopener noreferrer"
+         class="mt-8 px-6 py-3 border border-green rounded text-green font-mono hover:bg-green hover:bg-opacity-10 transition-all duration-300">
+        Resume
+      </a>
+    </nav>
+  </div>
+</header>
+
+
+
+<!-- header.component.html
+<header class="fixed w-full z-50 px-6 md:px-12 py-4 transition-all duration-300"
+  [@headerScrollAnimation]="scrollState()" [class.translate-y-0]="isHeaderVisible()"
+  [class.transform]="!isHeaderVisible()" [class.-translate-y-full]="!isHeaderVisible()">
+
+  <nav class="flex justify-between items-center">
+    <!-- Logo
+    <div class="logo">
+      <a [routerLink]="['/']" class="text-3xl text-cyan-400 font-bold">
+        BC <!-- Iniciales para el ejemplo, cámbialo por tus iniciales
+      </a>
+    </div>
+
+    <!-- Desktop Navigation
+    <div class="hidden md:flex items-center space-x-8">
+      <ul class="flex items-center space-x-8">
+        @for (item of navItems; track $index) {
+        <li>
+          <a [routerLink]="[item.link]" routerLinkActive="text-cyan-400" [routerLinkActiveOptions]="{exact: true}"
+            class="group flex items-center text-slate-300 hover:text-cyan-400 transition-colors">
+            <span class="text-cyan-400 text-xs mr-1">{{item.number}}</span>
+            <span>{{item.name}}</span>
+            <div class="h-px w-0 group-hover:w-6 ml-2 transition-all duration-300 bg-cyan-400"></div>
+          </a>
+        </li>
+        }
+      </ul>
+
+      <!-- Resume Button
+      <a href="/assets/resume.pdf" target="_blank" rel="noopener noreferrer"
+        class="text-cyan-400 border border-cyan-400 rounded px-4 py-2 text-sm hover:bg-cyan-400/10 transition-colors">
+        Resume
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button
+    <button class="md:hidden text-slate-300 focus:outline-none" (click)="toggleMenu()" aria-label="Menu">
+      <div class="relative w-7 h-6">
+        <span class="absolute h-0.5 w-7 bg-cyan-400 transform transition duration-300 ease-in-out"
+          [class.rotate-45]="isMenuOpen()" [class.translate-y-2.5]="isMenuOpen()"></span>
+        <span class="absolute h-0.5 w-7 bg-cyan-400 transform transition duration-300 ease-in-out mt-2"
+          [class.opacity-0]="isMenuOpen()"></span>
+        <span class="absolute h-0.5 w-7 bg-cyan-400 transform transition duration-300 ease-in-out mt-4"
+          [class.-rotate-45]="isMenuOpen()" [class.-translate-y-2.5]="isMenuOpen()"></span>
+      </div>
+    </button>
+
+    <!-- Mobile Menu
+    <div
+      class="fixed top-0 right-0 bottom-0 bg-navy-800 w-3/4 z-50 flex flex-col justify-center px-8 shadow-lg transform transition-transform duration-300"
+      [class.translate-x-0]="isMenuOpen()" [class.translate-x-full]="!isMenuOpen()">
+
+      <ul class="space-y-8">
+        @for (item of navItems; track $index) {
+        <li>
+          <a [routerLink]="[item.link]" routerLinkActive="text-cyan-400" [routerLinkActiveOptions]="{exact: true}"
+            class="text-xl flex flex-col text-slate-300 hover:text-cyan-400 transition-colors" (click)="toggleMenu()">
+            <span class="text-cyan-400 text-xs mb-1">{{item.number}}</span>
+            <span class="text-2xl">{{item.name}}</span>
+          </a>
+        </li>
+        }
+        <li class="pt-4">
+          <a href="/assets/resume.pdf" target="_blank" rel="noopener noreferrer"
+            class="inline-block text-cyan-400 border border-cyan-400 rounded px-6 py-3 text-center hover:bg-cyan-400/10 transition-colors">
+            Resume
+          </a>
+        </li>
+      </ul>
+
+      <!-- Mobile Social Links
+      <div class="mt-12">
+        <!-- <app-social-links [vertical]="false"></app-social-links>
+        <app-social-links></app-social-links>
+      </div>
+    </div>
+
+    <!-- Overlay when mobile menu is open
+    @if (isMenuOpen()) {
+    <div class="fixed inset-0 bg-black bg-opacity-70 z-40 md:hidden" (click)="toggleMenu()">
+    </div>
+    }
+  </nav>
+</header>
+
+
+-->
+
+<!-- layout/header/header.component.html -->
+<div class="mb-8">
+  <h1 class="text-5xl md:text-5xl font-bold text-slate-200 mb-4">Fernando Tello</h1>
+  <h2 class="text-2xl md:text-2xl font-bold text-[#64ffda] mb-5">Software Engineer</h2>
+  <p class="mt-6 mb-12 text-lg text-slate-400 max-w-md">
+    AAA I build accessible, pixel-perfect digital experiences for the web.
+  </p>
+
+  <!-- Navigation -->
+  <nav class="nav hidden lg:block">
+    <ul class="mt-8 space-y-4">
+      <li>
+        <a href="#about" class="text-sm uppercase tracking-widest hover:text-[#64ffda] transition-colors">
+          About
+        </a>
+      </li>
+      <li>
+        <a href="#experience" class="text-sm uppercase tracking-widest hover:text-[#64ffda] transition-colors">
+          Experience
+        </a>
+      </li>
+      <li>
+        <a href="#projects" class="text-sm uppercase tracking-widest hover:text-[#64ffda] transition-colors">
+          Projects
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+</div>
