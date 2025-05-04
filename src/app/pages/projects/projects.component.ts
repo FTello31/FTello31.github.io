@@ -39,7 +39,7 @@ export class ProjectsComponent {
     },
     {
       title: 'Tasty Marketplace App',
-      description: 'Android Java app developed.',
+      description: 'Android Java app.',
       image:
         'https://raw.githubusercontent.com/FTello31/TastyVersion2/refs/heads/master/app/src/main/res/drawable-mdpi/cupcake.png',
       link: 'https://github.com/FTello31/TastyVersion2',
