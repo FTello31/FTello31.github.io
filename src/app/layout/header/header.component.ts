@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { SocialLinksComponent } from '../../shared/social-links/social-links.component';
+import { ScrollspyService } from '../../shared/scrollspy.service';
 
 @Component({
   selector: 'app-header',
@@ -11,51 +12,23 @@ import { SocialLinksComponent } from '../../shared/social-links/social-links.com
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  //   navItems = [
-  //     { name: 'About', link: '/about', number: '01.' },
-  //     { name: 'Experience', link: '/experience', number: '02.' },
-  //     { name: 'Projects', link: '/projects', number: '03.' },
-  //     { name: 'Contact', link: '/contact', number: '04.' },
-  //   ];
-
-  //   isMenuOpen = signal(false);
-  //   scrollState = signal('top');
-  //   lastScrollTop = 0;
-  //   isHeaderVisible = signal(true);
-
-  //   toggleMenu(): void {
-  //     this.isMenuOpen.update((value) => !value);
-  //     // Prevent scrolling when menu is open
-  //     document.body.style.overflow = this.isMenuOpen() ? 'hidden' : '';
-  //   }
-
-  //   @HostListener('window:scroll', [])
-  //   onWindowScroll() {
-  //     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-  //     // Update background transparency based on scroll
-  //     this.scrollState.set(scrollTop > 10 ? 'scrolled' : 'top');
-
-  //     // Logic for hiding/showing header based on scroll direction
-  //     if (scrollTop > this.lastScrollTop && scrollTop > 100) {
-  //       this.isHeaderVisible.set(false); // Hide when scrolling down
-  //     } else {
-  //       this.isHeaderVisible.set(true); // Show when scrolling up
-  //     }
-
-  //     this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-  //   }
-  // }
-
   isScrolled = false;
   isMobileMenuOpen = false;
 
   navItems = [
-    { link: '/about', label: 'About' },
-    { link: '/experience', label: 'Experience' },
-    { link: '/projects', label: 'Projects' },
-    { link: '/contact', label: 'Contact' },
+    { link: '#about', label: 'About', id: 'about' },
+    { link: '#experience', label: 'Experience', id: 'experience' },
+    { link: '#projects', label: 'Projects', id: 'projects' },
+    // Contact puede omitirse si no hay sección
   ];
+
+  activeSection = 'about';
+
+  constructor(private scrollspy: ScrollspyService) {
+    this.scrollspy.activeSection$.subscribe((section) => {
+      this.activeSection = section;
+    });
+  }
 
   @HostListener('window:scroll')
   onWindowScroll() {

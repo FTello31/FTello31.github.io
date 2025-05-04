@@ -21,31 +21,29 @@ interface Project {
 export class ProjectsComponent {
   featuredProjects: Project[] = [
     {
-      title: 'Spotify Profile',
+      title: 'Mira Que Lindo',
       description:
-        'Web app for visualizing personalized Spotify data. View your top artists, top tracks, recently played tracks, and detailed audio information about each track. Create and save new playlists of recommended tracks based on your existing playlists and more.',
-      image: 'images/a.png',
-      link: '#',
-      stats: '678',
-      technologies: ['React', 'Express', 'Spotify API', 'Heroku'],
+        'Web app for visualizing available products from a crafting company in real time.',
+      image: 'https://miraquelindoperu.com/assets/images/logo-sin-fondo.png',
+      link: 'https://miraquelindoperu.com',
+      technologies: ['Angular', 'JavaScript', 'Firebase', 'Git'],
     },
     {
-      title: 'Halcyon Theme',
+      title: 'CAII 2023 App',
       description:
-        'Minimal dark blue theme for VS Code, Sublime Text, Atom, iTerm, and more.',
-      image: 'images/a.png',
-      link: '#',
-      stats: '100k+ Installs',
-      technologies: ['VS Code', 'Sublime Text', 'Atom', 'iTerm2', 'Hyper'],
+        'iOS app developed to showcase the event schedule and biographies of the speakers. Available in Peru App Store.',
+      image:
+        'https://raw.githubusercontent.com/FTello31/Caii-2023/refs/heads/main/Caii-2023/Resources/Assets.xcassets/caii_icono_primary.imageset/Image.png',
+      link: 'https://github.com/FTello31/Caii-2023',
+      technologies: ['Swift', 'Git'],
     },
     {
-      title: 'brittanychiang.com (v4)',
-      description:
-        'An old portfolio site built with Gatsby with 6k+ stars and 3k+ forks',
-      image: 'images/a.png',
-      link: '#',
-      stats: '7,861',
-      technologies: ['Gatsby', 'Styled Components', 'Netlify'],
+      title: 'Tasty Marketplace App',
+      description: 'Android Java app developed.',
+      image:
+        'https://raw.githubusercontent.com/FTello31/TastyVersion2/refs/heads/master/app/src/main/res/drawable-mdpi/cupcake.png',
+      link: 'https://github.com/FTello31/TastyVersion2',
+      technologies: ['Swift', 'Git'],
     },
   ];
 }

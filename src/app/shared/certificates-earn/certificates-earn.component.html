@@ -1,0 +1,9 @@
+<section class="mb-16 relative">
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+    @for (cert of certificates; track cert.id) {
+    <div class="bg-slate-800/50 p-4 rounded-lg">
+      <img width="150" height="270" [src]="cert.imageUrl" [alt]="cert.title" class="mx-auto">
+    </div>
+    }
+  </div>
+</section>

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { SocialLinksComponent } from '../../shared/social-links/social-links.component';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
-import { ProjectCardComponent } from '../../shared/project-card/project-card.component';
+import { RouterModule } from '@angular/router';
 
 interface Experience {
   title: string;
