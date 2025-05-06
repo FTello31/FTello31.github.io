@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { SocialLinksComponent } from '../../shared/social-links/social-links.component';
-import { ScrollspyService } from '../../shared/scrollspy.service';
+import { ScrollspyService } from '../../shared/services/scrollspy.service';
 
 @Component({
   selector: 'app-header',

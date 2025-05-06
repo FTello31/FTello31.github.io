@@ -1,9 +1,3 @@
-<!--
-<main class="pt-24 pb-12">
-  <router-outlet></router-outlet>
-</main>
-<app-footer></app-footer> -->
-
 <!-- Main container -->
 <div class="mx-auto min-h-screen max-w-screen-xl bg-[#0a192f] text-gray-300 font-sans px-6 py-12 md:px-12 lg:px-24 ">
   <div class="lg:flex lg:justify-between lg:gap-4">
@@ -26,13 +20,12 @@
       <!-- Projects Section -->
       <app-projects></app-projects>
 
-
       <app-certificates-earn></app-certificates-earn>
 
-
-      <!-- Articles Section TODO-->
-      <!-- <app-articles></app-articles> -->
-
+      <!-- Articles Section -->
+      @if (isArticlesActivated$ | async) {
+      <app-articles></app-articles>
+      }
 
       <!-- Footer -->
       <app-footer></app-footer>

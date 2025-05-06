@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface Project {
+  id: number;
   title: string;
   description: string;
   image: string;
@@ -21,6 +22,7 @@ interface Project {
 export class ProjectsComponent {
   featuredProjects: Project[] = [
     {
+      id: 1,
       title: 'Mira Que Lindo',
       description:
         'Web app for visualizing available products from a crafting company in real time.',
@@ -29,6 +31,7 @@ export class ProjectsComponent {
       technologies: ['Angular', 'JavaScript', 'Firebase', 'Git'],
     },
     {
+      id: 2,
       title: 'CAII 2023 App',
       description:
         'iOS app developed to showcase the event schedule and biographies of the speakers. Available in Peru App Store.',
@@ -38,12 +41,13 @@ export class ProjectsComponent {
       technologies: ['Swift', 'Git'],
     },
     {
+      id: 3,
       title: 'Tasty Marketplace App',
       description: 'Android Java app.',
       image:
         'https://raw.githubusercontent.com/FTello31/TastyVersion2/refs/heads/master/app/src/main/res/drawable-mdpi/cupcake.png',
       link: 'https://github.com/FTello31/TastyVersion2',
-      technologies: ['Swift', 'Git'],
+      technologies: ['Android', 'Git'],
     },
   ];
 }

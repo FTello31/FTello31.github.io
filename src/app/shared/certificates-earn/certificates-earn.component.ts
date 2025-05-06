@@ -20,7 +20,7 @@ interface Certificate {
 export class CertificatesEarnComponent {
   certificates: Certificate[] = [
     {
-      id: '3',
+      id: '1',
       title: 'AWS Certified Cloud Practitioner',
       issuer: 'Amazon Web Services Training and Certification',
       date: 'Issued 3/31/24',
@@ -29,7 +29,7 @@ export class CertificatesEarnComponent {
         'https://images.credly.com/size/680x680/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png',
     },
     {
-      id: '4',
+      id: '2',
       title: 'AWS Certified Developer – Associate',
       issuer: 'Amazon Web Services Training and Certification',
       date: 'Issued 11/12/24',
@@ -38,7 +38,7 @@ export class CertificatesEarnComponent {
         'https://images.credly.com/size/680x680/images/b9feab85-1a43-4f6c-99a5-631b88d5461b/image.png',
     },
     {
-      id: '2',
+      id: '3',
       title: 'AWS Certified Data Analytics – Specialty',
       issuer: 'Amazon Web Services Training and Certification',
       date: 'Issued 7/18/21',
@@ -47,7 +47,7 @@ export class CertificatesEarnComponent {
         'https://images.credly.com/size/680x680/images/6430efe4-0ac0-4df6-8f1b-9559d8fcdf27/image.png',
     },
     {
-      id: '2',
+      id: '4',
       title: 'AWS Certified Solutions Architect – Associate',
       issuer: 'Amazon Web Services Training and Certification',
       date: 'Issued 7/18/21',

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface Experience {
+  id: number;
   date: string;
   title: string;
   company: string;
@@ -20,6 +21,7 @@ interface Experience {
 export class ExperienceComponent {
   experiences: Experience[] = [
     {
+      id: 1,
       date: 'May 2023 — Present',
       title: 'Frontend Developer',
       company: 'Newfire Global Partners',
@@ -38,6 +40,7 @@ export class ExperienceComponent {
       ],
     },
     {
+      id: 2,
       date: 'Sep 2021 — Apr 2023',
       title: 'Frontend Developer',
       company: 'Globant',
@@ -55,6 +58,7 @@ export class ExperienceComponent {
       ],
     },
     {
+      id: 3,
       date: 'Mar 2021 — Aug 2021',
       title: 'Tech Lead',
       company: 'Management Solutions',
@@ -72,6 +76,7 @@ export class ExperienceComponent {
       ],
     },
     {
+      id: 4,
       date: 'Mar 2019 — Mar 2021',
       title: 'Full Stack Developer',
       company: 'Management Solutions',
