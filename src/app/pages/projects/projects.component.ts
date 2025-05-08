@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ContentService } from '../../shared/services/content.service';
+import { Observable } from 'rxjs';
+import { Tables } from '../../shared/enums/tables';
 
 interface Project {
   id: number;
@@ -20,6 +23,13 @@ interface Project {
   styleUrl: './projects.component.scss',
 })
 export class ProjectsComponent {
+  private contentService = inject(ContentService);
+  projectList$: Observable<Project[]>;
+
+  constructor() {
+    this.projectList$ = this.contentService.getContent(Tables.Project);
+  }
+
   featuredProjects: Project[] = [
     {
       id: 1,

@@ -18,6 +18,8 @@
     "@angular/platform-browser": "^19.2.0",
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
+    "@limitless-angular/sanity": "^19.2.0",
+    "@sanity/client": "^7.1.0",
     "aos": "^2.3.4",
     "configcat-js": "^9.5.1",
     "lucide-angular": "^0.503.0",

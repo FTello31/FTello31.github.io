@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ContentService } from '../../shared/services/content.service';
+import { Observable } from 'rxjs';
+import { Tables } from '../../shared/enums/tables';
 
 interface Certificate {
   id: string;
@@ -18,6 +21,13 @@ interface Certificate {
   styleUrl: './certificates-earn.component.scss',
 })
 export class CertificatesEarnComponent {
+  private contentService = inject(ContentService);
+  certificateList$: Observable<Certificate[]>;
+
+  constructor() {
+    this.certificateList$ = this.contentService.getContent(Tables.Certificate);
+  }
+
   certificates: Certificate[] = [
     {
       id: '1',
@@ -26,7 +36,7 @@ export class CertificatesEarnComponent {
       date: 'Issued 3/31/24',
       description: '',
       imageUrl:
-        'https://images.credly.com/size/680x680/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png',
+        '`https://images.credly.com/size/680x680/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png`',
     },
     {
       id: '2',

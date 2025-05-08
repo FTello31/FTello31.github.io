@@ -2,7 +2,7 @@
   <div class="lg:hidden sticky top-0 lg:w-full lg:opacity-0 bg-slate-900/75 backdrop-blur py-3 -mx-6 px-6 z-20">
     <h2 class="text-sm font-bold text-slate-200 lg:sr-only tracking-widest">Articles</h2>
   </div>
-  @for (article of articles; track article.link) {
+  @for (article of articleList$ | async; track article.link) {
   <article [routerLink]="article.link"
     class="group flex gap-6 mb-6 rounded-lg cursor-pointer transition-all duration-200 hover:-translate-y-0.5 p-4"
     role="article" [attr.aria-labelledby]="'article-title-' + $index">

@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ContentService } from '../../shared/services/content.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
+import { Tables } from '../../shared/enums/tables';
 
 interface Experience {
   id: number;
@@ -19,6 +23,13 @@ interface Experience {
   styleUrl: './experience.component.scss',
 })
 export class ExperienceComponent {
+  private contentService = inject(ContentService);
+  experienceList$: Observable<Experience[]>;
+
+  constructor() {
+    this.experienceList$ = this.contentService.getContent(Tables.Experience);
+  }
+
   experiences: Experience[] = [
     {
       id: 1,

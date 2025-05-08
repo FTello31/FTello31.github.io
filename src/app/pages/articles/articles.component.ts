@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { ContentService } from '../../shared/services/content.service';
+import { Observable } from 'rxjs';
+import { Tables } from '../../shared/enums/tables';
 
 interface Article {
   year: number;
@@ -16,6 +19,13 @@ interface Article {
   styleUrl: './articles.component.scss',
 })
 export class ArticlesComponent {
+  private contentService = inject(ContentService);
+  articleList$: Observable<Article[]>;
+
+  constructor() {
+    this.articleList$ = this.contentService.getContent(Tables.Article);
+  }
+
   articles: Article[] = [
     {
       year: 2024,

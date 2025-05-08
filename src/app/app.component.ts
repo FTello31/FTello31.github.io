@@ -9,7 +9,7 @@ import { ExperienceComponent } from './pages/experience/experience.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
 import { ScrollspyService } from './shared/services/scrollspy.service';
-import { CertificatesEarnComponent } from './shared/certificates-earn/certificates-earn.component';
+import { CertificatesEarnComponent } from './pages/certificates-earn/certificates-earn.component';
 import { Observable } from 'rxjs';
 import { FeatureFlagService } from './shared/services/feature-flag.service';
 

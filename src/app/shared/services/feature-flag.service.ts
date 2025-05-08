@@ -31,15 +31,13 @@ export class FeatureFlagService {
       isDevMode() ? LogLevel.Info : LogLevel.Warn
     );
 
-    // When using snapshots, it is recommended to use Auto Polling.
-    // See the Docs:
-    // * https://configcat.com/docs/sdk-reference/js/#polling-modes
-    // * https://configcat.com/docs/sdk-reference/js/#snapshots-and-synchronous-feature-flag-evaluation
+    // Cambiando a LazyLoad para cargar los flags solo cuando sea necesario
     this.client = getClient(
       'configcat-sdk-1/ZovdCLNXSkGNZ4GF09p2sA/GCPb2xqAk0GOztIrE21MiQ',
-      PollingMode.AutoPoll,
+      PollingMode.LazyLoad,
       {
-        pollIntervalSeconds: 5,
+        // El cacheTimeToLiveSeconds determina por cuánto tiempo se mantendrán los valores en caché
+        cacheTimeToLiveSeconds: 3600,
         logger,
         setupHooks: (hooks) =>
           hooks.on('configChanged', () =>
@@ -48,20 +46,31 @@ export class FeatureFlagService {
       }
     );
 
-    this.client
-      .waitForReady()
-      .then(() => this.snapshotSubject.next(this.client.snapshot()));
+    // Cargar los flags una vez al inicio de la aplicación
+    this.loadFlags();
   }
+
+  // Método para cargar los flags explícitamente
+  async loadFlags() {
+    await this.client.forceRefreshAsync();
+    this.snapshotSubject.next(this.client.snapshot());
+  }
+
   ngOnDestroy(): void {
     this.client.dispose();
   }
 
   setDefaultUser(user: User) {
     this.client.setDefaultUser((this.defaultUser = user));
+    // Opcional: recargar los flags cuando se cambia el usuario
+    this.loadFlags();
   }
 
   clearDefaultUser() {
-    this.client.clearDefaultUser(), (this.defaultUser = void 0);
+    this.client.clearDefaultUser();
+    this.defaultUser = void 0;
+    // Opcional: recargar los flags cuando se elimina el usuario
+    this.loadFlags();
   }
 
   getValue<T extends SettingValue>(
@@ -109,5 +118,10 @@ export class FeatureFlagService {
         return true;
       })
     );
+  }
+
+  // Método opcional para forzar la recarga de flags cuando sea necesario
+  reloadFlags() {
+    return this.loadFlags();
   }
 }
