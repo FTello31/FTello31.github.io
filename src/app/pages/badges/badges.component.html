@@ -1,0 +1,17 @@
+<section class="mb-16 relative">
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+    @for (badge of badgeList$ | async; track badge.id) {
+    <div class="bg-slate-800/50 p-4 rounded-lg">
+      <img width="150" height="270" [src]="badge.imageUrl" [alt]="badge.title" class="mx-auto">
+    </div>
+    }
+  </div>
+
+  <!-- View Certificates Link -->
+  <div class="mt-12">
+    <a href="/certificates" class="group inline-flex items-center font-semibold leading-tight text-slate-200">
+      <span>View Certificates</span>
+      <span class="ml-1 text-slate-400 transition-transform group-hover:translate-x-2">→</span>
+    </a>
+  </div>
+</section>

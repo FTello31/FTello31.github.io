@@ -12,24 +12,16 @@ import { ScrollspyService } from './shared/services/scrollspy.service';
 import { CertificatesEarnComponent } from './pages/certificates-earn/certificates-earn.component';
 import { Observable } from 'rxjs';
 import { FeatureFlagService } from './shared/services/feature-flag.service';
+import { BadgesComponent } from './pages/badges/badges.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    CommonModule,
-    HeaderComponent,
-    FooterComponent,
-    SocialLinksComponent,
-    AboutComponent,
-    ExperienceComponent,
-    ProjectsComponent,
-    ArticlesComponent,
-    CertificatesEarnComponent,
-  ],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
   title = 'fernando-tello';
   isArticlesActivated$: Observable<boolean>;
 
@@ -44,22 +36,4 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngOnInit() {}
-
-  ngAfterViewInit() {
-    const sectionIds = ['about', 'experience', 'projects'];
-    const options = { threshold: 0.5 };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          this.scrollspy.setActiveSection(entry.target.id);
-        }
-      });
-    }, options);
-
-    sectionIds.forEach((id) => {
-      const section = document.getElementById(id);
-      if (section) observer.observe(section);
-    });
-  }
 }

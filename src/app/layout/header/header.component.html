@@ -8,7 +8,15 @@
   <!-- Navigation -->
   <nav class="nav hidden lg:block">
     <ul class="mt-8 space-y-4">
+      @for (navItem of navItems; track navItem.id) {
       <li>
+        <a href="#{{navItem.id}}" class="text-sm uppercase tracking-widest hover:text-green transition-colors"
+          [ngClass]="{'text-green font-bold': activeSection === navItem.id}">
+          {{navItem.label}}
+        </a>
+      </li>
+      }
+      <!-- <li>
         <a href="#about" class="text-sm uppercase tracking-widest hover:text-green transition-colors"
           [ngClass]="{'text-green font-bold': activeSection === 'about'}">
           About
@@ -25,7 +33,7 @@
           [ngClass]="{'text-green font-bold': activeSection === 'projects'}">
           Projects
         </a>
-      </li>
+      </li> -->
     </ul>
   </nav>
 

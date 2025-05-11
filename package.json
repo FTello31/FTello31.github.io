@@ -22,7 +22,7 @@
     "@sanity/client": "^7.1.0",
     "aos": "^2.3.4",
     "configcat-js": "^9.5.1",
-    "lucide-angular": "^0.503.0",
+    "ng2-pdf-viewer": "^10.4.0",
     "ngx-typed-js": "^2.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

@@ -1,7 +1,7 @@
 <section id="projects" class="mb-16 relative">
   <!-- Sticky mobile header -->
   <div class="lg:hidden sticky top-0 lg:w-full lg:opacity-0 bg-slate-900/75 backdrop-blur py-3 -mx-6 px-6 z-20">
-    <h2 class="text-sm font-bold text-slate-200 lg:sr-only tracking-widest">Projects</h2>
+    <h2 class="text-sm font-bold text-slate-200 lg:sr-only tracking-widest uppercase">Projects</h2>
   </div>
 
   <div class="space-y-24">
@@ -28,7 +28,8 @@
         <header class="flex flex-col">
           <h3 class="text-xl font-medium leading-snug text-slate-200">
             <a [href]="project.link" target="_blank" rel="noreferrer" class="inline-flex items-center group/link">
-              <span class="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
+              <span
+                class="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block  hover:bg-green/[.02] transition-transform"></span>
               {{project.title}}
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                 class="inline-block h-4 w-4 shrink-0 transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 group-focus-visible/link:-translate-y-1 group-focus-visible/link:translate-x-1 motion-reduce:transition-none ml-1 translate-y-px">

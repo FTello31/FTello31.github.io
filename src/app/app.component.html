@@ -1,35 +1,4 @@
 <!-- Main container -->
-<div class="mx-auto min-h-screen max-w-screen-xl bg-[#0a192f] text-gray-300 font-sans px-6 py-12 md:px-12 lg:px-24 ">
-  <div class="lg:flex lg:justify-between lg:gap-4">
-    <!-- Left Side / Header -->
-    <header class="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[48%] lg:flex-col lg:justify-between lg:py-24">
-      <app-header></app-header>
-
-      <!-- Social Links -->
-      <app-social-links></app-social-links>
-    </header>
-
-    <!-- Right Side / Main Content -->
-    <main class="pt-24 lg:w-[52%] lg:py-24">
-      <!-- About Section -->
-      <app-about></app-about>
-
-      <!-- Experience Section -->
-      <app-experience></app-experience>
-
-      <!-- Projects Section -->
-      <app-projects></app-projects>
-
-      <app-certificates-earn></app-certificates-earn>
-
-      <!-- Articles Section -->
-      @if (isArticlesActivated$ | async) {
-      <app-articles></app-articles>
-      }
-
-      <!-- Footer -->
-      <app-footer></app-footer>
-    </main>
-  </div>
-
+<div class="mx-auto min-h-screen max-w-screen-xl bg-navy text-gray-300 font-sans px-6 py-12 md:px-12 lg:px-24 ">
+  <router-outlet></router-outlet>
 </div>
