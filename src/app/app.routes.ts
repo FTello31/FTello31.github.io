@@ -13,9 +13,5 @@ export const routes: Routes = [
     path: 'certificates',
     component: CertificatesEarnComponent,
   },
-  // { path: 'about', component: AboutComponent },
-  // { path: 'experience', component: ExperienceComponent },
-  // { path: 'projects', component: ProjectsComponent },
-  // { path: 'contact', component: ContactComponent },
   { path: '**', redirectTo: '' },
 ];

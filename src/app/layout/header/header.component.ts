@@ -1,17 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
-import { SocialLinksComponent } from '../../shared/social-links/social-links.component';
+import { AfterViewInit, Component, HostListener } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { ScrollspyService } from '../../shared/services/scrollspy.service';
 
 @Component({
   selector: 'app-header',
-  // imports: [CommonModule],
   imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
+export class HeaderComponent implements AfterViewInit {
   isScrolled = false;
   isMobileMenuOpen = false;
 
@@ -24,18 +22,17 @@ export class HeaderComponent {
 
   activeSection = 'about';
 
-  constructor(private scrollspy: ScrollspyService) {
+  constructor(private scrollspy: ScrollspyService) {}
+
+  ngAfterViewInit(): void {
     this.scrollspy.activeSection$.subscribe((section) => {
       this.activeSection = section;
     });
+    throw new Error('Method not implemented.');
   }
 
   @HostListener('window:scroll')
   onWindowScroll() {
     this.isScrolled = window.scrollY > 50;
-  }
-
-  toggleMobileMenu() {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 }

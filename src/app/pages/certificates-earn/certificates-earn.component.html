@@ -16,14 +16,15 @@
       <ul class="flex flex-wrap gap-4">
         <li>
           <button class="px-4 py-2 focus:outline-none transition-colors duration-300 text-sm"
-            [ngClass]="{'text-teal-400 font-medium': activeTab === 'ALL', 'text-gray-400 hover:text-teal-300': activeTab !== 'ALL'}"
+            [ngClass]="{'text-green font-bold': activeTab === 'ALL', 'text-gray-400 hover:text-green': activeTab !== 'ALL'}"
             (click)="filterByIssuer('ALL')">
             ALL
           </button>
         </li>
+
         <li *ngFor="let issuer of issuers">
           <button class="px-4 py-2 focus:outline-none transition-colors duration-300 text-sm uppercase"
-            [ngClass]="{' text-teal-400 font-medium': activeTab === issuer, 'text-gray-400 hover:text-teal-300': activeTab !== issuer}"
+            [ngClass]="{' text-green font-bold': activeTab === issuer, 'text-gray-400 hover:text-green': activeTab !== issuer}"
             (click)="filterByIssuer(issuer)">
             {{ issuer }}
           </button>
@@ -31,16 +32,20 @@
       </ul>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3
-    gap-6 mt-8 xl:-mx-32 2xl:-mx-72">
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-8 xl:-mx-32 2xl:-mx-72">
 
       <div *ngFor="let certificate of filteredCertificates"
         class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-700"
         data-aos="fade-up" data-aos-delay="100">
 
         <div class="flex justify-center pt-2">
+          @if (certificate.imageUrl.includes('.pdf')) {
           <pdf-viewer [src]="certificate.imageUrl" [render-text]="false" [original-size]="false"
             style="width: 500px; height: 390px"></pdf-viewer>
+          } @else {
+          <img [src]="certificate.imageUrl" [alt]="certificate.title" class="w-full rounded-t-lg" loading="lazy"
+            decoding="async">
+          }
         </div>
 
         <div class="p-6">

@@ -1,16 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { FooterComponent } from '../../layout/footer/footer.component';
+import { HeaderComponent } from '../../layout/header/header.component';
+import { FeatureFlagService } from '../../shared/services/feature-flag.service';
+import { ScrollspyService } from '../../shared/services/scrollspy.service';
+import { SocialLinksComponent } from '../../shared/social-links/social-links.component';
 import { AboutComponent } from '../about/about.component';
+import { ArticlesComponent } from '../articles/articles.component';
+import { BadgesComponent } from '../badges/badges.component';
 import { ExperienceComponent } from '../experience/experience.component';
 import { ProjectsComponent } from '../projects/projects.component';
-import { BadgesComponent } from '../badges/badges.component';
-import { ArticlesComponent } from '../articles/articles.component';
-import { Observable } from 'rxjs';
-import { FeatureFlagService } from '../../shared/services/feature-flag.service';
-import { CommonModule } from '@angular/common';
-import { SocialLinksComponent } from '../../shared/social-links/social-links.component';
-import { HeaderComponent } from '../../layout/header/header.component';
-import { FooterComponent } from '../../layout/footer/footer.component';
-import { ScrollspyService } from '../../shared/services/scrollspy.service';
 
 @Component({
   selector: 'app-home',

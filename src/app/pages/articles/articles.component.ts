@@ -1,9 +1,8 @@
-import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { ContentService } from '../../shared/services/content.service';
+import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Tables } from '../../shared/enums/tables';
+import { ContentService } from '../../shared/services/content.service';
 
 interface Article {
   id: number;
@@ -15,7 +14,7 @@ interface Article {
 
 @Component({
   selector: 'app-articles',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './articles.component.html',
   styleUrl: './articles.component.scss',
 })
