@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FooterComponent } from '../../layout/footer/footer.component';
 import { HeaderComponent } from '../../layout/header/header.component';
@@ -42,20 +42,25 @@ export class HomeComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    console.log('ngAfterViewInit called');
     const sectionIds = ['about', 'experience', 'projects'];
     const options = { threshold: 0.5 };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          this.scrollspy.setActiveSection(entry.target.id);
-        }
-      });
-    }, options);
+    this.scrollspy.setActiveSection('about');
 
-    sectionIds.forEach((id) => {
-      const section = document.getElementById(id);
-      if (section) observer.observe(section);
-    });
+    setTimeout(() => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.scrollspy.setActiveSection(entry.target.id);
+          }
+        });
+      }, options);
+
+      sectionIds.forEach((id) => {
+        const section = document.getElementById(id);
+        if (section) observer.observe(section);
+      });
+    }, 500);
   }
 }
