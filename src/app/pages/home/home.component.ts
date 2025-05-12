@@ -42,7 +42,6 @@ export class HomeComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit called');
     const sectionIds = ['about', 'experience', 'projects'];
     const options = { threshold: 0.5 };
 

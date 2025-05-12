@@ -20,7 +20,6 @@ export class HeaderComponent {
 
   constructor(private scrollspy: ScrollspyService) {
     this.scrollspy.activeSection$.subscribe((section) => {
-      console.log('Active section:', section);
       this.activeSection = section;
     });
   }

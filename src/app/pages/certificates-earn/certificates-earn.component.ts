@@ -31,9 +31,6 @@ export class CertificatesEarnComponent implements OnInit {
   activeTab = 'ALL';
   loading = true;
 
-  // constructor() {
-  // }
-
   ngOnInit(): void {
     this.loadCertificates();
   }
@@ -76,7 +73,6 @@ export class CertificatesEarnComponent implements OnInit {
   }
 
   getYearFromDate(dateString: string): string {
-    console.log(dateString);
     return new Date(dateString).getFullYear().toString();
   }
 
