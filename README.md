@@ -38,7 +38,7 @@ To start a local development server:
 ````bash
 ng serve
 
-
+ng deploy --cname=fernandotello.me
 
 
 # FernandoTello
