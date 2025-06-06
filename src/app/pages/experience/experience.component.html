@@ -19,7 +19,7 @@
       <div class="z-10 sm:col-span-6">
         <h3 class="font-medium leading-snug text-slate-200">
           <div>
-            <a class="inline-flex items-baseline font-medium leading-tight text-slate-200 hover:text-teal-300 focus-visible:text-teal-300 group/link text-base"
+            <a class="inline-flex items-baseline font-medium leading-tight text-slate-200 hover:text-green focus-visible:text-green group/link text-base"
               [href]="experience.companyUrl" target="_blank" rel="noreferrer"
               [attr.aria-label]="experience.title + ' at ' + experience.company">
               <span
@@ -44,7 +44,7 @@
           @for (tech of experience.technologies; track tech) {
           <li class="mr-1.5 mt-2">
             <div
-              class="flex items-center rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300">
+              class="flex items-center rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium leading-5 text-green">
               {{tech}}</div>
           </li>
           }
