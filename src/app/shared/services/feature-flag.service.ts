@@ -9,6 +9,7 @@ import {
   SettingValue,
 } from 'configcat-js';
 import { distinctUntilChanged, Observable, BehaviorSubject, map } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -32,19 +33,15 @@ export class FeatureFlagService {
     );
 
     // Cambiando a LazyLoad para cargar los flags solo cuando sea necesario
-    this.client = getClient(
-      'configcat-sdk-1/ZovdCLNXSkGNZ4GF09p2sA/GCPb2xqAk0GOztIrE21MiQ',
-      PollingMode.LazyLoad,
-      {
-        // El cacheTimeToLiveSeconds determina por cuánto tiempo se mantendrán los valores en caché
-        cacheTimeToLiveSeconds: 3600,
-        logger,
-        setupHooks: (hooks) =>
-          hooks.on('configChanged', () =>
-            this.snapshotSubject.next(this.client.snapshot())
-          ),
-      }
-    );
+    this.client = getClient(environment.configCatClient, PollingMode.LazyLoad, {
+      // El cacheTimeToLiveSeconds determina por cuánto tiempo se mantendrán los valores en caché
+      cacheTimeToLiveSeconds: 3600,
+      logger,
+      setupHooks: (hooks) =>
+        hooks.on('configChanged', () =>
+          this.snapshotSubject.next(this.client.snapshot())
+        ),
+    });
 
     // Cargar los flags una vez al inicio de la aplicación
     this.loadFlags();
