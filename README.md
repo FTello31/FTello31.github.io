@@ -1,11 +1,11 @@
-# FernandoTello
+# Fernando Tello
 
 A personal portfolio website built with Angular, showcasing my experience as a full-stack developer and AI enthusiast.  
 This site serves as both a professional profile and a playground to explore modern frontend development using Angular 19.
 
 ## 🌐 Live Preview
 
-[fernandotello.me](https://fernandotello.me/) <!-- Replace with your deployed URL -->
+[fernandotello.me](https://fernandotello.me/)
 
 ## 📌 Features
 
@@ -23,13 +23,6 @@ This site serves as both a professional profile and a playground to explore mode
 | **Styling & UX**  | [AOS](https://michalsnik.github.io/aos/) for scroll animations                      |
 | **Feature Flags** | [ConfigCat](https://configcat.com/)                                                 |
 
-## 🧑‍💻 About Me
-
-Software developer with 6 years of experience in Angular and Java, and over 3 years specializing in frontend development with Angular.
-
-Currently pursuing a Master's degree in Artificial Intelligence and actively seeking AI-focused roles. I'm passionate about leveraging AI to enhance the software development process—making it faster, more efficient, and less error-prone.
-
-My background in full-stack development gives me a strong foundation to understand practical implementation challenges and build smart, scalable solutions. While my core expertise is in software engineering, I also hold AWS certifications and maintain an active interest in cloud technologies as part of my broader technical toolkit.
 
 ## 🚀 Getting Started
 
@@ -41,7 +34,7 @@ ng serve
 ng deploy --cname=fernandotello.me
 
 
-# FernandoTello
+# Fernando Tello
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.8.
 
