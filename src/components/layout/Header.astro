@@ -1,0 +1,50 @@
+---
+import Search from "@/components/Search.astro";
+import ThemeToggle from "@/components/ThemeToggle.astro";
+import { paths, ui } from "@/i18n";
+import type { Locale } from "@/types";
+
+interface Props {
+	alternateUrl: string;
+	locale: Locale;
+}
+
+const { alternateUrl, locale } = Astro.props;
+const t = ui[locale];
+const links = [
+	{ href: paths[locale].services, label: t.services },
+	{ href: paths[locale].projects, label: t.projects },
+	{ href: paths[locale].about, label: t.about },
+	{ href: paths[locale].blog, label: t.blog },
+	{ href: paths[locale].notes, label: t.notes },
+];
+---
+
+<header class="site-header" id="site-header">
+	<div class="site-header__inner">
+		<a aria-label={t.home} class="brand-mark" href={paths[locale].home}>
+			<span aria-hidden="true" class="brand-mark__monogram">FTS</span>
+			<span class="brand-mark__name">Fernando Tello <span>{t.studio}</span></span>
+		</a>
+		<nav aria-label="Main" class="site-nav" id="site-navigation">
+			{links.map((link) => <a aria-current={Astro.url.pathname === link.href ? "page" : false} href={link.href}>{link.label}</a>)}
+		</nav>
+		<div class="site-actions">
+			<Search locale={locale} />
+			<a class="language-link" href={alternateUrl} hreflang={locale === "es" ? "en" : "es"}>{t.language}</a>
+			<ThemeToggle label={t.theme} />
+			<button aria-controls="site-navigation" aria-expanded="false" aria-label={t.menu} class="menu-toggle" type="button">
+				<span></span><span></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<script>
+	const header = document.getElementById("site-header");
+	const toggle = header?.querySelector<HTMLButtonElement>(".menu-toggle");
+	toggle?.addEventListener("click", () => {
+		const open = header?.classList.toggle("menu-open") ?? false;
+		toggle.setAttribute("aria-expanded", String(open));
+	});
+</script>

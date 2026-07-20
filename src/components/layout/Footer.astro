@@ -1,0 +1,23 @@
+---
+import { paths, ui } from "@/i18n";
+import { siteConfig } from "@/site.config";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+const { locale } = Astro.props;
+const t = ui[locale];
+---
+
+<footer class="site-footer">
+	<div>
+		<strong>{siteConfig.brand}</strong>
+		<span>{t.copyright} · {new Date().getFullYear()}</span>
+	</div>
+	<nav aria-label="Footer">
+		<a href={paths[locale].certificates}>{t.certificates}</a>
+		<a href="/resume.pdf" target="_blank">{t.cv}</a>
+		{siteConfig.socialLinks.map((link) => <a href={link.url} rel="noreferrer" target="_blank">{link.label}</a>)}
+	</nav>
+</footer>

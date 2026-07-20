@@ -1,0 +1,24 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import FormattedDate from "@/components/FormattedDate.astro";
+import type { Locale } from "@/types";
+
+interface Props {
+	content: CollectionEntry<"post">;
+	locale: Locale;
+	readingTime: string;
+}
+const {
+	content: { data },
+	locale,
+	readingTime,
+} = Astro.props;
+---
+
+<header class="article-masthead">
+	{data.coverImage && <Image alt={data.coverImage.alt} height={630} priority src={data.coverImage.src} width={1200} />}
+	<p>JOURNAL / <FormattedDate date={data.publishDate} locale={locale} /></p>
+	<h1>{data.title}</h1>
+	<div><span>{readingTime}</span>{data.tags.map((tag) => <span>#{tag}</span>)}</div>
+</header>

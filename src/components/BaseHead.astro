@@ -1,0 +1,96 @@
+---
+import { paths } from "@/i18n";
+import { siteConfig } from "@/site.config";
+import type { SiteMeta } from "@/types";
+import "@/styles/global.css";
+
+const {
+	alternateUrl,
+	articleDate,
+	description = siteConfig.description,
+	locale = siteConfig.defaultLocale,
+	ogImage,
+	title,
+} = Astro.props as SiteMeta;
+
+const siteTitle = title === siteConfig.title ? title : `${title} — ${siteConfig.title}`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const otherLocale = locale === "es" ? "en" : "es";
+const currentLocaleUrl = canonicalURL.href;
+const otherLocaleUrl = new URL(alternateUrl ?? paths[otherLocale].home, Astro.site).href;
+const spanishUrl = locale === "es" ? currentLocaleUrl : otherLocaleUrl;
+const englishUrl = locale === "en" ? currentLocaleUrl : otherLocaleUrl;
+const socialImageURL = new URL(ogImage ?? "/social-card.png", Astro.site).href;
+const ogLocale = locale === "es" ? "es_ES" : "en_US";
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			name: siteConfig.founder,
+			url: siteConfig.url,
+			sameAs: siteConfig.socialLinks.map(({ url }) => url),
+			jobTitle: "Software Engineer",
+		},
+		{
+			"@type": "WebSite",
+			name: siteConfig.brand,
+			url: siteConfig.url,
+			inLanguage: siteConfig.locales,
+		},
+		{
+			"@type": "Service",
+			name: siteConfig.brand,
+			provider: { "@type": "Person", name: siteConfig.founder },
+			serviceType: ["Web development", "Mobile development", "Automation", "AI solutions"],
+		},
+	],
+};
+---
+
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<title>{siteTitle}</title>
+<link href="/icon.svg" rel="icon" type="image/svg+xml" />
+{
+	import.meta.env.PROD && (
+		<>
+			<link rel="icon" href="/favicon-32x32.png" type="image/png" />
+			<link href="/icons/apple-touch-icon.png" rel="apple-touch-icon" />
+			<link href="/manifest.webmanifest" rel="manifest" />
+		</>
+	)
+}
+<link href={canonicalURL} rel="canonical" />
+<link href={spanishUrl} hreflang="es" rel="alternate" />
+<link href={englishUrl} hreflang="en" rel="alternate" />
+<link href={spanishUrl} hreflang="x-default" rel="alternate" />
+<meta content={description} name="description" />
+<meta content={siteConfig.author} name="author" />
+<meta content="index, follow" name="robots" />
+<meta content={articleDate ? "article" : "website"} property="og:type" />
+<meta content={siteTitle} property="og:title" />
+<meta content={description} property="og:description" />
+<meta content={canonicalURL} property="og:url" />
+<meta content={siteConfig.title} property="og:site_name" />
+<meta content={ogLocale} property="og:locale" />
+<meta content={socialImageURL} property="og:image" />
+<meta content="1200" property="og:image:width" />
+<meta content="630" property="og:image:height" />
+{
+	articleDate && (
+		<>
+			<meta content={siteConfig.author} property="article:author" />
+			<meta content={articleDate} property="article:published_time" />
+		</>
+	)
+}
+<meta content="summary_large_image" name="twitter:card" />
+<meta content={siteTitle} name="twitter:title" />
+<meta content={description} name="twitter:description" />
+<meta content={socialImageURL} name="twitter:image" />
+<link href="/sitemap-index.xml" rel="sitemap" />
+<link href={locale === "es" ? "/rss.xml" : "/en/rss.xml"} title="Blog" rel="alternate" type="application/rss+xml" />
+<link href={locale === "es" ? "/notas/rss.xml" : "/en/notes/rss.xml"} title="Notes" rel="alternate" type="application/rss+xml" />
+<meta content={Astro.generator} name="generator" />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>

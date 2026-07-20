@@ -1,0 +1,75 @@
+---
+import PageIntro from "@/components/PageIntro.astro";
+import { getCertificates } from "@/data/content";
+import { paths, ui } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+const { locale } = Astro.props;
+const certificates = await getCertificates();
+const issuers = [...new Set(certificates.map((certificate) => certificate.data.issuer))];
+const t = ui[locale];
+const copy =
+	locale === "es"
+		? {
+				all: "Todos",
+				alternate: paths.en.certificates,
+				description:
+					"Credenciales en cloud, desarrollo, DevOps e inteligencia artificial. Los títulos oficiales se conservan en su idioma original.",
+				empty: "No hay certificados para este filtro.",
+				filter: "Filtrar por entidad",
+				open: "Ver credencial",
+				title: "Aprender de forma continua también forma parte del trabajo.",
+			}
+		: {
+				all: "All",
+				alternate: paths.es.certificates,
+				description:
+					"Credentials across cloud, development, DevOps and artificial intelligence. Official titles are kept in their original language.",
+				empty: "No certificates match this filter.",
+				filter: "Filter by issuer",
+				open: "View credential",
+				title: "Continuous learning is part of the work too.",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.certificates }}>
+	<PageIntro code={`CREDENTIALS / ${certificates.length}`} description={copy.description} title={copy.title} />
+	<section class="certificate-section">
+		<div aria-label={copy.filter} class="certificate-filters" role="group">
+			<button aria-pressed="true" data-filter="all" type="button">{copy.all}</button>
+			{issuers.map((issuer) => <button aria-pressed="false" data-filter={issuer} type="button">{issuer}</button>)}
+		</div>
+		<ol class="certificate-grid" id="certificate-grid">
+			{certificates.map((certificate, index) => (
+				<li data-issuer={certificate.data.issuer}>
+					<div class="certificate-grid__meta"><span>CERT_{String(index + 1).padStart(2, "0")}</span><time datetime={certificate.data.issueDate.toISOString()}>{certificate.data.issueDate.getFullYear()}</time></div>
+					<h2>{certificate.data.title}</h2>
+					<p>{certificate.data.issuer}</p>
+					{certificate.data.credentialUrl && <a href={certificate.data.credentialUrl} rel="noreferrer" target="_blank">{copy.open} ↗</a>}
+				</li>
+			))}
+		</ol>
+		<p class="certificate-empty" hidden id="certificate-empty">{copy.empty}</p>
+	</section>
+</BaseLayout>
+
+<script>
+	const filterButtons = document.querySelectorAll<HTMLButtonElement>("[data-filter]");
+	const certificateCards = document.querySelectorAll<HTMLElement>("[data-issuer]");
+	const emptyMessage = document.getElementById("certificate-empty");
+	filterButtons.forEach((button) => button.addEventListener("click", () => {
+		const filter = button.dataset.filter;
+		let visible = 0;
+		filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+		certificateCards.forEach((card) => {
+			const show = filter === "all" || card.dataset.issuer === filter;
+			card.hidden = !show;
+			if (show) visible += 1;
+		});
+		if (emptyMessage) emptyMessage.hidden = visible > 0;
+	}));
+</script>

@@ -1,0 +1,74 @@
+---
+import ExperienceList from "@/components/ExperienceList.astro";
+import PageIntro from "@/components/PageIntro.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { getExperience } from "@/data/content";
+import { paths, ui } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+const { locale } = Astro.props;
+const experience = await getExperience(locale);
+const t = ui[locale];
+const copy =
+	locale === "es"
+		? {
+				alternate: paths.en.about,
+				description:
+					"Software engineer con más de seis años construyendo aplicaciones escalables y liderando mejoras de arquitectura, calidad y rendimiento.",
+				intro: [
+					"Mi experiencia full stack me permite entender tanto la interfaz que usa una persona como los sistemas y datos que la hacen posible.",
+					"Actualmente curso un máster en Inteligencia Artificial y exploro cómo aplicar IA de forma útil, medible y segura al desarrollo de producto.",
+				],
+				portraitAlt: "Ilustración de Fernando Tello trabajando con su portátil",
+				portraitLabel: "Fernando Tello · Software Engineer",
+				title: "Ingeniería práctica, comunicación directa y atención al detalle.",
+				values: [
+					"Simple antes que frágil",
+					"Calidad que se puede comprobar",
+					"Producto antes que tecnología",
+					"Aprender y compartir",
+				],
+				valuesTitle: "Principios",
+			}
+		: {
+				alternate: paths.es.about,
+				description:
+					"Software engineer with more than six years building scalable applications and leading improvements in architecture, quality and performance.",
+				intro: [
+					"My full-stack background helps me understand both the interface a person uses and the systems and data behind it.",
+					"I am currently pursuing a Master's degree in Artificial Intelligence and exploring how to apply AI to product development in useful, measurable and safe ways.",
+				],
+				portraitAlt: "Illustration of Fernando Tello working on his laptop",
+				portraitLabel: "Fernando Tello · Software Engineer",
+				title: "Practical engineering, direct communication and attention to detail.",
+				values: [
+					"Simple over fragile",
+					"Quality you can verify",
+					"Product before technology",
+					"Learn and share",
+				],
+				valuesTitle: "Principles",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.about }}>
+	<PageIntro code="PROFILE / 03" description={copy.description} title={copy.title} />
+	<section class="about-grid">
+		<div class="about-profile">
+			<div>{copy.intro.map((paragraph) => <p>{paragraph}</p>)}<a class="button-secondary" href="/resume.pdf" target="_blank">{t.cv} ↗</a></div>
+			<figure>
+				<img alt={copy.portraitAlt} height="1024" loading="lazy" src="/fernando-tello.png" width="1024" />
+				<figcaption>{copy.portraitLabel}</figcaption>
+			</figure>
+		</div>
+		<div><h2>{copy.valuesTitle}</h2><ol>{copy.values.map((value, index) => <li><span>0{index + 1}</span>{value}</li>)}</ol></div>
+	</section>
+	<section class="site-section">
+		<SectionHeading count="6+" index="04" title={t.experience} />
+		<ExperienceList experience={experience} locale={locale} />
+	</section>
+</BaseLayout>

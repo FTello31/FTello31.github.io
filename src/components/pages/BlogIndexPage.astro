@@ -1,0 +1,34 @@
+---
+import PostPreview from "@/components/blog/PostPreview.astro";
+import PageIntro from "@/components/PageIntro.astro";
+import { getPosts } from "@/data/content";
+import { paths, ui } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+const { locale } = Astro.props;
+const posts = await getPosts(locale);
+const t = ui[locale];
+const copy =
+	locale === "es"
+		? {
+				alternate: paths.en.blog,
+				description:
+					"Artículos sobre ingeniería de software, inteligencia artificial, carrera y experiencias que merece la pena documentar.",
+				title: "Pensar mejor escribiendo lo que aprendemos.",
+			}
+		: {
+				alternate: paths.es.blog,
+				description:
+					"Articles about software engineering, artificial intelligence, career and experiences worth documenting.",
+				title: "Thinking better by writing down what we learn.",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.blog }}>
+	<PageIntro code={`JOURNAL / ${posts.length}`} description={copy.description} title={copy.title} />
+	<section class="content-list">{posts.map((post) => <PostPreview locale={locale} post={post} />)}</section>
+</BaseLayout>

@@ -1,0 +1,37 @@
+---
+import PageIntro from "@/components/PageIntro.astro";
+import ProjectGrid from "@/components/ProjectGrid.astro";
+import WhatsAppLink from "@/components/WhatsAppLink.astro";
+import { getProjects } from "@/data/content";
+import { paths, ui } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+const { locale } = Astro.props;
+const projects = await getProjects(locale);
+const t = ui[locale];
+const copy =
+	locale === "es"
+		? {
+				alternate: paths.en.projects,
+				description:
+					"Una selección de productos web y móviles construidos para resolver necesidades concretas.",
+				title: "Productos entregados, no demos de escaparate.",
+				closing: "El siguiente proyecto puede empezar con una conversación breve.",
+			}
+		: {
+				alternate: paths.es.projects,
+				description: "A selection of web and mobile products built to solve concrete needs.",
+				title: "Products delivered, not showcase demos.",
+				closing: "The next project can start with a short conversation.",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.projects }}>
+	<PageIntro code="WORK / 02" description={copy.description} title={copy.title} />
+	<section class="page-section"><ProjectGrid locale={locale} projects={projects} /></section>
+	<section class="closing-cta closing-cta--compact"><h2>{copy.closing}</h2><WhatsAppLink label={t.discussProject} locale={locale} /></section>
+</BaseLayout>

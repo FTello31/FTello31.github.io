@@ -1,0 +1,34 @@
+---
+import BaseHead from "@/components/BaseHead.astro";
+import Footer from "@/components/layout/Footer.astro";
+import Header from "@/components/layout/Header.astro";
+import ThemeProvider from "@/components/ThemeProvider.astro";
+import WhatsAppLink from "@/components/WhatsAppLink.astro";
+import { paths, ui } from "@/i18n";
+import { siteConfig } from "@/site.config";
+import type { Locale, SiteMeta } from "@/types";
+
+interface Props {
+	meta: SiteMeta;
+}
+
+const { meta } = Astro.props;
+const locale: Locale = meta.locale ?? siteConfig.defaultLocale;
+const alternateUrl = meta.alternateUrl ?? paths[locale === "es" ? "en" : "es"].home;
+---
+
+<html class="scroll-smooth" lang={locale}>
+	<head>
+		<BaseHead {...meta} alternateUrl={alternateUrl} locale={locale} />
+		<ThemeProvider />
+	</head>
+	<body>
+		<a class="skip-link" href="#main">{ui[locale].skip}</a>
+		<Header alternateUrl={alternateUrl} locale={locale} />
+		<main id="main">
+			<slot />
+		</main>
+		<Footer locale={locale} />
+		<WhatsAppLink class="whatsapp-float" label={ui[locale].whatsapp} locale={locale} />
+	</body>
+</html>

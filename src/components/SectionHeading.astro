@@ -1,0 +1,14 @@
+---
+interface Props {
+	index: string;
+	title: string;
+	count?: number | string;
+}
+const { count, index, title } = Astro.props;
+---
+
+<div class="section-heading">
+	<span>{index}</span>
+	<h2>{title}</h2>
+	{count !== undefined && <sup>[{count}]</sup>}
+</div>

@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+	projects: CollectionEntry<"project">[];
+}
+
+const { locale, projects } = Astro.props;
+const labels =
+	locale === "es"
+		? { open: "Abrir proyecto", stack: "Tecnologías" }
+		: { open: "Open project", stack: "Technologies" };
+---
+
+<div class="project-grid">
+	{projects.map((project, index) => (
+		<article class="project-card">
+			<div class="project-card__index">PRJ_{String(index + 1).padStart(2, "0")}</div>
+			{project.data.imageUrl && (
+				<a class="project-card__media" href={project.data.url} rel="noreferrer" target="_blank" tabindex="-1">
+					<img alt="" loading="lazy" src={project.data.imageUrl} />
+				</a>
+			)}
+			<div class="project-card__body">
+				<h3><a href={project.data.url} rel="noreferrer" target="_blank">{project.data.title}<span aria-hidden="true"> ↗</span></a></h3>
+				<p>{project.data.description}</p>
+				<div aria-label={labels.stack} class="tag-list">
+					{project.data.technologies.map((technology) => <span>{technology}</span>)}
+				</div>
+				<a class="text-link" href={project.data.url} rel="noreferrer" target="_blank">{labels.open} →</a>
+			</div>
+		</article>
+	))}
+</div>

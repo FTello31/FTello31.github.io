@@ -1,0 +1,29 @@
+---
+import { type CollectionEntry, render } from "astro:content";
+import Masthead from "@/components/blog/Masthead.astro";
+import TOC from "@/components/blog/TOC.astro";
+import BaseLayout from "@/layouts/Base.astro";
+import type { Locale } from "@/types";
+
+interface Props {
+	alternateUrl: string;
+	locale: Locale;
+	post: CollectionEntry<"post">;
+}
+
+const { alternateUrl, locale, post } = Astro.props;
+const { description, ogImage, publishDate, title, updatedDate } = post.data;
+const articleDate = (updatedDate ?? publishDate).toISOString();
+const { headings, remarkPluginFrontmatter } = await render(post);
+const readingTime: string = remarkPluginFrontmatter.readingTime;
+---
+
+<BaseLayout meta={{ alternateUrl, articleDate, description, locale, ogImage, title }}>
+	<article class="article-shell" data-pagefind-body data-pagefind-filter={`lang:${locale}`}>
+		<Masthead content={post} locale={locale} readingTime={readingTime} />
+		<div class="article-layout">
+			{!!headings.length && <TOC headings={headings} />}
+			<div class="prose"><slot /></div>
+		</div>
+	</article>
+</BaseLayout>

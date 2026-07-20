@@ -1,0 +1,27 @@
+---
+import WhatsAppLink from "@/components/WhatsAppLink.astro";
+import { paths } from "@/i18n";
+import PageLayout from "@/layouts/Base.astro";
+
+const meta = {
+	alternateUrl: paths.en.home,
+	description: "La página que buscas no existe o ha cambiado de dirección.",
+	locale: "es" as const,
+	title: "Página no encontrada",
+};
+---
+
+<PageLayout meta={meta}>
+	<section class="page-intro">
+		<p>ERROR / 404</p>
+		<h1>Esta ruta no lleva a ninguna parte.</h1>
+		<div class="page-intro__line"></div>
+		<p class="page-intro__description">
+			La página pudo cambiar de dirección. Puedes volver al inicio o contarme qué necesitas.
+		</p>
+		<div class="hero-grid__actions">
+			<a class="button-secondary" href={paths.es.home}>Volver al inicio</a>
+			<WhatsAppLink label="Hablar por WhatsApp" locale="es" />
+		</div>
+	</section>
+</PageLayout>

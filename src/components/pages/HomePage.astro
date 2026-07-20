@@ -1,0 +1,159 @@
+---
+import PostPreview from "@/components/blog/PostPreview.astro";
+import ExperienceList from "@/components/ExperienceList.astro";
+import Note from "@/components/note/Note.astro";
+import ProjectGrid from "@/components/ProjectGrid.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import WhatsAppLink from "@/components/WhatsAppLink.astro";
+import { getCertificates, getExperience, getNotes, getPosts, getProjects } from "@/data/content";
+import { services } from "@/data/services";
+import { paths, ui } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import { siteConfig } from "@/site.config";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+const { locale } = Astro.props;
+const t = ui[locale];
+const [projects, experience, certificates, posts, notes] = await Promise.all([
+	getProjects(locale),
+	getExperience(locale),
+	getCertificates(),
+	getPosts(locale),
+	getNotes(locale),
+]);
+const copy =
+	locale === "es"
+		? {
+				alternate: "/en/",
+				capabilities: "Capacidades",
+				certDescription:
+					"Formación continua en cloud, inteligencia artificial y desarrollo de producto.",
+				contentDescription:
+					"Artículos largos y notas breves sobre software, aprendizaje y construir productos.",
+				description:
+					"Diseño y construyo productos web, móviles y automatizaciones que convierten ideas en software claro, rápido y mantenible.",
+				experienceDescription:
+					"Más de seis años entregando software, liderando modernizaciones y elevando la calidad técnica.",
+				heroTitle: "Software que mueve tu negocio hacia delante.",
+				independent: "Independent software studio · Madrid / Remote",
+				proof: "Trayectoria",
+				projectsDescription:
+					"Productos reales, desde una plataforma web en tiempo real hasta aplicaciones móviles nativas.",
+				selected: "Proyectos seleccionados",
+				closing: "¿Tienes una idea, un proceso manual o un producto que necesita avanzar?",
+				closingDescription:
+					"Cuéntame el contexto por WhatsApp. Te responderé personalmente para valorar el siguiente paso.",
+			}
+		: {
+				alternate: "/",
+				capabilities: "Capabilities",
+				certDescription:
+					"Continuous learning across cloud, artificial intelligence and product development.",
+				contentDescription:
+					"Long-form articles and short notes about software, learning and building products.",
+				description:
+					"I design and build web products, mobile apps and automation that turn ideas into clear, fast and maintainable software.",
+				experienceDescription:
+					"More than six years delivering software, leading modernization and raising engineering quality.",
+				heroTitle: "Software that moves your business forward.",
+				independent: "Independent software studio · Madrid / Remote",
+				proof: "Track record",
+				projectsDescription:
+					"Real products, from a real-time web platform to native mobile applications.",
+				selected: "Selected projects",
+				closing: "Have an idea, a manual process or a product that needs to move forward?",
+				closingDescription:
+					"Send me the context on WhatsApp. I will reply personally and help define the next step.",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: siteConfig.title }}>
+	<section class="hero-grid">
+		<div class="hero-grid__graphic" aria-hidden="true">
+			<span>FTS</span>
+			<small>FIG_001</small>
+		</div>
+		<div class="hero-grid__identity">
+			<div class="status-line"><span></span>{t.availability}</div>
+			<p class="hero-grid__studio">{siteConfig.brand}</p>
+			<h1>{copy.heroTitle}</h1>
+			<p class="hero-grid__lead">{copy.description}</p>
+			<div class="hero-grid__actions">
+				<WhatsAppLink label={t.discussProject} locale={locale} />
+				<a class="button-secondary" href={paths[locale].projects}>{t.projects} <span aria-hidden="true">→</span></a>
+			</div>
+		</div>
+		<div class="hero-grid__facts">
+			<span>{copy.independent}</span>
+			<dl>
+				<div><dt>EXP</dt><dd>6+ {locale === "es" ? "años" : "years"}</dd></div>
+				<div><dt>FOCUS</dt><dd>Web · Mobile · AI</dd></div>
+				<div><dt>LANG</dt><dd>ES / EN</dd></div>
+			</dl>
+		</div>
+	</section>
+
+	<section class="site-section">
+		<SectionHeading count={services[locale].length} index="01" title={copy.capabilities} />
+		<div class="services-grid">
+			{services[locale].map((service, index) => (
+				<article>
+					<span>{String(index + 1).padStart(2, "0")} / {service.code}</span>
+					<h3>{service.title}</h3>
+					<p>{service.description}</p>
+					<a href={`${paths[locale].services}#${service.code.toLowerCase()}`}>{t.readMore} →</a>
+				</article>
+			))}
+		</div>
+	</section>
+
+	<section class="site-section">
+		<SectionHeading count={projects.length} index="02" title={copy.selected} />
+		<p class="section-summary">{copy.projectsDescription}</p>
+		<ProjectGrid locale={locale} projects={projects} />
+		<a class="section-link" href={paths[locale].projects}>{t.readMore} {t.projects.toLowerCase()} →</a>
+	</section>
+
+	<section class="site-section">
+		<SectionHeading count="6+" index="03" title={copy.proof} />
+		<p class="section-summary">{copy.experienceDescription}</p>
+		<ExperienceList experience={experience} locale={locale} limit={2} />
+		<a class="section-link" href={paths[locale].about}>{t.readMore} {t.experience.toLowerCase()} →</a>
+	</section>
+
+	<section class="site-section credentials-preview">
+		<SectionHeading count={certificates.length} index="04" title={t.certificates} />
+		<p class="section-summary">{copy.certDescription}</p>
+		<div class="credential-strip">
+			{certificates.filter((certificate) => certificate.data.featured).slice(0, 6).map((certificate) => (
+				<div><span>{certificate.data.issueDate.getFullYear()}</span><strong>{certificate.data.title}</strong><small>{certificate.data.issuer}</small></div>
+			))}
+		</div>
+		<a class="section-link" href={paths[locale].certificates}>{t.readMore} {t.certificates.toLowerCase()} →</a>
+	</section>
+
+	<section class="site-section">
+		<SectionHeading count={posts.length + notes.length} index="05" title={t.content} />
+		<p class="section-summary">{copy.contentDescription}</p>
+		<div class="content-split">
+			<div>
+				<h3 class="subsection-title">{t.blog}</h3>
+				{posts.slice(0, 2).map((post) => <PostPreview locale={locale} post={post} />)}
+			</div>
+			<div>
+				<h3 class="subsection-title">{t.notes}</h3>
+				{notes.slice(0, 2).map((note) => <Note locale={locale} note={note} preview />)}
+			</div>
+		</div>
+	</section>
+
+	<section class="closing-cta">
+		<span>READY_TO_BUILD</span>
+		<h2>{copy.closing}</h2>
+		<p>{copy.closingDescription}</p>
+		<WhatsAppLink label={t.discussProject} locale={locale} />
+	</section>
+</BaseLayout>

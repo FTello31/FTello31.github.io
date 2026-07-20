@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { Locale } from "@/types";
+
+interface Props {
+	experience: CollectionEntry<"experience">[];
+	locale: Locale;
+	limit?: number;
+}
+
+const { experience, locale, limit } = Astro.props;
+const entries = typeof limit === "number" ? experience.slice(0, limit) : experience;
+const present = locale === "es" ? "Actualidad" : "Present";
+---
+
+<ol class="experience-list">
+	{entries.map((entry, index) => (
+		<li>
+			<div class="experience-list__rail"><span>{String(index + 1).padStart(2, "0")}</span></div>
+			<article>
+				<div class="experience-list__meta">
+					<span>{entry.data.startDate} — {entry.data.current ? present : entry.data.endDate}</span>
+					{entry.data.current && <span class="status-dot">LIVE</span>}
+				</div>
+				<h3>{entry.data.role}</h3>
+				<a class="company-link" href={entry.data.companyUrl} rel="noreferrer" target="_blank">{entry.data.company} ↗</a>
+				<p>{entry.data.description}</p>
+				<div class="tag-list">{entry.data.technologies.map((technology) => <span>{technology}</span>)}</div>
+			</article>
+		</li>
+	))}
+</ol>

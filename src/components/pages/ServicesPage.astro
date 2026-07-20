@@ -1,0 +1,58 @@
+---
+import PageIntro from "@/components/PageIntro.astro";
+import WhatsAppLink from "@/components/WhatsAppLink.astro";
+import { services } from "@/data/services";
+import { paths, ui } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+const { locale } = Astro.props;
+const t = ui[locale];
+const copy =
+	locale === "es"
+		? {
+				alternate: paths.en.services,
+				description:
+					"De la definición del problema al software en producción, con una comunicación directa y decisiones técnicas pragmáticas.",
+				process: [
+					"Entender el problema y el resultado esperado",
+					"Definir un alcance pequeño y verificable",
+					"Diseñar, construir y validar por iteraciones",
+					"Entregar, medir y dejar una base mantenible",
+				],
+				processTitle: "Una forma simple de trabajar",
+				title: "Servicios de software para avanzar sin ruido.",
+			}
+		: {
+				alternate: paths.es.services,
+				description:
+					"From problem definition to production software, with direct communication and pragmatic technical decisions.",
+				process: [
+					"Understand the problem and expected outcome",
+					"Define a small, verifiable scope",
+					"Design, build and validate in iterations",
+					"Deliver, measure and leave a maintainable foundation",
+				],
+				processTitle: "A simple way of working",
+				title: "Software services that move work forward.",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.services }}>
+	<PageIntro code="CAPABILITIES / 01" description={copy.description} title={copy.title} />
+	<section class="service-detail-list">
+		{services[locale].map((service, index) => (
+			<article id={service.code.toLowerCase()}>
+				<header><span>{String(index + 1).padStart(2, "0")}</span><strong>{service.code}</strong><h2>{service.title}</h2></header>
+				<div><p>{service.description}</p><ul>{service.items.map((item) => <li>{item}</li>)}</ul><WhatsAppLink label={t.discussProject} locale={locale} /></div>
+			</article>
+		))}
+	</section>
+	<section class="process-section">
+		<h2>{copy.processTitle}</h2>
+		<ol>{copy.process.map((step, index) => <li><span>0{index + 1}</span>{step}</li>)}</ol>
+	</section>
+</BaseLayout>

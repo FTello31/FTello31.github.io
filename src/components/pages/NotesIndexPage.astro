@@ -1,0 +1,34 @@
+---
+import Note from "@/components/note/Note.astro";
+import PageIntro from "@/components/PageIntro.astro";
+import { getNotes } from "@/data/content";
+import { paths, ui } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+const { locale } = Astro.props;
+const notes = await getNotes(locale);
+const t = ui[locale];
+const copy =
+	locale === "es"
+		? {
+				alternate: paths.en.notes,
+				description:
+					"Apuntes breves de cursos, experimentos y problemas técnicos compartidos en abierto.",
+				title: "Ideas útiles antes de que necesiten convertirse en un artículo.",
+			}
+		: {
+				alternate: paths.es.notes,
+				description:
+					"Short notes from courses, experiments and technical problems, shared in public.",
+				title: "Useful ideas before they need to become a full article.",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.notes }}>
+	<PageIntro code={`NOTES / ${notes.length}`} description={copy.description} title={copy.title} />
+	<section class="notes-list">{notes.map((note) => <Note locale={locale} note={note} preview />)}</section>
+</BaseLayout>

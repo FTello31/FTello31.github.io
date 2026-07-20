@@ -1,95 +1,40 @@
-# Fernando Tello
+# Fernando Tello Studio
 
-A personal portfolio website built with Angular, showcasing my experience as a full-stack developer and AI enthusiast.  
-This site serves as both a professional profile and a playground to explore modern frontend development using Angular 19.
+Sitio bilingüe de Fernando Tello: estudio independiente de software, portfolio, experiencia,
+certificados, artículos y notas.
 
-## 🌐 Live Preview
-
-[fernandotello.me](https://fernandotello.me/)
-
-## 📌 Features
-
-- Angular 19 with modern component architecture
-- Smooth page transitions and scroll animations
-- Integration with [Sanity.io](https://www.sanity.io) as headless CMS
-- Feature flag management with ConfigCat
-
-## 🛠️ Technologies Used
-
-| Category          | Tools / Libraries                                                                   |
-| ----------------- | ----------------------------------------------------------------------------------- |
-| **Framework**     | [Angular 19](https://angular.io/)                                                   |
-| **CMS**           | [Sanity.io](https://www.sanity.io) + `@sanity/client` + `@limitless-angular/sanity` |
-| **Styling & UX**  | [AOS](https://michalsnik.github.io/aos/) for scroll animations                      |
-| **Feature Flags** | [ConfigCat](https://configcat.com/)                                                 |
-
-
-## 🚀 Getting Started
-
-To start a local development server:
-
-````bash
-ng serve
-
-ng deploy --cname=fernandotello.me
-
-
-# Fernando Tello
-
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.8.
-
-## Development server
-
-To start a local development server, run:
+## Desarrollo
 
 ```bash
-ng serve
-````
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+bun install
+bun run dev
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Astro sirve el sitio en `http://localhost:4321`.
+
+## Validación
 
 ```bash
-ng generate --help
+bun run check
+bun run build
 ```
 
-## Building
+El build genera el sitio estático en `dist/` y el `postbuild` crea los índices ES/EN de Pagefind.
 
-To build the project run:
+## Contenido
 
-```bash
-ng build
-```
+Las Content Collections viven en `content/`:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- `posts`: artículos propios o enlaces externos.
+- `notes`: apuntes breves.
+- `projects`: proyectos de portfolio.
+- `experience`: experiencia profesional.
+- `certificates`: credenciales y certificados.
 
-## Running unit tests
+Cada entrada localizada usa `lang` y `translationKey`. Español se publica sin prefijo e inglés bajo
+`/en/`.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Despliegue
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+El workflow `deploy.yml` valida, compila y publica `dist/` en GitHub Pages. `public/CNAME` conserva
+el dominio `fernandotello.me`.

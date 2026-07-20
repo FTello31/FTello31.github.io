@@ -1,0 +1,32 @@
+---
+import { render } from "astro:content";
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getPosts } from "@/data/content";
+import { entrySlug, paths } from "@/i18n";
+import PostLayout from "@/layouts/BlogPost.astro";
+
+export const getStaticPaths = (async () => {
+	const [posts, translations] = await Promise.all([getPosts("en"), getPosts("es")]);
+	return posts
+		.filter((post) => !post.data.externalUrl)
+		.map((post) => {
+			const translation = translations.find(
+				(candidate) => candidate.data.translationKey === post.data.translationKey,
+			);
+			return {
+				params: { slug: entrySlug(post.id) },
+				props: {
+					alternateUrl: translation
+						? `${paths.es.blog}${entrySlug(translation.id)}/`
+						: paths.es.blog,
+					post,
+				},
+			};
+		});
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { alternateUrl, post } = Astro.props;
+const { Content } = await render(post);
+---
+<PostLayout alternateUrl={alternateUrl} locale="en" post={post}><Content /></PostLayout>
