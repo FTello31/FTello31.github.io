@@ -23,18 +23,20 @@ El build genera el sitio estático en `dist/` y el `postbuild` crea los índices
 
 ## Contenido
 
-Las Content Collections viven en `content/`:
+Las Content Collections estructuradas se cargan desde el dataset público `production` de Sanity:
 
-- `posts`: artículos propios o enlaces externos.
-- `notes`: apuntes breves.
+- `article`: enlaces externos del blog.
 - `projects`: proyectos de portfolio.
 - `experience`: experiencia profesional.
-- `certificates`: credenciales y certificados.
+- `certificate`: certificados.
+- `badge`: insignias profesionales.
 
-Cada entrada localizada usa `lang` y `translationKey`. Español se publica sin prefijo e inglés bajo
-`/en/`.
+Las notas permanecen en `content/notes`. Cada entrada localizada usa `lang` y `translationKey`.
+Español se publica sin prefijo e inglés bajo `/en/`.
 
 ## Despliegue
 
 El workflow `deploy.yml` valida, compila y publica `dist/` en GitHub Pages. `public/CNAME` conserva
 el dominio `fernandotello.me`.
+
+Un webhook de Sanity dispara manualmente este workflow cuando cambia contenido publicado.

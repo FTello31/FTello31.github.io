@@ -5,7 +5,14 @@ import Note from "@/components/note/Note.astro";
 import ProjectGrid from "@/components/ProjectGrid.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import WhatsAppLink from "@/components/WhatsAppLink.astro";
-import { getCertificates, getExperience, getNotes, getPosts, getProjects } from "@/data/content";
+import {
+	getBadges,
+	getCertificates,
+	getExperience,
+	getNotes,
+	getPosts,
+	getProjects,
+} from "@/data/content";
 import { services } from "@/data/services";
 import { paths, ui } from "@/i18n";
 import BaseLayout from "@/layouts/Base.astro";
@@ -17,9 +24,10 @@ interface Props {
 }
 const { locale } = Astro.props;
 const t = ui[locale];
-const [projects, experience, certificates, posts, notes] = await Promise.all([
+const [projects, experience, badges, certificates, posts, notes] = await Promise.all([
 	getProjects(locale),
 	getExperience(locale),
+	getBadges(),
 	getCertificates(),
 	getPosts(locale),
 	getNotes(locale),
@@ -28,6 +36,9 @@ const copy =
 	locale === "es"
 		? {
 				alternate: "/en/",
+				badges: "Insignias",
+				badgesDescription:
+					"Credenciales verificadas que resumen especialización y aprendizaje continuo.",
 				capabilities: "Capacidades",
 				certDescription:
 					"Formación continua en cloud, inteligencia artificial y desarrollo de producto.",
@@ -49,6 +60,9 @@ const copy =
 			}
 		: {
 				alternate: "/",
+				badges: "Badges",
+				badgesDescription:
+					"Verified credentials that reflect specialization and continuous learning.",
 				capabilities: "Capabilities",
 				certDescription:
 					"Continuous learning across cloud, artificial intelligence and product development.",
@@ -125,7 +139,24 @@ const copy =
 	</section>
 
 	<section class="site-section credentials-preview">
-		<SectionHeading count={certificates.length} index="04" title={t.certificates} />
+		<SectionHeading count={badges.length} index="04" title={copy.badges} />
+		<p class="section-summary">{copy.badgesDescription}</p>
+		<div class="badge-grid">
+			{badges.map((badge) => (
+				<article>
+					<img alt={badge.data.title} height="680" loading="lazy" src={badge.data.imageUrl} width="680" />
+					<div>
+						<time datetime={badge.data.issueDate.toISOString()}>{badge.data.issueDate.getFullYear()}</time>
+						<strong>{badge.data.title}</strong>
+						<small>{badge.data.issuer}</small>
+					</div>
+				</article>
+			))}
+		</div>
+	</section>
+
+	<section class="site-section credentials-preview">
+		<SectionHeading count={certificates.length} index="05" title={t.certificates} />
 		<p class="section-summary">{copy.certDescription}</p>
 		<div class="credential-strip">
 			{certificates.filter((certificate) => certificate.data.featured).slice(0, 6).map((certificate) => (
@@ -136,7 +167,7 @@ const copy =
 	</section>
 
 	<section class="site-section">
-		<SectionHeading count={posts.length + notes.length} index="05" title={t.content} />
+		<SectionHeading count={posts.length + notes.length} index="06" title={t.content} />
 		<p class="section-summary">{copy.contentDescription}</p>
 		<div class="content-split">
 			<div>

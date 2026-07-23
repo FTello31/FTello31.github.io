@@ -653,6 +653,41 @@ html[data-theme="dark"] {
 	line-height: 1.45;
 }
 
+.badge-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	border-top: 1px solid var(--color-line);
+	border-left: 1px solid var(--color-line);
+}
+.badge-grid article {
+	display: grid;
+	grid-template-columns: 96px 1fr;
+	gap: 16px;
+	padding: 18px;
+	border-right: 1px solid var(--color-line);
+	border-bottom: 1px solid var(--color-line);
+	background: var(--color-panel);
+}
+.badge-grid img {
+	width: 96px;
+	height: 96px;
+	object-fit: contain;
+}
+.badge-grid article > div {
+	display: grid;
+	align-content: start;
+}
+.badge-grid time,
+.badge-grid small {
+	color: var(--color-muted);
+	font-size: 9px;
+}
+.badge-grid strong {
+	margin: 12px 0 6px;
+	font-size: 12px;
+	line-height: 1.4;
+}
+
 .content-split {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -666,10 +701,16 @@ html[data-theme="dark"] {
 }
 .content-card {
 	display: grid;
-	grid-template-columns: 58px 1fr;
+	grid-template-columns: 76px 1fr;
 	gap: 18px;
 	padding: 20px 0;
 	border-top: 1px solid var(--color-line);
+}
+.content-card__image {
+	width: 76px;
+	height: 76px;
+	object-fit: cover;
+	border: 1px solid var(--color-line);
 }
 .content-card time,
 .note-card time {
@@ -677,7 +718,7 @@ html[data-theme="dark"] {
 	font-size: 10px;
 }
 .content-card h3 {
-	margin: 0 0 8px;
+	margin: 8px 0;
 	font-size: 14px;
 	line-height: 1.45;
 }
@@ -1152,6 +1193,7 @@ html[data-theme="dark"] {
 		border-bottom: 0;
 	}
 	.credential-strip,
+	.badge-grid,
 	.certificate-grid {
 		grid-template-columns: repeat(2, 1fr);
 	}
@@ -1264,6 +1306,7 @@ html[data-theme="dark"] {
 		display: grid;
 	}
 	.credential-strip,
+	.badge-grid,
 	.certificate-grid,
 	.content-split,
 	.notes-list {
@@ -1294,7 +1337,18 @@ html[data-theme="dark"] {
 	}
 	.content-list .content-card,
 	.content-card {
-		grid-template-columns: 48px 1fr;
+		grid-template-columns: 64px 1fr;
+	}
+	.content-card__image {
+		width: 64px;
+		height: 64px;
+	}
+	.badge-grid article {
+		grid-template-columns: 80px 1fr;
+	}
+	.badge-grid img {
+		width: 80px;
+		height: 80px;
 	}
 	.article-layout {
 		display: block;

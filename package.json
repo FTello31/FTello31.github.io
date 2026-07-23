@@ -2,6 +2,9 @@
 	"name": "fernandotello",
 	"type": "module",
 	"version": "8.2.0",
+	"engines": {
+		"node": ">=22.12.0"
+	},
 	"scripts": {
 		"postinstall": "npm rebuild sharp --force",
 		"dev": "astro dev",
@@ -19,6 +22,7 @@
 		"@astrojs/rss": "4.0.18",
 		"@astrojs/sitemap": "3.7.3",
 		"@pagefind/component-ui": "^1.5.2",
+		"@sanity/client": "^7.24.0",
 		"@tailwindcss/vite": "4.3.2",
 		"astro": "7.0.4",
 		"astro-expressive-code": "^0.44.0",

@@ -13,8 +13,9 @@ const href = post.data.externalUrl ?? `${paths[locale].blog}${entrySlug(post.id)
 ---
 
 <article class="content-card" data-pagefind-body data-pagefind-filter={`lang:${locale}`}>
-	<time datetime={post.data.publishDate.toISOString()}>{post.data.publishDate.getFullYear()}</time>
+	<img alt="" class="content-card__image" loading="lazy" src={post.data.imageUrl} />
 	<div>
+		<time datetime={post.data.publishDate.toISOString()}>{post.data.publishDate.getFullYear()}</time>
 		<h3><a href={href} rel={post.data.externalUrl ? "noreferrer" : undefined} target={post.data.externalUrl ? "_blank" : undefined}>{post.data.title}{post.data.externalUrl && <span aria-hidden="true"> ↗</span>}</a></h3>
 		<p>{post.data.description}</p>
 		<div class="tag-list">{post.data.tags.map((tag) => <span>{tag}</span>)}</div>

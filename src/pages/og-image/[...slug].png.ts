@@ -58,7 +58,7 @@ export async function getStaticPaths() {
 	const posts = await getAllPosts();
 	return posts
 		.values()
-		.filter(({ data }) => !data.ogImage)
+		.filter(({ data }) => !data.externalUrl && !data.ogImage)
 		.map((post) => ({
 			params: { slug: post.id },
 			props: {

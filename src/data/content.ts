@@ -28,3 +28,8 @@ export async function getCertificates() {
 	const certificates = await getCollection("certificate");
 	return certificates.sort((a, b) => a.data.order - b.data.order);
 }
+
+export async function getBadges() {
+	const badges = await getCollection("badge");
+	return badges.sort((a, b) => b.data.issueDate.getTime() - a.data.issueDate.getTime());
+}
