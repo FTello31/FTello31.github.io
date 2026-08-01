@@ -1,5 +1,6 @@
 import { createClient } from "@sanity/client";
 import type { Loader } from "astro/loaders";
+import { certificateMetadata } from "@/data/certificateMetadata";
 import type { Locale } from "@/types";
 
 type Localized<T> = Record<Locale, T>;
@@ -104,21 +105,33 @@ export const experienceLoader = () =>
 	);
 
 export const certificateLoader = () =>
-	sanityLoader("certificate", (document) => [
-		{
-			id: String(document.id),
-			data: {
-				credentialUrl: document.credentialUrl,
-				featured: document.featured,
-				issueDate: new Date(`${String(document.issueDate)}T00:00:00Z`),
-				issuer: document.issuer,
-				lang: "es",
-				order: document.order,
-				title: document.title,
-				translationKey: String(document.id),
+	sanityLoader("certificate", (document) => {
+		const id = String(document.id);
+		const metadata = certificateMetadata[id];
+		return [
+			{
+				id,
+				data: {
+					credentialId: document.credentialId ?? metadata?.credentialId,
+					credentialType: document.credentialType ?? metadata?.credentialType ?? "course",
+					credentialUrl: document.credentialUrl,
+					expirationDate:
+						(document.expirationDate ?? metadata?.expirationDate)
+							? new Date(`${String(document.expirationDate ?? metadata?.expirationDate)}T00:00:00Z`)
+							: undefined,
+					featured: document.featured,
+					issueDate: new Date(`${String(metadata?.issueDate ?? document.issueDate)}T00:00:00Z`),
+					issuer: document.issuer,
+					lang: "es",
+					order: document.order,
+					skills: document.skills ?? metadata?.skills ?? [],
+					title: document.title,
+					translationKey: id,
+					verificationUrl: document.verificationUrl ?? metadata?.verificationUrl,
+				},
 			},
-		},
-	]);
+		];
+	});
 
 export const badgeLoader = () =>
 	sanityLoader("badge", (document) => [

@@ -7,6 +7,7 @@
 	},
 	"scripts": {
 		"postinstall": "npm rebuild sharp --force",
+		"certificates:previews": "node scripts/generate-certificate-previews.mjs",
 		"dev": "astro dev",
 		"start": "astro dev",
 		"build": "astro build",

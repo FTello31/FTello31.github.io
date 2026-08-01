@@ -82,12 +82,17 @@ const certificate = defineCollection({
 	loader: certificateLoader(),
 	schema: z.object({
 		...localized,
+		credentialId: z.string().optional(),
+		credentialType: z.enum(["certification", "course", "nanodegree", "learning-path"]),
 		credentialUrl: z.url(),
+		expirationDate: toDate.optional(),
 		featured: z.boolean(),
 		issueDate: toDate,
 		issuer: z.string(),
 		order: z.number(),
+		skills: z.array(z.string()),
 		title: z.string(),
+		verificationUrl: z.url().optional(),
 	}),
 });
 

@@ -10,66 +10,435 @@ interface Props {
 }
 const { locale } = Astro.props;
 const certificates = await getCertificates();
+const featuredCount = certificates.filter((certificate) => certificate.data.featured).length;
 const issuers = [...new Set(certificates.map((certificate) => certificate.data.issuer))];
 const t = ui[locale];
 const copy =
 	locale === "es"
 		? {
-				all: "Todos",
+				all: "Todas",
 				alternate: paths.en.certificates,
+				close: "Cerrar vista previa",
+				credentialId: "ID de credencial",
 				description:
-					"Credenciales en cloud, desarrollo, DevOps e inteligencia artificial. Los títulos oficiales se conservan en su idioma original.",
-				empty: "No hay certificados para este filtro.",
+					"Una selección visual de credenciales en cloud, desarrollo, DevOps e inteligencia artificial. Explora cada certificado sin descargarlo.",
+				empty: "No hay certificados que coincidan con la búsqueda.",
+				expired: "Expirada",
+				expires: "Válida hasta",
+				featured: "Destacadas",
 				filter: "Filtrar por entidad",
-				open: "Ver credencial",
-				title: "Aprender de forma continua también forma parte del trabajo.",
+				issued: "Emitida",
+				next: "Siguiente certificado",
+				original: "Abrir documento original",
+				preview: "Vista rápida",
+				previewMissing: "Vista previa no disponible",
+				previous: "Certificado anterior",
+				results: "credenciales visibles",
+				search: "Buscar certificados",
+				searchPlaceholder: "Buscar por título, entidad o habilidad",
+				skills: "Habilidades relacionadas",
+				title: "Credenciales que respaldan el trabajo.",
+				type: {
+					certification: "Certificación profesional",
+					course: "Curso",
+					"learning-path": "Ruta de aprendizaje",
+					nanodegree: "Nanodegree",
+				},
+				valid: "Vigente",
+				verified: "Verificable",
+				verify: "Verificar con el emisor",
 			}
 		: {
 				all: "All",
 				alternate: paths.es.certificates,
+				close: "Close preview",
+				credentialId: "Credential ID",
 				description:
-					"Credentials across cloud, development, DevOps and artificial intelligence. Official titles are kept in their original language.",
-				empty: "No certificates match this filter.",
+					"A visual selection of credentials across cloud, development, DevOps and artificial intelligence. Explore every certificate without downloading it.",
+				empty: "No certificates match your search.",
+				expired: "Expired",
+				expires: "Valid until",
+				featured: "Featured",
 				filter: "Filter by issuer",
-				open: "View credential",
-				title: "Continuous learning is part of the work too.",
+				issued: "Issued",
+				next: "Next certificate",
+				original: "Open original document",
+				preview: "Quick preview",
+				previewMissing: "Preview unavailable",
+				previous: "Previous certificate",
+				results: "credentials visible",
+				search: "Search certificates",
+				searchPlaceholder: "Search by title, issuer or skill",
+				skills: "Related skills",
+				title: "Credentials that support the work.",
+				type: {
+					certification: "Professional certification",
+					course: "Course",
+					"learning-path": "Learning path",
+					nanodegree: "Nanodegree",
+				},
+				valid: "Active",
+				verified: "Verifiable",
+				verify: "Verify with issuer",
 			};
+const dateFormatter = new Intl.DateTimeFormat(locale === "es" ? "es-ES" : "en-US", {
+	day: "numeric",
+	month: "short",
+	timeZone: "UTC",
+	year: "numeric",
+});
 ---
 
 <BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.certificates }}>
 	<PageIntro code={`CREDENTIALS / ${certificates.length}`} description={copy.description} title={copy.title} />
 	<section class="certificate-section">
-		<div aria-label={copy.filter} class="certificate-filters" role="group">
-			<button aria-pressed="true" data-filter="all" type="button">{copy.all}</button>
-			{issuers.map((issuer) => <button aria-pressed="false" data-filter={issuer} type="button">{issuer}</button>)}
+		<div class="certificate-toolbar">
+			<div aria-label={locale === "es" ? "Alcance" : "Scope"} class="certificate-scope" role="group">
+				<button aria-pressed="true" data-scope="featured" type="button">{copy.featured} <span>{featuredCount}</span></button>
+				<button aria-pressed="false" data-scope="all" type="button">{copy.all} <span>{certificates.length}</span></button>
+			</div>
+			<label class="certificate-search">
+				<span>{copy.search}</span>
+				<input autocomplete="off" id="certificate-search" placeholder={copy.searchPlaceholder} type="search" />
+			</label>
 		</div>
+
+		<div aria-label={copy.filter} class="certificate-filters" role="group">
+			<button aria-pressed="true" data-issuer-filter="all" type="button">{copy.all}</button>
+			{issuers.map((issuer) => <button aria-pressed="false" data-issuer-filter={issuer} type="button">{issuer}</button>)}
+		</div>
+
+		<p aria-live="polite" class="certificate-results" id="certificate-results">
+			<strong>{featuredCount}</strong> / {certificates.length} {copy.results}
+		</p>
+
 		<ol class="certificate-grid" id="certificate-grid">
-			{certificates.map((certificate, index) => (
-				<li data-issuer={certificate.data.issuer}>
-					<div class="certificate-grid__meta"><span>CERT_{String(index + 1).padStart(2, "0")}</span><time datetime={certificate.data.issueDate.toISOString()}>{certificate.data.issueDate.getFullYear()}</time></div>
-					<h2>{certificate.data.title}</h2>
-					<p>{certificate.data.issuer}</p>
-					{certificate.data.credentialUrl && <a href={certificate.data.credentialUrl} rel="noreferrer" target="_blank">{copy.open} ↗</a>}
-				</li>
-			))}
+			{certificates.map((certificate, index) => {
+				const { data } = certificate;
+				const previewSmall = `/certificates/previews/${certificate.id}-480.webp`;
+				const previewLarge = `/certificates/previews/${certificate.id}-1440.webp`;
+				const expirationIso = data.expirationDate?.toISOString().slice(0, 10) ?? "";
+				return (
+					<li
+						data-certificate
+						data-credential-id={data.credentialId ?? ""}
+						data-expiration={expirationIso}
+						data-expiration-label={data.expirationDate ? dateFormatter.format(data.expirationDate) : ""}
+						data-featured={String(data.featured)}
+						data-index={String(index)}
+						data-issue-label={dateFormatter.format(data.issueDate)}
+						data-issuer={data.issuer}
+						data-original-url={data.credentialUrl}
+						data-preview-large={previewLarge}
+						data-search={`${data.title} ${data.issuer} ${data.skills.join(" ")}`}
+						data-skills={JSON.stringify(data.skills)}
+						data-title={data.title}
+						data-type-label={copy.type[data.credentialType]}
+						data-verification-url={data.verificationUrl ?? ""}
+						hidden={!data.featured}
+					>
+						<button aria-label={`${copy.preview}: ${data.title}`} class="certificate-card__media" data-certificate-open type="button">
+							<span aria-hidden="true" class="certificate-card__placeholder">CERT_PREVIEW</span>
+							<img alt="" decoding="async" height="306" loading="lazy" src={previewSmall} width="480" />
+							<span aria-hidden="true" class="certificate-card__zoom">↗</span>
+						</button>
+						<div class="certificate-card__body">
+							<div class="certificate-grid__meta">
+								<span>CERT_{String(index + 1).padStart(2, "0")}</span>
+								<time datetime={data.issueDate.toISOString()}>{data.issueDate.getFullYear()}</time>
+							</div>
+							<div class="certificate-card__flags">
+								<span>{copy.type[data.credentialType]}</span>
+								{data.verificationUrl && <span class="is-verified">{copy.verified}</span>}
+								{data.expirationDate && <span data-expiration-status data-expiration={expirationIso}></span>}
+							</div>
+							<h2>{data.title}</h2>
+							<p>{data.issuer}</p>
+							<ul aria-label={copy.skills} class="certificate-card__skills">
+								{data.skills.slice(0, 3).map((skill) => <li>{skill}</li>)}
+							</ul>
+							<button class="certificate-card__open" data-certificate-open type="button">{copy.preview} <span aria-hidden="true">↗</span></button>
+						</div>
+					</li>
+				);
+			})}
 		</ol>
 		<p class="certificate-empty" hidden id="certificate-empty">{copy.empty}</p>
 	</section>
+
+	<dialog
+		class="certificate-dialog"
+		data-expired-label={copy.expired}
+		data-preview-missing={copy.previewMissing}
+		data-valid-label={copy.valid}
+		id="certificate-dialog"
+	>
+		<div class="certificate-dialog__shell">
+			<header class="certificate-dialog__header">
+				<span aria-live="polite" id="certificate-dialog-counter"></span>
+				<button aria-label={copy.close} data-dialog-close type="button">×</button>
+			</header>
+			<div class="certificate-dialog__layout">
+				<figure class="certificate-dialog__media" id="certificate-dialog-media">
+					<span aria-hidden="true">CERT_PREVIEW</span>
+					<img alt="" decoding="async" id="certificate-dialog-image" />
+					<figcaption id="certificate-dialog-preview-missing">{copy.previewMissing}</figcaption>
+				</figure>
+				<div class="certificate-dialog__content">
+					<div class="certificate-dialog__flags">
+						<span id="certificate-dialog-type"></span>
+						<span class="is-verified" hidden id="certificate-dialog-verified">{copy.verified}</span>
+						<span hidden id="certificate-dialog-status"></span>
+					</div>
+					<h2 id="certificate-dialog-title" tabindex="-1"></h2>
+					<p class="certificate-dialog__issuer" id="certificate-dialog-issuer"></p>
+					<dl class="certificate-dialog__facts">
+						<div class="certificate-dialog__fact"><dt>{copy.issued}</dt><dd id="certificate-dialog-issued"></dd></div>
+						<div class="certificate-dialog__fact" hidden id="certificate-dialog-expiration-row"><dt>{copy.expires}</dt><dd id="certificate-dialog-expiration"></dd></div>
+						<div class="certificate-dialog__fact" hidden id="certificate-dialog-id-row"><dt>{copy.credentialId}</dt><dd id="certificate-dialog-id"></dd></div>
+					</dl>
+					<div class="certificate-dialog__skills">
+						<h3>{copy.skills}</h3>
+						<ul id="certificate-dialog-skills"></ul>
+					</div>
+					<div class="certificate-dialog__actions">
+						<a id="certificate-dialog-original" rel="noreferrer" target="_blank">{copy.original} ↗</a>
+						<a hidden id="certificate-dialog-verify" rel="noreferrer" target="_blank">{copy.verify} ↗</a>
+					</div>
+				</div>
+			</div>
+			<nav aria-label={locale === "es" ? "Navegar certificados" : "Browse certificates"} class="certificate-dialog__navigation">
+				<button aria-label={copy.previous} data-dialog-previous type="button"><span aria-hidden="true">←</span> {copy.previous}</button>
+				<button aria-label={copy.next} data-dialog-next type="button">{copy.next} <span aria-hidden="true">→</span></button>
+			</nav>
+		</div>
+	</dialog>
 </BaseLayout>
 
 <script>
-	const filterButtons = document.querySelectorAll<HTMLButtonElement>("[data-filter]");
-	const certificateCards = document.querySelectorAll<HTMLElement>("[data-issuer]");
-	const emptyMessage = document.getElementById("certificate-empty");
-	filterButtons.forEach((button) => button.addEventListener("click", () => {
-		const filter = button.dataset.filter;
+	const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-certificate]"));
+	const scopeButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-scope]"));
+	const issuerButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-issuer-filter]"));
+	const searchInput = document.querySelector<HTMLInputElement>("#certificate-search");
+	const emptyMessage = document.querySelector<HTMLElement>("#certificate-empty");
+	const results = document.querySelector<HTMLElement>("#certificate-results");
+	const resultNumber = results?.querySelector("strong");
+	const dialog = document.querySelector<HTMLDialogElement>("#certificate-dialog");
+	const dialogImage = document.querySelector<HTMLImageElement>("#certificate-dialog-image");
+	const dialogMedia = document.querySelector<HTMLElement>("#certificate-dialog-media");
+	const dialogTitle = document.querySelector<HTMLElement>("#certificate-dialog-title");
+	const dialogIssuer = document.querySelector<HTMLElement>("#certificate-dialog-issuer");
+	const dialogType = document.querySelector<HTMLElement>("#certificate-dialog-type");
+	const dialogIssued = document.querySelector<HTMLElement>("#certificate-dialog-issued");
+	const dialogExpiration = document.querySelector<HTMLElement>("#certificate-dialog-expiration");
+	const dialogExpirationRow = document.querySelector<HTMLElement>("#certificate-dialog-expiration-row");
+	const dialogId = document.querySelector<HTMLElement>("#certificate-dialog-id");
+	const dialogIdRow = document.querySelector<HTMLElement>("#certificate-dialog-id-row");
+	const dialogSkills = document.querySelector<HTMLUListElement>("#certificate-dialog-skills");
+	const dialogOriginal = document.querySelector<HTMLAnchorElement>("#certificate-dialog-original");
+	const dialogVerify = document.querySelector<HTMLAnchorElement>("#certificate-dialog-verify");
+	const dialogVerified = document.querySelector<HTMLElement>("#certificate-dialog-verified");
+	const dialogStatus = document.querySelector<HTMLElement>("#certificate-dialog-status");
+	const dialogCounter = document.querySelector<HTMLElement>("#certificate-dialog-counter");
+	const previousButton = document.querySelector<HTMLButtonElement>("[data-dialog-previous]");
+	const nextButton = document.querySelector<HTMLButtonElement>("[data-dialog-next]");
+
+	let scope = "featured";
+	let issuer = "all";
+	let query = "";
+	let currentCard: HTMLElement | null = null;
+	let opener: HTMLButtonElement | null = null;
+
+	const normalize = (value: string) =>
+		value.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLocaleLowerCase();
+
+	const updateScopeButtons = () => {
+		for (const button of scopeButtons) {
+			button.setAttribute("aria-pressed", String(button.dataset.scope === scope));
+		}
+	};
+
+	const visibleCards = () => cards.filter((card) => !card.hidden);
+	const matchesSearch = (card: HTMLElement) => {
+		if (!query) return true;
+		const tokens = normalize(card.dataset.search ?? "").split(/[^\p{L}\p{N}]+/u);
+		return query.split(/\s+/).every((term) => tokens.some((token) => token.startsWith(term)));
+	};
+
+	const applyFilters = () => {
 		let visible = 0;
-		filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
-		certificateCards.forEach((card) => {
-			const show = filter === "all" || card.dataset.issuer === filter;
+		for (const card of cards) {
+			const matchesScope = scope === "all" || card.dataset.featured === "true";
+			const matchesIssuer = issuer === "all" || card.dataset.issuer === issuer;
+			const matchesQuery = matchesSearch(card);
+			const show = matchesScope && matchesIssuer && matchesQuery;
 			card.hidden = !show;
 			if (show) visible += 1;
-		});
+		}
+		if (resultNumber) resultNumber.textContent = String(visible);
 		if (emptyMessage) emptyMessage.hidden = visible > 0;
-	}));
+	};
+
+	for (const button of scopeButtons) {
+		button.addEventListener("click", () => {
+			scope = button.dataset.scope ?? "featured";
+			if (scope === "featured") {
+				issuer = "all";
+				query = "";
+				if (searchInput) searchInput.value = "";
+				for (const issuerButton of issuerButtons) {
+					issuerButton.setAttribute("aria-pressed", String(issuerButton.dataset.issuerFilter === "all"));
+				}
+			}
+			updateScopeButtons();
+			applyFilters();
+		});
+	}
+
+	for (const button of issuerButtons) {
+		button.addEventListener("click", () => {
+			issuer = button.dataset.issuerFilter ?? "all";
+			scope = "all";
+			for (const item of issuerButtons) item.setAttribute("aria-pressed", String(item === button));
+			updateScopeButtons();
+			applyFilters();
+		});
+	}
+
+	searchInput?.addEventListener("input", () => {
+		query = normalize(searchInput.value.trim());
+		if (query) {
+			scope = "all";
+			updateScopeButtons();
+		}
+		applyFilters();
+	});
+
+	const expirationStatus = (expiration: string) => {
+		if (!expiration) return null;
+		const expired = new Date(`${expiration}T23:59:59Z`).getTime() < Date.now();
+		return {
+			expired,
+			label: expired ? dialog?.dataset.expiredLabel ?? "Expired" : dialog?.dataset.validLabel ?? "Active",
+		};
+	};
+
+	for (const status of document.querySelectorAll<HTMLElement>("[data-expiration-status]")) {
+		const value = expirationStatus(status.dataset.expiration ?? "");
+		if (value) {
+			status.textContent = value.label;
+			status.classList.toggle("is-expired", value.expired);
+			status.classList.toggle("is-valid", !value.expired);
+		}
+	}
+
+	for (const image of document.querySelectorAll<HTMLImageElement>(".certificate-card__media img")) {
+		image.addEventListener("error", () => image.parentElement?.classList.add("is-missing"));
+	}
+
+	const setText = (element: HTMLElement | null, value: string) => {
+		if (element) element.textContent = value;
+	};
+
+	const renderDialog = (card: HTMLElement) => {
+		currentCard = card;
+		setText(dialogTitle, card.dataset.title ?? "");
+		setText(dialogIssuer, card.dataset.issuer ?? "");
+		setText(dialogType, card.dataset.typeLabel ?? "");
+		setText(dialogIssued, card.dataset.issueLabel ?? "");
+		if (dialogImage && dialogMedia) {
+			dialogMedia.classList.remove("is-missing");
+			dialogImage.src = card.dataset.previewLarge ?? "";
+			dialogImage.alt = card.dataset.title ?? "";
+		}
+
+		const expiration = card.dataset.expiration ?? "";
+		if (dialogExpirationRow && dialogExpiration) {
+			dialogExpirationRow.hidden = !expiration;
+			dialogExpiration.textContent = card.dataset.expirationLabel ?? "";
+		}
+		const status = expirationStatus(expiration);
+		if (dialogStatus) {
+			dialogStatus.hidden = !status;
+			dialogStatus.textContent = status?.label ?? "";
+			dialogStatus.classList.toggle("is-expired", status?.expired === true);
+			dialogStatus.classList.toggle("is-valid", status?.expired === false);
+		}
+
+		const credentialId = card.dataset.credentialId ?? "";
+		if (dialogIdRow && dialogId) {
+			dialogIdRow.hidden = !credentialId;
+			dialogId.textContent = credentialId;
+		}
+
+		if (dialogSkills) {
+			dialogSkills.replaceChildren();
+			const skills = JSON.parse(card.dataset.skills ?? "[]") as string[];
+			for (const skill of skills) {
+				const item = document.createElement("li");
+				item.textContent = skill;
+				dialogSkills.append(item);
+			}
+		}
+
+		if (dialogOriginal) dialogOriginal.href = card.dataset.originalUrl ?? "";
+		const verificationUrl = card.dataset.verificationUrl ?? "";
+		if (dialogVerify) {
+			dialogVerify.hidden = !verificationUrl;
+			dialogVerify.href = verificationUrl;
+		}
+		if (dialogVerified) dialogVerified.hidden = !verificationUrl;
+
+		const visible = visibleCards();
+		const currentIndex = visible.indexOf(card);
+		setText(dialogCounter, `${currentIndex + 1} / ${visible.length}`);
+		const onlyOne = visible.length < 2;
+		if (previousButton) previousButton.disabled = onlyOne;
+		if (nextButton) nextButton.disabled = onlyOne;
+	};
+
+	const openDialog = (card: HTMLElement, button: HTMLButtonElement) => {
+		if (!dialog) return;
+		opener = button;
+		renderDialog(card);
+		dialog.showModal();
+		document.documentElement.classList.add("dialog-open");
+		dialogTitle?.focus();
+	};
+
+	for (const button of document.querySelectorAll<HTMLButtonElement>("[data-certificate-open]")) {
+		button.addEventListener("click", () => {
+			const card = button.closest<HTMLElement>("[data-certificate]");
+			if (card) openDialog(card, button);
+		});
+	}
+
+	const moveDialog = (direction: number) => {
+		if (!currentCard) return;
+		const visible = visibleCards();
+		const currentIndex = visible.indexOf(currentCard);
+		const nextIndex = (currentIndex + direction + visible.length) % visible.length;
+		const nextCard = visible[nextIndex];
+		if (nextCard) renderDialog(nextCard);
+	};
+
+	previousButton?.addEventListener("click", () => moveDialog(-1));
+	nextButton?.addEventListener("click", () => moveDialog(1));
+	document.querySelector<HTMLButtonElement>("[data-dialog-close]")?.addEventListener("click", () => dialog?.close());
+	dialogImage?.addEventListener("error", () => dialogMedia?.classList.add("is-missing"));
+	dialog?.addEventListener("click", (event) => {
+		if (event.target === dialog) dialog.close();
+	});
+	dialog?.addEventListener("close", () => {
+		document.documentElement.classList.remove("dialog-open");
+		opener?.focus();
+	});
+	dialog?.addEventListener("keydown", (event) => {
+		if (event.key === "Escape") {
+			event.preventDefault();
+			dialog.close();
+		}
+		if (event.key === "ArrowLeft") moveDialog(-1);
+		if (event.key === "ArrowRight") moveDialog(1);
+	});
 </script>
