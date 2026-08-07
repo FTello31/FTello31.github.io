@@ -1,11 +1,9 @@
 ---
-import PostPreview from "@/components/blog/PostPreview.astro";
 import CaseStudyPreview from "@/components/CaseStudyPreview.astro";
 import InquiryForm from "@/components/InquiryForm.astro";
-import Note from "@/components/note/Note.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import WhatsAppLink from "@/components/WhatsAppLink.astro";
-import { getCaseStudies, getCertificates, getNotes, getPosts } from "@/data/content";
+import { getCaseStudies } from "@/data/content";
 import { services } from "@/data/services";
 import { paths, ui } from "@/i18n";
 import BaseLayout from "@/layouts/Base.astro";
@@ -18,42 +16,8 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = ui[locale];
-const [caseStudies, certificates, posts, notes] = await Promise.all([
-	getCaseStudies(locale),
-	getCertificates(),
-	getPosts(locale),
-	getNotes(locale),
-]);
+const caseStudies = await getCaseStudies(locale);
 const featuredCase = caseStudies.find((caseStudy) => caseStudy.data.featured);
-const commercialTerms = [
-	"automat",
-	"product",
-	"producto",
-	"modern",
-	"performance",
-	"rendimiento",
-	"inteligencia artificial",
-	"artificial intelligence",
-	"visión artificial",
-	"computer vision",
-	" ia ",
-	" ai ",
-	"proyecto",
-	"project",
-];
-const isCommercial = (parts: (string | undefined)[]) => {
-	const text = ` ${parts.filter(Boolean).join(" ").toLocaleLowerCase()} `;
-	return commercialTerms.some((term) => text.includes(term));
-};
-const relatedPosts = posts
-	.filter((post) => isCommercial([post.data.title, post.data.description, ...post.data.tags]))
-	.slice(0, 2);
-const relatedNotes = notes
-	.filter((note) => isCommercial([note.data.title, note.data.description]))
-	.slice(0, 2);
-const relevantCertificates = certificates
-	.filter((certificate) => certificate.data.featured)
-	.slice(0, 3);
 
 const copy =
 	locale === "es"
@@ -70,8 +34,6 @@ const copy =
 				caseSection: "Caso destacado",
 				contactDescription: `Comparte el contexto, el presupuesto orientativo y el plazo. Te responderé personalmente en ${siteConfig.contact.responseTime.es} para decidir si tiene sentido avanzar.`,
 				contactTitle: "¿Qué proceso necesita moverse mejor?",
-				contentDescription:
-					"Ideas sobre automatización, producto, modernización, rendimiento e IA aplicada.",
 				description:
 					"Diseño y construyo automatizaciones, herramientas internas y aplicaciones web para pymes que necesitan operar mejor sin ampliar su equipo técnico.",
 				faq: [
@@ -147,8 +109,6 @@ const copy =
 				caseSection: "Featured case",
 				contactDescription: `Share the context, indicative budget and timeline. I will reply personally within ${siteConfig.contact.responseTime.en} so we can decide whether it makes sense to move forward.`,
 				contactTitle: "Which process needs to move better?",
-				contentDescription:
-					"Ideas about automation, product, modernisation, performance and applied AI.",
 				description:
 					"I design and build automation, internal tools and web applications for SMEs that need to operate better without expanding their technical team.",
 				faq: [
@@ -199,7 +159,7 @@ const copy =
 				processTitle: "A clear process, from friction to delivery",
 				proof: [
 					["6+ years", "Production software"],
-					["Web · automation · AI", "Capabilities applied to the problem"],
+					["Web · automation · IA", "Capabilities applied to the problem"],
 					["Direct contact", "Design and development with Fernando"],
 				],
 				proofLine: "6+ years of experience · Web, automation and applied AI",
@@ -242,7 +202,18 @@ const copy =
 		<SectionHeading count={services[locale].length} index="02" title={copy.servicesTitle} />
 		<p class="section-summary">{copy.servicesDescription}</p>
 		<div class="services-grid">
-			{services[locale].map((service, index) => <article><span>{String(index + 1).padStart(2, "0")} / {service.code}</span><h3>{service.title}</h3><p>{service.idealFor}</p><a href={`${paths[locale].services}#${service.code.toLowerCase()}`}>{locale === "es" ? "Ver servicio" : "View service"} →</a></article>)}
+			{
+				services[locale].map((service, index) => (
+					<article>
+						<span>{String(index + 1).padStart(2, "0")} / {service.code}</span>
+						<h3>{service.title}</h3>
+						<p>{service.idealFor}</p>
+						<a href={`${paths[locale].services}#${service.code.toLowerCase()}`}>
+							{locale === "es" ? "Ver servicio" : "View service"} &rarr;
+						</a>
+					</article>
+				))
+			}
 		</div>
 	</section>
 
@@ -256,17 +227,13 @@ const copy =
 		<div class="about-commercial__facts"><p><strong>6+</strong><span>{locale === "es" ? "años de experiencia" : "years of experience"}</span></p><p><strong>{locale === "es" ? "España" : "Spain"}</strong><span>{locale === "es" ? "trabajo remoto" : "remote work"}</span></p><p><strong>ES / EN</strong><span>{locale === "es" ? "comunicación directa" : "direct communication"}</span></p></div>
 	</section>
 
-	{relevantCertificates.length > 0 && <section class="site-section credentials-preview"><SectionHeading count={relevantCertificates.length} index="05" title={locale === "es" ? "Credenciales relevantes" : "Relevant credentials"} /><div class="credential-strip">{relevantCertificates.map((certificate) => <div><span>{certificate.data.issueDate.getFullYear()}</span><strong>{certificate.data.title}</strong><small>{certificate.data.issuer}</small></div>)}</div><a class="section-link" href={paths[locale].certificates}>{locale === "es" ? "Ver todas las credenciales" : "View all credentials"} →</a></section>}
-
-	{(relatedPosts.length > 0 || relatedNotes.length > 0) && <section class="site-section"><SectionHeading count={relatedPosts.length + relatedNotes.length} index="06" title={t.ideas} /><p class="section-summary">{copy.contentDescription}</p><div class="content-split"><div>{relatedPosts.map((post) => <PostPreview locale={locale} post={post} />)}</div><div>{relatedNotes.map((note) => <Note locale={locale} note={note} preview />)}</div></div><a class="section-link" href={paths[locale].ideas}>{locale === "es" ? "Explorar Ideas" : "Explore Ideas"} →</a></section>}
-
 	<section class="faq-section site-section">
-		<SectionHeading count={copy.faq.length} index="07" title={copy.faqTitle} />
+		<SectionHeading count={copy.faq.length} index="05" title={copy.faqTitle} />
 		<div class="faq-list">{copy.faq.map(([question, answer]) => <details><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div>
 	</section>
 
 	<section class="home-contact" id="contact">
-		<div class="home-contact__intro"><span>08 / INQUIRY</span><h2>{copy.contactTitle}</h2><p>{copy.contactDescription}</p><div class="contact-channels"><a class="text-link" href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a><WhatsAppLink label={t.whatsapp} locale={locale} /></div></div>
+		<div class="home-contact__intro"><span>06 / INQUIRY</span><h2>{copy.contactTitle}</h2><p>{copy.contactDescription}</p><div class="contact-channels"><a class="text-link" href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a><WhatsAppLink label={t.whatsapp} locale={locale} /></div></div>
 		<InquiryForm locale={locale} />
 	</section>
 </BaseLayout>
