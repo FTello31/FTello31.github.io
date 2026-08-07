@@ -22,7 +22,7 @@ const copy =
 					"Automatizaciones, herramientas internas y aplicaciones web para mejorar operaciones concretas sin sumar complejidad innecesaria.",
 				exclusions: "No incluido de base",
 				ideal: "Ideal para",
-				price: "Proyectos desde 2.500 €; presupuesto definitivo tras entender el alcance.",
+				price: "El presupuesto se define cuando el alcance es claro. Cuéntame el problema y te respondo personalmente.",
 				process: [
 					["Diagnóstico", "Problema, proceso actual y resultado esperado."],
 					["Alcance", "Primera entrega, límites, calendario y presupuesto."],
@@ -40,7 +40,7 @@ const copy =
 					"Automation, internal tools and web applications that improve concrete operations without adding unnecessary complexity.",
 				exclusions: "Not included by default",
 				ideal: "Ideal for",
-				price: "Projects from €2,500; the final quote follows a clear understanding of scope.",
+				price: "The budget is defined once the scope is clear. Tell me about the problem and I will reply personally.",
 				process: [
 					["Assessment", "Problem, current process and expected outcome."],
 					["Scope", "First delivery, boundaries, schedule and budget."],
@@ -72,6 +72,7 @@ const copy =
 	<section class="process-section commercial-process">
 		<div><span>05 / PROCESS</span><h2>{copy.processTitle}</h2><p>{copy.price}</p></div>
 		<ol>{copy.process.map(([title, body], index) => <li><span>0{index + 1}</span><div><strong>{title}</strong><p>{body}</p></div></li>)}</ol>
+		<p class="price-notice">{copy.price}</p>
 	</section>
 	<section class="closing-cta closing-cta--compact">
 		<h2>{locale === "es" ? "El primer paso es entender si el proyecto encaja." : "The first step is understanding whether the project is a good fit."}</h2>
