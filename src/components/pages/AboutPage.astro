@@ -59,7 +59,7 @@ const copy =
 	<PageIntro code="PROFILE / 03" description={copy.description} title={copy.title} />
 	<section class="about-grid">
 		<div class="about-profile">
-			<div>{copy.intro.map((paragraph) => <p>{paragraph}</p>)}<a class="button-secondary" data-plausible-event="CV Download" href="/resume.pdf" target="_blank">{t.cv} ↗</a></div>
+			<div>{copy.intro.map((paragraph) => <p>{paragraph}</p>)}<a class="button-secondary" data-umami-event="CV Download" href="/resume.pdf" target="_blank">{t.cv} ↗</a></div>
 			<figure>
 				<img alt={copy.portraitAlt} height="1024" loading="lazy" src="/fernando-tello.png" width="1024" />
 				<figcaption>{copy.portraitLabel}</figcaption>

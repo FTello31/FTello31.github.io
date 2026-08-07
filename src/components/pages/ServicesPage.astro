@@ -64,7 +64,7 @@ const copy =
 					<h3>{copy.ideal}</h3><p>{service.idealFor}</p>
 					<h3>{copy.deliverables}</h3><ul>{service.deliverables.map((item) => <li>{item}</li>)}</ul>
 					<h3>{copy.exclusions}</h3><p>{service.exclusions}</p>
-					<a class="button-primary" data-plausible-event="Service Contact Click" href={`${paths[locale].contact}?service=${service.code.toLowerCase()}`}>{copy.cta} →</a>
+					<a class="button-primary" data-umami-event="Service Contact Click" href={`${paths[locale].contact}?service=${service.code.toLowerCase()}`}>{copy.cta} →</a>
 				</div>
 			</article>
 		))}
@@ -75,6 +75,6 @@ const copy =
 	</section>
 	<section class="closing-cta closing-cta--compact">
 		<h2>{locale === "es" ? "El primer paso es entender si el proyecto encaja." : "The first step is understanding whether the project is a good fit."}</h2>
-		<div class="closing-cta__actions"><a class="button-primary" data-plausible-event="Service Contact Click" href={paths[locale].contact}>{copy.cta} →</a><WhatsAppLink label={t.whatsapp} locale={locale} /></div>
+		<div class="closing-cta__actions"><a class="button-primary" data-umami-event="Service Contact Click" href={paths[locale].contact}>{copy.cta} →</a><WhatsAppLink label={t.whatsapp} locale={locale} /></div>
 	</section>
 </BaseLayout>

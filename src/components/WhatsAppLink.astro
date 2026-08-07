@@ -12,7 +12,7 @@ interface Props {
 const { class: className, eventName = "WhatsApp Click", label, locale } = Astro.props;
 ---
 
-<a aria-label={label} class:list={["whatsapp-link", className]} data-plausible-event={eventName} href={whatsappUrl(locale)} rel="noreferrer" target="_blank">
+<a aria-label={label} class:list={["whatsapp-link", className]} data-umami-event={eventName} href={whatsappUrl(locale)} rel="noreferrer" target="_blank">
 	<svg aria-hidden="true" fill="none" viewBox="0 0 24 24">
 		<path d="M20 11.6a8 8 0 0 1-11.8 7L4 20l1.4-4A8 8 0 1 1 20 11.6Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
 		<path d="M9 8.5c.2 3.2 2.3 5.3 5.5 5.5l1.1-1.1c.2-.2.5-.2.7-.1l2 1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>

@@ -39,6 +39,6 @@ const copy =
 <script>
 	sessionStorage.removeItem("project-inquiry-es:context-draft");
 	sessionStorage.removeItem("project-inquiry-en:context-draft");
-	const plausibleWindow = window as typeof window & { plausible?: (name: string) => void };
-	plausibleWindow.plausible?.("Inquiry Submit");
+	const umamiWindow = window as typeof window & { umami?: { track: (name: string) => void } };
+	umamiWindow.umami?.track("Inquiry Submit");
 </script>

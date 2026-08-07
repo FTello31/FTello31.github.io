@@ -82,7 +82,7 @@ const copy =
 		<h2>{caseStudy.data.cta.title}</h2>
 		<p>{caseStudy.data.cta.body}</p>
 		<div class="closing-cta__actions">
-			<a class="button-primary" data-plausible-event="Case Contact Click" href={paths[locale].contact}>{caseStudy.data.cta.label} →</a>
+			<a class="button-primary" data-umami-event="Case Contact Click" href={paths[locale].contact}>{caseStudy.data.cta.label} →</a>
 			<WhatsAppLink eventName="WhatsApp Click" label={t.whatsapp} locale={locale} />
 		</div>
 	</section>

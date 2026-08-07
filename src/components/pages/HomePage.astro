@@ -217,8 +217,8 @@ const copy =
 			<h1>{copy.heroTitle}</h1>
 			<p class="commercial-hero__lead">{copy.description}</p>
 			<div class="commercial-hero__actions">
-				<a class="button-primary" data-plausible-event="Hero Contact Click" href="#contact">{t.discussProject} →</a>
-				<a class="button-secondary" data-plausible-event={featuredCase ? "Case Study View" : undefined} href={featuredCase ? `#featured-case` : paths[locale].cases}>{copy.secondaryCase} →</a>
+				<a class="button-primary" data-umami-event="Hero Contact Click" href="#contact">{t.discussProject} →</a>
+				<a class="button-secondary" data-umami-event={featuredCase ? "Case Study View" : undefined} href={featuredCase ? `#featured-case` : paths[locale].cases}>{copy.secondaryCase} →</a>
 			</div>
 			<p class="commercial-hero__microcopy">{copy.microcopy}</p>
 			<p class="commercial-hero__proof">{copy.proofLine}</p>

@@ -45,16 +45,6 @@ const alternateUrl = meta.alternateUrl ?? paths[locale === "es" ? "en" : "es"].h
 					}, { rootMargin: "-8px" });
 					for (const link of inlineWhatsAppLinks) observer.observe(link);
 				}
-
-				if (!document.documentElement.dataset.commercialAnalyticsReady) {
-					document.documentElement.dataset.commercialAnalyticsReady = "true";
-					document.addEventListener("click", (event) => {
-						const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-plausible-event]") : null;
-						const eventName = target?.dataset.plausibleEvent;
-						const plausibleWindow = window as typeof window & { plausible?: (name: string) => void };
-						if (eventName && plausibleWindow.plausible) plausibleWindow.plausible(eventName);
-					});
-				}
 			}
 
 			document.addEventListener("astro:page-load", prepareCommercialInteractions);

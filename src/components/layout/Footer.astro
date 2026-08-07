@@ -18,7 +18,7 @@ const t = ui[locale];
 	<nav aria-label="Footer">
 		<a href={paths[locale].projects}>{t.projects}</a>
 		<a href={paths[locale].certificates}>{t.certificates}</a>
-		<a data-plausible-event="CV Download" href="/resume.pdf" target="_blank">{t.cv}</a>
+		<a data-umami-event="CV Download" href="/resume.pdf" target="_blank">{t.cv}</a>
 		<a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
 		<a href={paths[locale].privacy}>{locale === "es" ? "Privacidad" : "Privacy"}</a>
 		{siteConfig.socialLinks.map((link) => <a href={link.url} rel="noreferrer" target="_blank">{link.label}</a>)}

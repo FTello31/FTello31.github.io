@@ -3,14 +3,14 @@ import type { Locale } from "@/types";
 
 export const ui = {
 	es: {
-		availability: "Madrid / remoto",
+		availability: "España / remoto",
 		blog: "Blog",
 		cases: "Casos",
 		certificates: "Certificados",
 		contact: "Contacto",
 		content: "Contenido",
 		copyright: "Estudio independiente de software",
-		cv: "CV — English",
+		cv: "CV - English",
 		discussProject: "Cuéntame tu proyecto",
 		experience: "Experiencia",
 		home: "Inicio",
@@ -28,14 +28,14 @@ export const ui = {
 		about: "Sobre mí",
 	},
 	en: {
-		availability: "Madrid / remote",
+		availability: "Spain / remote",
 		blog: "Blog",
 		cases: "Case studies",
 		certificates: "Certificates",
 		contact: "Contact",
 		content: "Content",
 		copyright: "Independent software studio",
-		cv: "Resume — English",
+		cv: "Resume - English",
 		discussProject: "Tell me about your project",
 		experience: "Experience",
 		home: "Home",

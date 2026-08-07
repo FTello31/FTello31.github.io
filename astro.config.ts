@@ -100,7 +100,7 @@ export default defineConfig({
 	env: {
 		schema: {
 			WEBMENTION_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
-			PUBLIC_PLAUSIBLE_SCRIPT_SRC: envField.string({
+			PUBLIC_UMAMI_WEBSITE_ID: envField.string({
 				context: "client",
 				access: "public",
 				optional: true,

@@ -27,7 +27,7 @@ const displayTitle = caseStudy.data.cardTitle ?? caseStudy.data.title;
 			`case-preview__media--${caseStudy.data.coverFit}`,
 			{ "case-preview__media--fallback": !coverImage },
 		]}
-		data-plausible-event="Case Study View"
+		data-umami-event="Case Study View"
 		href={href}
 		tabindex="-1"
 	>
@@ -37,7 +37,7 @@ const displayTitle = caseStudy.data.cardTitle ?? caseStudy.data.title;
 	</a>
 	<div class="case-preview__body">
 		<p class="case-preview__eyebrow">{caseStudy.data.code} / {caseStudy.data.industry}</p>
-		<h3><a data-plausible-event="Case Study View" href={href}>{displayTitle}</a></h3>
+		<h3><a data-umami-event="Case Study View" href={href}>{displayTitle}</a></h3>
 		<p>{caseStudy.data.description}</p>
 		{
 			caseStudy.data.results[0] && (
@@ -52,6 +52,6 @@ const displayTitle = caseStudy.data.cardTitle ?? caseStudy.data.title;
 				<blockquote>“{caseStudy.data.testimonial.quote}”</blockquote>
 			)
 		}
-		<a class="text-link" data-plausible-event="Case Study View" href={href}>{labels.read} →</a>
+		<a class="text-link" data-umami-event="Case Study View" href={href}>{labels.read} →</a>
 	</div>
 </article>

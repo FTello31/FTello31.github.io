@@ -1,5 +1,5 @@
 ---
-import PlausibleAnalytics from "@/components/PlausibleAnalytics.astro";
+import UmamiAnalytics from "@/components/UmamiAnalytics.astro";
 import { paths } from "@/i18n";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
@@ -102,4 +102,4 @@ const jsonLd = {
 <link href={locale === "es" ? "/notas/rss.xml" : "/en/notes/rss.xml"} title="Notes" rel="alternate" type="application/rss+xml" />
 <meta content={Astro.generator} name="generator" />
 <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
-<PlausibleAnalytics />
+<UmamiAnalytics />

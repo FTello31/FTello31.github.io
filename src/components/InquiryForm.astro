@@ -112,8 +112,8 @@ const copy =
 		form.addEventListener("focusin", () => {
 			if (form.dataset.inquiryStarted === "true") return;
 			form.dataset.inquiryStarted = "true";
-			const plausibleWindow = window as typeof window & { plausible?: (name: string) => void };
-			plausibleWindow.plausible?.("Inquiry Start");
+			const umamiWindow = window as typeof window & { umami?: { track: (name: string) => void } };
+			umamiWindow.umami?.track("Inquiry Start");
 		});
 
 		const context = form.elements.namedItem("context");
