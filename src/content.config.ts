@@ -62,6 +62,46 @@ const project = defineCollection({
 	}),
 });
 
+const caseStudy = defineCollection({
+	loader: glob({ base: "./content/case-studies", pattern: "**/*.{md,mdx}" }),
+	schema: ({ image }) =>
+		z
+			.object({
+				...localized,
+				cardTitle: z.string().max(120).optional(),
+				clientName: z.string(),
+				code: z.string(),
+				coverFit: z.enum(["cover", "contain"]).default("cover"),
+				coverImage: z.object({ alt: z.string(), src: image() }).optional(),
+				cta: z.object({ body: z.string(), label: z.string(), title: z.string() }),
+				description: z.string(),
+				draft: z.boolean().default(false),
+				duration: z.string().optional(),
+				externalUrl: z.url().optional(),
+				featured: z.boolean().default(false),
+				gallery: z.array(z.object({ alt: z.string(), src: image() })).default([]),
+				industry: z.string(),
+				order: z.number(),
+				results: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
+				services: z.array(z.string()),
+				testimonial: z
+					.object({ author: z.string(), quote: z.string(), role: z.string() })
+					.optional(),
+				title: z.string().max(120),
+				year: z.number().int().optional(),
+			})
+			.superRefine((entry, context) => {
+				if (!entry.featured) return;
+				if (entry.results.length === 0) {
+					context.addIssue({
+						code: "custom",
+						message: "A featured case study requires at least one result.",
+						path: ["results"],
+					});
+				}
+			}),
+});
+
 const experience = defineCollection({
 	loader: experienceLoader(),
 	schema: z.object({
@@ -106,4 +146,4 @@ const badge = defineCollection({
 	}),
 });
 
-export const collections = { badge, certificate, experience, note, post, project };
+export const collections = { badge, caseStudy, certificate, experience, note, post, project };

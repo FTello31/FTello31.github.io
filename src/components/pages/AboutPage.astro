@@ -20,7 +20,7 @@ const copy =
 				description:
 					"Software engineer con más de seis años construyendo aplicaciones escalables y liderando mejoras de arquitectura, calidad y rendimiento.",
 				intro: [
-					"Mi experiencia full stack me permite entender tanto la interfaz que usa una persona como los sistemas y datos que la hacen posible.",
+					"Estudio independiente dirigido por Fernando: hablas directamente con quien diseña y desarrolla. Mi experiencia full stack me permite entender tanto la interfaz que usa una persona como los sistemas y datos que la hacen posible.",
 					"Actualmente curso un máster en Inteligencia Artificial y exploro cómo aplicar IA de forma útil, medible y segura al desarrollo de producto.",
 				],
 				portraitAlt: "Ilustración de Fernando Tello trabajando con su portátil",
@@ -39,7 +39,7 @@ const copy =
 				description:
 					"Software engineer with more than six years building scalable applications and leading improvements in architecture, quality and performance.",
 				intro: [
-					"My full-stack background helps me understand both the interface a person uses and the systems and data behind it.",
+					"An independent studio run by Fernando: you speak directly with the person who designs and builds. My full-stack background helps me understand both the interface a person uses and the systems and data behind it.",
 					"I am currently pursuing a Master's degree in Artificial Intelligence and exploring how to apply AI to product development in useful, measurable and safe ways.",
 				],
 				portraitAlt: "Illustration of Fernando Tello working on his laptop",
@@ -59,7 +59,7 @@ const copy =
 	<PageIntro code="PROFILE / 03" description={copy.description} title={copy.title} />
 	<section class="about-grid">
 		<div class="about-profile">
-			<div>{copy.intro.map((paragraph) => <p>{paragraph}</p>)}<a class="button-secondary" href="/resume.pdf" target="_blank">{t.cv} ↗</a></div>
+			<div>{copy.intro.map((paragraph) => <p>{paragraph}</p>)}<a class="button-secondary" data-plausible-event="CV Download" href="/resume.pdf" target="_blank">{t.cv} ↗</a></div>
 			<figure>
 				<img alt={copy.portraitAlt} height="1024" loading="lazy" src="/fernando-tello.png" width="1024" />
 				<figcaption>{copy.portraitLabel}</figcaption>

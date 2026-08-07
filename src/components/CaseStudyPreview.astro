@@ -1,0 +1,57 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { caseStudyPath } from "@/i18n";
+import type { Locale } from "@/types";
+
+interface Props {
+	caseStudy: CollectionEntry<"caseStudy">;
+	featured?: boolean;
+	locale: Locale;
+}
+
+const { caseStudy, featured = false, locale } = Astro.props;
+const labels =
+	locale === "es"
+		? { read: "Ver el caso completo", result: "Resultado" }
+		: { read: "Read the full case study", result: "Outcome" };
+const href = caseStudyPath(locale, caseStudy.id);
+const coverImage = caseStudy.data.coverImage;
+const displayTitle = caseStudy.data.cardTitle ?? caseStudy.data.title;
+---
+
+<article class:list={["case-preview", { "case-preview--featured": featured }]}>
+	<a
+		class:list={[
+			"case-preview__media",
+			`case-preview__media--${caseStudy.data.coverFit}`,
+			{ "case-preview__media--fallback": !coverImage },
+		]}
+		data-plausible-event="Case Study View"
+		href={href}
+		tabindex="-1"
+	>
+		{coverImage
+			? <Image alt={coverImage.alt} height={630} loading={featured ? "eager" : "lazy"} src={coverImage.src} width={1200} />
+			: <span><strong>{caseStudy.data.code}</strong><small>{caseStudy.data.clientName}</small></span>}
+	</a>
+	<div class="case-preview__body">
+		<p class="case-preview__eyebrow">{caseStudy.data.code} / {caseStudy.data.industry}</p>
+		<h3><a data-plausible-event="Case Study View" href={href}>{displayTitle}</a></h3>
+		<p>{caseStudy.data.description}</p>
+		{
+			caseStudy.data.results[0] && (
+				<div class="case-preview__result">
+					<strong>{caseStudy.data.results[0].value}</strong>
+					<span>{labels.result}: {caseStudy.data.results[0].label}</span>
+				</div>
+			)
+		}
+		{
+			caseStudy.data.testimonial && (
+				<blockquote>“{caseStudy.data.testimonial.quote}”</blockquote>
+			)
+		}
+		<a class="text-link" data-plausible-event="Case Study View" href={href}>{labels.read} →</a>
+	</div>
+</article>

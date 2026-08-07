@@ -1,0 +1,44 @@
+---
+import { paths } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import { siteConfig } from "@/site.config";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy =
+	locale === "es"
+		? {
+				alternate: paths.en.thanks,
+				description: "Tu consulta se ha enviado correctamente.",
+				home: "Volver al inicio",
+				text: `Revisaré personalmente el contexto y responderé en ${siteConfig.contact.responseTime.es} con preguntas o un siguiente paso claro.`,
+				title: "Gracias. Ya tengo el contexto.",
+			}
+		: {
+				alternate: paths.es.thanks,
+				description: "Your inquiry was submitted successfully.",
+				home: "Back to home",
+				text: `I will personally review the context and reply within ${siteConfig.contact.responseTime.en} with questions or a clear next step.`,
+				title: "Thank you. I have the context.",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, noindex: true, title: copy.title }}>
+	<section class="thanks-page">
+		<span>INQUIRY_RECEIVED</span>
+		<h1>{copy.title}</h1>
+		<p>{copy.text}</p>
+		<a class="button-primary" href={paths[locale].home}>{copy.home} →</a>
+	</section>
+</BaseLayout>
+
+<script>
+	sessionStorage.removeItem("project-inquiry-es:context-draft");
+	sessionStorage.removeItem("project-inquiry-en:context-draft");
+	const plausibleWindow = window as typeof window & { plausible?: (name: string) => void };
+	plausibleWindow.plausible?.("Inquiry Submit");
+</script>

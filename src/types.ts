@@ -4,6 +4,10 @@ export type Locale = (typeof locales)[number];
 export interface SiteConfig {
 	author: string;
 	brand: string;
+	contact: {
+		email: string;
+		responseTime: Record<Locale, string>;
+	};
 	date: { options: Intl.DateTimeFormatOptions };
 	defaultLocale: Locale;
 	description: string;
@@ -33,6 +37,7 @@ export interface SiteMeta {
 	description?: string | undefined;
 	locale?: Locale | undefined;
 	ogImage?: string | undefined;
+	noindex?: boolean | undefined;
 	title: string;
 }
 

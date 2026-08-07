@@ -1,0 +1,89 @@
+---
+import { getImage, Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import WhatsAppLink from "@/components/WhatsAppLink.astro";
+import { paths, ui } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import type { Locale } from "@/types";
+
+interface Props {
+	alternateUrl: string;
+	caseStudy: CollectionEntry<"caseStudy">;
+	locale: Locale;
+}
+
+const { alternateUrl, caseStudy, locale } = Astro.props;
+const t = ui[locale];
+const socialImage = caseStudy.data.coverImage
+	? await getImage({
+			format: "jpg",
+			height: 630,
+			quality: 85,
+			src: caseStudy.data.coverImage.src,
+			width: 1200,
+		})
+	: undefined;
+const copy =
+	locale === "es"
+		? {
+				client: "Cliente",
+				duration: "Duración",
+				external: "Visitar proyecto",
+				result: "Resultados",
+				services: "Servicios",
+				testimonial: "Testimonio autorizado",
+			}
+		: {
+				client: "Client",
+				duration: "Duration",
+				external: "Visit project",
+				result: "Outcomes",
+				services: "Services",
+				testimonial: "Authorised testimonial",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl, description: caseStudy.data.description, locale, ogImage: socialImage?.src, title: caseStudy.data.title }}>
+	<article class="case-study" data-pagefind-body data-pagefind-filter={`lang:${locale}`}>
+		<header class="case-study__masthead">
+			<p>{caseStudy.data.code} / {caseStudy.data.industry}</p>
+			<h1>{caseStudy.data.title}</h1>
+			<p class="case-study__description">{caseStudy.data.description}</p>
+			<dl>
+				<div><dt>{copy.client}</dt><dd>{caseStudy.data.clientName}</dd></div>
+				{caseStudy.data.year && <div><dt>{locale === "es" ? "Año" : "Year"}</dt><dd>{caseStudy.data.year}</dd></div>}
+				{caseStudy.data.duration && <div><dt>{copy.duration}</dt><dd>{caseStudy.data.duration}</dd></div>}
+				{caseStudy.data.services.length > 0 && <div><dt>{copy.services}</dt><dd>{caseStudy.data.services.join(" · ")}</dd></div>}
+			</dl>
+		</header>
+		{caseStudy.data.coverImage && <figure class:list={["case-study__cover", `case-study__cover--${caseStudy.data.coverFit}`]}><Image alt={caseStudy.data.coverImage.alt} height={630} priority src={caseStudy.data.coverImage.src} width={1200} /></figure>}
+		{caseStudy.data.results.length > 0 && <section class="case-study__results" aria-labelledby="case-results"><h2 id="case-results">{copy.result}</h2><div>{caseStudy.data.results.map((result) => <p><strong>{result.value}</strong><span>{result.label}</span></p>)}</div></section>}
+		<div class="case-study__content prose"><slot /></div>
+		{
+			caseStudy.data.gallery.length > 0 && (
+				<section class="case-study__gallery">
+					{caseStudy.data.gallery.map((item) => <Image alt={item.alt} height={720} loading="lazy" src={item.src} width={1200} />)}
+				</section>
+			)
+		}
+		{
+			caseStudy.data.testimonial && (
+				<figure class="case-study__quote">
+					<figcaption>{copy.testimonial}</figcaption>
+					<blockquote>“{caseStudy.data.testimonial.quote}”</blockquote>
+					<p>{caseStudy.data.testimonial.author} · {caseStudy.data.testimonial.role}</p>
+				</figure>
+			)
+		}
+		{caseStudy.data.externalUrl && <a class="section-link" href={caseStudy.data.externalUrl} rel="noreferrer" target="_blank">{copy.external} ↗</a>}
+	</article>
+	<section class="closing-cta closing-cta--compact">
+		<span>NEXT_STEP</span>
+		<h2>{caseStudy.data.cta.title}</h2>
+		<p>{caseStudy.data.cta.body}</p>
+		<div class="closing-cta__actions">
+			<a class="button-primary" data-plausible-event="Case Contact Click" href={paths[locale].contact}>{caseStudy.data.cta.label} →</a>
+			<WhatsAppLink eventName="WhatsApp Click" label={t.whatsapp} locale={locale} />
+		</div>
+	</section>
+</BaseLayout>

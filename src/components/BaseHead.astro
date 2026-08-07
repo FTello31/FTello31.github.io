@@ -1,4 +1,5 @@
 ---
+import PlausibleAnalytics from "@/components/PlausibleAnalytics.astro";
 import { paths } from "@/i18n";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
@@ -9,6 +10,7 @@ const {
 	articleDate,
 	description = siteConfig.description,
 	locale = siteConfig.defaultLocale,
+	noindex = false,
 	ogImage,
 	title,
 } = Astro.props as SiteMeta;
@@ -42,7 +44,13 @@ const jsonLd = {
 			"@type": "Service",
 			name: siteConfig.brand,
 			provider: { "@type": "Person", name: siteConfig.founder },
-			serviceType: ["Web development", "Mobile development", "Automation", "AI solutions"],
+			areaServed: "Remote",
+			serviceType: [
+				"Operations automation",
+				"Internal tools",
+				"Custom web applications",
+				"Software modernisation",
+			],
 		},
 	],
 };
@@ -67,7 +75,7 @@ const jsonLd = {
 <link href={spanishUrl} hreflang="x-default" rel="alternate" />
 <meta content={description} name="description" />
 <meta content={siteConfig.author} name="author" />
-<meta content="index, follow" name="robots" />
+<meta content={noindex ? "noindex, nofollow" : "index, follow"} name="robots" />
 <meta content={articleDate ? "article" : "website"} property="og:type" />
 <meta content={siteTitle} property="og:title" />
 <meta content={description} property="og:description" />
@@ -94,3 +102,4 @@ const jsonLd = {
 <link href={locale === "es" ? "/notas/rss.xml" : "/en/notes/rss.xml"} title="Notes" rel="alternate" type="application/rss+xml" />
 <meta content={Astro.generator} name="generator" />
 <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+<PlausibleAnalytics />

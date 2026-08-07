@@ -1,0 +1,126 @@
+---
+import { paths } from "@/i18n";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const formName = `project-inquiry-${locale}`;
+const copy =
+	locale === "es"
+		? {
+				budget: "Presupuesto orientativo",
+				budgetOptions: [
+					["", "Selecciona una opción"],
+					["2500-5000", "2.500–5.000 €"],
+					["5000-10000", "5.000–10.000 €"],
+					["10000-plus", "Más de 10.000 €"],
+					["unknown", "Aún no lo sé"],
+				],
+				company: "Empresa (opcional)",
+				context: "Contexto y problema",
+				contextHelp:
+					"Describe qué ocurre hoy, a quién afecta y qué debería mejorar. Tu texto se guarda temporalmente en este navegador si el envío falla.",
+				email: "Correo",
+				name: "Nombre",
+				privacy: "He leído y acepto el aviso de privacidad",
+				project: "Tipo de proyecto",
+				projectOptions: [
+					["", "Selecciona una opción"],
+					["automation", "Automatización operativa"],
+					["internal-tool", "Herramienta interna"],
+					["web-app", "Aplicación web a medida"],
+					["software-evolution", "Evolución de software existente"],
+					["other", "Otro / proyecto a medida"],
+				],
+				submit: "Enviar consulta",
+				timeline: "Plazo",
+				timelineOptions: [
+					["", "Selecciona una opción"],
+					["1-2-months", "1–2 meses"],
+					["3-6-months", "3–6 meses"],
+					["flexible", "Flexible"],
+				],
+			}
+		: {
+				budget: "Indicative budget",
+				budgetOptions: [
+					["", "Select an option"],
+					["2500-5000", "€2,500–€5,000"],
+					["5000-10000", "€5,000–€10,000"],
+					["10000-plus", "More than €10,000"],
+					["unknown", "I do not know yet"],
+				],
+				company: "Company (optional)",
+				context: "Context and problem",
+				contextHelp:
+					"Describe what happens today, who it affects and what should improve. Your text is temporarily saved in this browser if submission fails.",
+				email: "Email",
+				name: "Name",
+				privacy: "I have read and accept the privacy notice",
+				project: "Project type",
+				projectOptions: [
+					["", "Select an option"],
+					["automation", "Operations automation"],
+					["internal-tool", "Internal tool"],
+					["web-app", "Custom web application"],
+					["software-evolution", "Existing software evolution"],
+					["other", "Other / bespoke project"],
+				],
+				submit: "Send inquiry",
+				timeline: "Timeline",
+				timelineOptions: [
+					["", "Select an option"],
+					["1-2-months", "1–2 months"],
+					["3-6-months", "3–6 months"],
+					["flexible", "Flexible"],
+				],
+			};
+---
+
+<form
+	accept-charset="UTF-8"
+	action={paths[locale].thanks}
+	class="inquiry-form"
+	data-draft-form
+	data-netlify="true"
+	data-netlify-honeypot="company-website"
+	method="POST"
+	name={formName}
+>
+	<input name="form-name" type="hidden" value={formName} />
+	<p class="form-honeypot"><label>Do not fill this field <input autocomplete="off" name="company-website" tabindex="-1" /></label></p>
+	<div class="form-grid">
+		<label>{copy.name}<input autocomplete="name" name="name" required type="text" /></label>
+		<label>{copy.email}<input autocomplete="email" name="email" required type="email" /></label>
+	</div>
+	<label>{copy.company}<input autocomplete="organization" name="company" type="text" /></label>
+	<div class="form-grid">
+		<label>{copy.project}<select name="project-type" required>{copy.projectOptions.map(([value, label]) => <option disabled={!value} selected={!value} value={value}>{label}</option>)}</select></label>
+		<label>{copy.budget}<select name="budget" required>{copy.budgetOptions.map(([value, label]) => <option disabled={!value} selected={!value} value={value}>{label}</option>)}</select></label>
+	</div>
+	<label>{copy.timeline}<select name="timeline" required>{copy.timelineOptions.map(([value, label]) => <option disabled={!value} selected={!value} value={value}>{label}</option>)}</select></label>
+	<label>{copy.context}<textarea aria-describedby="context-help" minlength="30" name="context" required rows="8"></textarea><small id="context-help">{copy.contextHelp}</small></label>
+	<label class="form-consent"><input name="privacy-accepted" required type="checkbox" /><span>{copy.privacy} · <a href={paths[locale].privacy} target="_blank">{locale === "es" ? "Leer aviso" : "Read notice"} ↗</a></span></label>
+	<button class="button-primary" type="submit">{copy.submit} →</button>
+</form>
+
+<script>
+	for (const form of document.querySelectorAll<HTMLFormElement>("[data-draft-form]")) {
+		form.addEventListener("focusin", () => {
+			if (form.dataset.inquiryStarted === "true") return;
+			form.dataset.inquiryStarted = "true";
+			const plausibleWindow = window as typeof window & { plausible?: (name: string) => void };
+			plausibleWindow.plausible?.("Inquiry Start");
+		});
+
+		const context = form.elements.namedItem("context");
+		if (!(context instanceof HTMLTextAreaElement)) continue;
+		const storageKey = `${form.name}:context-draft`;
+		const draft = sessionStorage.getItem(storageKey);
+		if (draft && !context.value) context.value = draft;
+		context.addEventListener("input", () => sessionStorage.setItem(storageKey, context.value));
+	}
+</script>

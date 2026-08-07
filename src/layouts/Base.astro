@@ -30,5 +30,35 @@ const alternateUrl = meta.alternateUrl ?? paths[locale === "es" ? "en" : "es"].h
 		</main>
 		<Footer locale={locale} />
 		<WhatsAppLink class="whatsapp-float" label={ui[locale].whatsapp} locale={locale} />
+		<script>
+			function prepareCommercialInteractions() {
+				const floatingWhatsApp = document.querySelector<HTMLElement>(".whatsapp-float");
+				const inlineWhatsAppLinks = document.querySelectorAll<HTMLElement>(".whatsapp-link:not(.whatsapp-float)");
+				if (floatingWhatsApp && inlineWhatsAppLinks.length > 0) {
+					const visibleLinks = new Set<Element>();
+					const observer = new IntersectionObserver((entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) visibleLinks.add(entry.target);
+							else visibleLinks.delete(entry.target);
+						}
+						floatingWhatsApp.classList.toggle("is-suppressed", visibleLinks.size > 0);
+					}, { rootMargin: "-8px" });
+					for (const link of inlineWhatsAppLinks) observer.observe(link);
+				}
+
+				if (!document.documentElement.dataset.commercialAnalyticsReady) {
+					document.documentElement.dataset.commercialAnalyticsReady = "true";
+					document.addEventListener("click", (event) => {
+						const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-plausible-event]") : null;
+						const eventName = target?.dataset.plausibleEvent;
+						const plausibleWindow = window as typeof window & { plausible?: (name: string) => void };
+						if (eventName && plausibleWindow.plausible) plausibleWindow.plausible(eventName);
+					});
+				}
+			}
+
+			document.addEventListener("astro:page-load", prepareCommercialInteractions);
+			prepareCommercialInteractions();
+		</script>
 	</body>
 </html>

@@ -3,34 +3,42 @@ import type { CollectionEntry } from "astro:content";
 import type { Locale } from "@/types";
 
 interface Props {
+	caseStudies?: CollectionEntry<"caseStudy">[];
 	locale: Locale;
 	projects: CollectionEntry<"project">[];
 }
 
-const { locale, projects } = Astro.props;
+const { caseStudies = [], locale, projects } = Astro.props;
 const labels =
 	locale === "es"
-		? { open: "Abrir proyecto", stack: "Tecnologías" }
-		: { open: "Open project", stack: "Technologies" };
+		? { case: "Ver caso", open: "Abrir proyecto", stack: "Tecnologías" }
+		: { case: "Read case study", open: "Open project", stack: "Technologies" };
 ---
 
 <div class="project-grid">
-	{projects.map((project, index) => (
+	{projects.map((project, index) => {
+		const caseStudy = caseStudies.find(
+			(candidate) => candidate.data.translationKey === project.data.translationKey,
+		);
+		const href = caseStudy ? `${locale === "es" ? "/casos/" : "/en/cases/"}${caseStudy.id.split("/").slice(1).join("/")}/` : project.data.url;
+		const external = !caseStudy;
+		return (
 		<article class="project-card">
 			<div class="project-card__index">PRJ_{String(index + 1).padStart(2, "0")}</div>
 			{project.data.imageUrl && (
-				<a class="project-card__media" href={project.data.url} rel="noreferrer" target="_blank" tabindex="-1">
+				<a class="project-card__media" href={href} rel={external ? "noreferrer" : undefined} target={external ? "_blank" : undefined} tabindex="-1">
 					<img alt="" loading="lazy" src={project.data.imageUrl} />
 				</a>
 			)}
 			<div class="project-card__body">
-				<h3><a href={project.data.url} rel="noreferrer" target="_blank">{project.data.title}<span aria-hidden="true"> ↗</span></a></h3>
+				<h3><a href={href} rel={external ? "noreferrer" : undefined} target={external ? "_blank" : undefined}>{project.data.title}<span aria-hidden="true"> {external ? "↗" : "→"}</span></a></h3>
 				<p>{project.data.description}</p>
 				<div aria-label={labels.stack} class="tag-list">
 					{project.data.technologies.map((technology) => <span>{technology}</span>)}
 				</div>
-				<a class="text-link" href={project.data.url} rel="noreferrer" target="_blank">{labels.open} →</a>
+				<a class="text-link" href={href} rel={external ? "noreferrer" : undefined} target={external ? "_blank" : undefined}>{caseStudy ? labels.case : labels.open} →</a>
 			</div>
 		</article>
-	))}
+		);
+	})}
 </div>

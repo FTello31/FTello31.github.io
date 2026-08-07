@@ -1,0 +1,17 @@
+---
+const scriptSrc = import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT_SRC;
+---
+
+{
+	scriptSrc && (
+		<>
+			<script is:inline async src={scriptSrc}></script>
+			<script is:inline>
+				window.plausible = window.plausible || function () {
+					(window.plausible.q = window.plausible.q || []).push(arguments);
+				};
+				window.plausible.init();
+			</script>
+		</>
+	)
+}

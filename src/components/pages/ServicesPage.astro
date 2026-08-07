@@ -9,50 +9,72 @@ import type { Locale } from "@/types";
 interface Props {
 	locale: Locale;
 }
+
 const { locale } = Astro.props;
 const t = ui[locale];
 const copy =
 	locale === "es"
 		? {
 				alternate: paths.en.services,
+				cta: "Cuéntame el problema",
+				deliverables: "Entregables orientativos",
 				description:
-					"De la definición del problema al software en producción, con una comunicación directa y decisiones técnicas pragmáticas.",
+					"Automatizaciones, herramientas internas y aplicaciones web para mejorar operaciones concretas sin sumar complejidad innecesaria.",
+				exclusions: "No incluido de base",
+				ideal: "Ideal para",
+				price: "Proyectos desde 2.500 €; presupuesto definitivo tras entender el alcance.",
 				process: [
-					"Entender el problema y el resultado esperado",
-					"Definir un alcance pequeño y verificable",
-					"Diseñar, construir y validar por iteraciones",
-					"Entregar, medir y dejar una base mantenible",
+					["Diagnóstico", "Problema, proceso actual y resultado esperado."],
+					["Alcance", "Primera entrega, límites, calendario y presupuesto."],
+					["Construcción", "Iteraciones cortas, pruebas y decisiones visibles."],
+					["Entrega", "Despliegue, documentación y traspaso mantenible."],
 				],
-				processTitle: "Una forma simple de trabajar",
-				title: "Servicios de software para avanzar sin ruido.",
+				processTitle: "Cómo trabajaremos",
+				title: "Software enfocado en el cuello de botella del negocio.",
 			}
 		: {
 				alternate: paths.es.services,
+				cta: "Tell me about the problem",
+				deliverables: "Indicative deliverables",
 				description:
-					"From problem definition to production software, with direct communication and pragmatic technical decisions.",
+					"Automation, internal tools and web applications that improve concrete operations without adding unnecessary complexity.",
+				exclusions: "Not included by default",
+				ideal: "Ideal for",
+				price: "Projects from €2,500; the final quote follows a clear understanding of scope.",
 				process: [
-					"Understand the problem and expected outcome",
-					"Define a small, verifiable scope",
-					"Design, build and validate in iterations",
-					"Deliver, measure and leave a maintainable foundation",
+					["Assessment", "Problem, current process and expected outcome."],
+					["Scope", "First delivery, boundaries, schedule and budget."],
+					["Build", "Short iterations, testing and visible decisions."],
+					["Handover", "Deployment, documentation and a maintainable transition."],
 				],
-				processTitle: "A simple way of working",
-				title: "Software services that move work forward.",
+				processTitle: "How we will work",
+				title: "Software focused on the business bottleneck.",
 			};
 ---
 
 <BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.services }}>
-	<PageIntro code="CAPABILITIES / 01" description={copy.description} title={copy.title} />
+	<PageIntro code="SERVICES / 04" description={copy.description} title={copy.title} />
+	<p class="price-notice">{copy.price}</p>
 	<section class="service-detail-list">
 		{services[locale].map((service, index) => (
 			<article id={service.code.toLowerCase()}>
-				<header><span>{String(index + 1).padStart(2, "0")}</span><strong>{service.code}</strong><h2>{service.title}</h2></header>
-				<div><p>{service.description}</p><ul>{service.items.map((item) => <li>{item}</li>)}</ul><WhatsAppLink label={t.discussProject} locale={locale} /></div>
+				<header><span>{String(index + 1).padStart(2, "0")}</span><strong>{service.code}</strong><h2>{service.title}</h2><p>{service.duration}</p></header>
+				<div>
+					<p>{service.description}</p>
+					<h3>{copy.ideal}</h3><p>{service.idealFor}</p>
+					<h3>{copy.deliverables}</h3><ul>{service.deliverables.map((item) => <li>{item}</li>)}</ul>
+					<h3>{copy.exclusions}</h3><p>{service.exclusions}</p>
+					<a class="button-primary" data-plausible-event="Service Contact Click" href={`${paths[locale].contact}?service=${service.code.toLowerCase()}`}>{copy.cta} →</a>
+				</div>
 			</article>
 		))}
 	</section>
-	<section class="process-section">
-		<h2>{copy.processTitle}</h2>
-		<ol>{copy.process.map((step, index) => <li><span>0{index + 1}</span>{step}</li>)}</ol>
+	<section class="process-section commercial-process">
+		<div><span>05 / PROCESS</span><h2>{copy.processTitle}</h2><p>{copy.price}</p></div>
+		<ol>{copy.process.map(([title, body], index) => <li><span>0{index + 1}</span><div><strong>{title}</strong><p>{body}</p></div></li>)}</ol>
+	</section>
+	<section class="closing-cta closing-cta--compact">
+		<h2>{locale === "es" ? "El primer paso es entender si el proyecto encaja." : "The first step is understanding whether the project is a good fit."}</h2>
+		<div class="closing-cta__actions"><a class="button-primary" data-plausible-event="Service Contact Click" href={paths[locale].contact}>{copy.cta} →</a><WhatsAppLink label={t.whatsapp} locale={locale} /></div>
 	</section>
 </BaseLayout>

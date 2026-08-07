@@ -1,0 +1,57 @@
+---
+import InquiryForm from "@/components/InquiryForm.astro";
+import PageIntro from "@/components/PageIntro.astro";
+import WhatsAppLink from "@/components/WhatsAppLink.astro";
+import { paths, ui } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import { siteConfig } from "@/site.config";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+const copy =
+	locale === "es"
+		? {
+				alternate: paths.en.contact,
+				description:
+					"Cuéntame el problema antes que la solución. Revisaré personalmente el contexto y responderé con preguntas o un siguiente paso claro.",
+				expectations: [
+					`Respuesta en ${siteConfig.contact.responseTime.es}`,
+					"Sin compromiso",
+					"ES / EN",
+					"Proyectos desde 2.500 €",
+				],
+				title: "Empecemos por entender qué está frenando al negocio.",
+				whatsapp: "¿Prefieres una conversación breve? WhatsApp es la alternativa directa.",
+			}
+		: {
+				alternate: paths.es.contact,
+				description:
+					"Tell me about the problem before the solution. I will personally review the context and reply with questions or a clear next step.",
+				expectations: [
+					`Reply within ${siteConfig.contact.responseTime.en}`,
+					"No obligation",
+					"ES / EN",
+					"Projects from €2,500",
+				],
+				title: "Let’s start by understanding what is slowing the business down.",
+				whatsapp: "Prefer a quick conversation? WhatsApp is the direct alternative.",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.contact }}>
+	<PageIntro code="INQUIRY / 01" description={copy.description} title={copy.title} />
+	<section class="contact-layout page-section">
+		<div class="contact-aside">
+			<span>WHAT_TO_EXPECT</span>
+			<ul>{copy.expectations.map((item) => <li>{item}</li>)}</ul>
+			<p>{copy.whatsapp}</p>
+			<div class="contact-channels"><a class="text-link" href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a><WhatsAppLink label={t.whatsapp} locale={locale} /></div>
+		</div>
+		<InquiryForm locale={locale} />
+	</section>
+</BaseLayout>

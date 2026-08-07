@@ -1,0 +1,51 @@
+---
+import PostPreview from "@/components/blog/PostPreview.astro";
+import Note from "@/components/note/Note.astro";
+import PageIntro from "@/components/PageIntro.astro";
+import { getNotes, getPosts } from "@/data/content";
+import { paths, ui } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const [posts, notes] = await Promise.all([getPosts(locale), getNotes(locale)]);
+const t = ui[locale];
+const copy =
+	locale === "es"
+		? {
+				alternate: paths.en.ideas,
+				description:
+					"Artículos y notas sobre automatización, producto, modernización, rendimiento, IA aplicada y aprendizajes de proyectos.",
+				notesDescription: "Apuntes breves de cursos, experimentos y problemas técnicos.",
+				postsDescription: "Análisis y aprendizajes explicados con más contexto.",
+				title: "Ideas para construir y operar mejor con software.",
+			}
+		: {
+				alternate: paths.es.ideas,
+				description:
+					"Articles and notes about automation, product, modernisation, performance, applied AI and lessons from real projects.",
+				notesDescription: "Short notes from courses, experiments and technical problems.",
+				postsDescription: "Analysis and lessons explained with more context.",
+				title: "Ideas for building and operating better with software.",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.ideas }}>
+	<PageIntro code={`IDEAS / ${posts.length + notes.length}`} description={copy.description} title={copy.title} />
+	<section class="ideas-index page-section">
+		<div>
+			<h2>{t.blog}</h2>
+			<p>{copy.postsDescription}</p>
+			<div class="content-list">{posts.map((post) => <PostPreview locale={locale} post={post} />)}</div>
+		</div>
+		<div>
+			<h2>{t.notes}</h2>
+			<p>{copy.notesDescription}</p>
+			<div class="notes-list">{notes.map((note) => <Note locale={locale} note={note} preview />)}</div>
+		</div>
+	</section>
+</BaseLayout>

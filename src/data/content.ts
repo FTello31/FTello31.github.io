@@ -19,6 +19,14 @@ export async function getProjects(locale: Locale) {
 	return projects.sort((a, b) => a.data.order - b.data.order);
 }
 
+export async function getCaseStudies(locale: Locale) {
+	const caseStudies = await getCollection(
+		"caseStudy",
+		({ data }) => data.lang === locale && !data.draft,
+	);
+	return caseStudies.sort((a, b) => a.data.order - b.data.order);
+}
+
 export async function getExperience(locale: Locale) {
 	const experience = await getCollection("experience", ({ data }) => data.lang === locale);
 	return experience.sort((a, b) => a.data.order - b.data.order);

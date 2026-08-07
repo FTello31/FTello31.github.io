@@ -3,9 +3,11 @@ import type { Locale } from "@/types";
 
 export const ui = {
 	es: {
-		availability: "Disponible para nuevos proyectos",
+		availability: "Madrid / remoto",
 		blog: "Blog",
+		cases: "Casos",
 		certificates: "Certificados",
+		contact: "Contacto",
 		content: "Contenido",
 		copyright: "Estudio independiente de software",
 		cv: "CV — English",
@@ -15,6 +17,7 @@ export const ui = {
 		language: "English",
 		menu: "Abrir menú",
 		notes: "Notas",
+		ideas: "Ideas",
 		projects: "Proyectos",
 		readMore: "Ver todos",
 		services: "Servicios",
@@ -25,9 +28,11 @@ export const ui = {
 		about: "Sobre mí",
 	},
 	en: {
-		availability: "Available for new projects",
+		availability: "Madrid / remote",
 		blog: "Blog",
+		cases: "Case studies",
 		certificates: "Certificates",
+		contact: "Contact",
 		content: "Content",
 		copyright: "Independent software studio",
 		cv: "Resume — English",
@@ -37,6 +42,7 @@ export const ui = {
 		language: "Español",
 		menu: "Open menu",
 		notes: "Notes",
+		ideas: "Ideas",
 		projects: "Projects",
 		readMore: "View all",
 		services: "Services",
@@ -52,22 +58,36 @@ export const paths = {
 	es: {
 		about: "/sobre-mi/",
 		blog: "/blog/",
+		cases: "/casos/",
 		certificates: "/certificados/",
+		contact: "/contacto/",
 		home: "/",
+		ideas: "/ideas/",
 		notes: "/notas/",
+		privacy: "/privacidad/",
 		projects: "/proyectos/",
 		services: "/servicios/",
+		thanks: "/contacto/gracias/",
 	},
 	en: {
 		about: "/en/about/",
 		blog: "/en/blog/",
+		cases: "/en/cases/",
 		certificates: "/en/certificates/",
+		contact: "/en/contact/",
 		home: "/en/",
+		ideas: "/en/ideas/",
 		notes: "/en/notes/",
+		privacy: "/en/privacy/",
 		projects: "/en/projects/",
 		services: "/en/services/",
+		thanks: "/en/contact/thanks/",
 	},
 } as const;
+
+export function caseStudyPath(locale: Locale, id: string): string {
+	return `${paths[locale].cases}${entrySlug(id)}/`;
+}
 
 export function entrySlug(id: string): string {
 	return id.split("/").slice(1).join("/");

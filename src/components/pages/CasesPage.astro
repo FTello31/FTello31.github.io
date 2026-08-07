@@ -1,0 +1,61 @@
+---
+import CaseStudyPreview from "@/components/CaseStudyPreview.astro";
+import PageIntro from "@/components/PageIntro.astro";
+import ProjectGrid from "@/components/ProjectGrid.astro";
+import { getCaseStudies, getProjects } from "@/data/content";
+import { paths, ui } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const [caseStudies, projects] = await Promise.all([getCaseStudies(locale), getProjects(locale)]);
+const t = ui[locale];
+const copy =
+	locale === "es"
+		? {
+				alternate: paths.en.cases,
+				description:
+					"Historias completas sobre el problema de negocio, las decisiones tomadas y los resultados que produjo el software.",
+				empty:
+					"El primer caso está en preparación. Se publicará cuando el cliente haya autorizado el contexto, las imágenes, el testimonio y al menos un resultado verificable.",
+				emptyTitle: "Sin métricas de escaparate",
+				projects: "Mientras tanto, puedes revisar el archivo técnico de proyectos entregados.",
+				title: "Casos reales, explicados desde el problema hasta el resultado.",
+			}
+		: {
+				alternate: paths.es.cases,
+				description:
+					"Complete stories covering the business problem, the decisions made and the results produced by the software.",
+				empty:
+					"The first case study is being prepared. It will be published once the client has authorised the context, imagery, testimonial and at least one verifiable result.",
+				emptyTitle: "No vanity metrics",
+				projects: "In the meantime, you can browse the technical archive of delivered projects.",
+				title: "Real cases, from the business problem to the outcome.",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.cases }}>
+	<PageIntro code={`CASES / ${caseStudies.length}`} description={copy.description} title={copy.title} />
+	{
+		caseStudies.length > 0 ? (
+			<section class="case-list page-section">
+				{caseStudies.map((caseStudy) => <CaseStudyPreview caseStudy={caseStudy} locale={locale} />)}
+			</section>
+		) : (
+			<section class="case-empty page-section">
+				<span>CASE_001 / PENDING_APPROVAL</span>
+				<h2>{copy.emptyTitle}</h2>
+				<p>{copy.empty}</p>
+			</section>
+		)
+	}
+	<section class="site-section">
+		<h2 class="subsection-heading">{t.projects}</h2>
+		<p class="section-summary">{copy.projects}</p>
+		<ProjectGrid caseStudies={caseStudies} locale={locale} projects={projects} />
+	</section>
+</BaseLayout>

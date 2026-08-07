@@ -4,6 +4,13 @@ import type { SiteConfig } from "@/types";
 export const siteConfig: SiteConfig = {
 	author: "Fernando Tello",
 	brand: "Fernando Tello Studio",
+	contact: {
+		email: "feranto31@hotmail.com",
+		responseTime: {
+			en: "1–2 business days",
+			es: "1–2 días laborables",
+		},
+	},
 	date: {
 		options: {
 			day: "numeric",
@@ -13,7 +20,7 @@ export const siteConfig: SiteConfig = {
 	},
 	defaultLocale: "es",
 	description:
-		"Estudio independiente de software para productos web, móviles, automatizaciones y soluciones con inteligencia artificial.",
+		"Automatizaciones, herramientas internas y aplicaciones web para pymes que necesitan operar mejor.",
 	founder: "Fernando Tello",
 	lang: "es",
 	locales: ["es", "en"],

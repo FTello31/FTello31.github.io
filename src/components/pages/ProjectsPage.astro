@@ -1,8 +1,7 @@
 ---
 import PageIntro from "@/components/PageIntro.astro";
 import ProjectGrid from "@/components/ProjectGrid.astro";
-import WhatsAppLink from "@/components/WhatsAppLink.astro";
-import { getProjects } from "@/data/content";
+import { getCaseStudies, getProjects } from "@/data/content";
 import { paths, ui } from "@/i18n";
 import BaseLayout from "@/layouts/Base.astro";
 import type { Locale } from "@/types";
@@ -11,7 +10,7 @@ interface Props {
 	locale: Locale;
 }
 const { locale } = Astro.props;
-const projects = await getProjects(locale);
+const [projects, caseStudies] = await Promise.all([getProjects(locale), getCaseStudies(locale)]);
 const t = ui[locale];
 const copy =
 	locale === "es"
@@ -32,6 +31,6 @@ const copy =
 
 <BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.projects }}>
 	<PageIntro code="WORK / 02" description={copy.description} title={copy.title} />
-	<section class="page-section"><ProjectGrid locale={locale} projects={projects} /></section>
-	<section class="closing-cta closing-cta--compact"><h2>{copy.closing}</h2><WhatsAppLink label={t.discussProject} locale={locale} /></section>
+	<section class="page-section"><ProjectGrid caseStudies={caseStudies} locale={locale} projects={projects} /></section>
+	<section class="closing-cta closing-cta--compact"><h2>{copy.closing}</h2><a class="button-primary" href={paths[locale].contact}>{t.discussProject} →</a></section>
 </BaseLayout>

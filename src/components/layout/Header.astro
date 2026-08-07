@@ -13,10 +13,10 @@ const { alternateUrl, locale } = Astro.props;
 const t = ui[locale];
 const links = [
 	{ href: paths[locale].services, label: t.services },
-	{ href: paths[locale].projects, label: t.projects },
+	{ href: paths[locale].cases, label: t.cases },
 	{ href: paths[locale].about, label: t.about },
-	{ href: paths[locale].blog, label: t.blog },
-	{ href: paths[locale].notes, label: t.notes },
+	{ href: paths[locale].ideas, label: t.ideas },
+	{ href: paths[locale].contact, label: t.contact },
 ];
 ---
 
@@ -26,8 +26,8 @@ const links = [
 			<span aria-hidden="true" class="brand-mark__monogram">FTS</span>
 			<span class="brand-mark__name">Fernando Tello <span>{t.studio}</span></span>
 		</a>
-		<nav aria-label="Main" class="site-nav" id="site-navigation">
-			{links.map((link) => <a aria-current={Astro.url.pathname === link.href ? "page" : false} href={link.href}>{link.label}</a>)}
+		<nav aria-label={locale === "es" ? "Principal" : "Main"} class="site-nav" id="site-navigation">
+			{links.map((link) => <a aria-current={Astro.url.pathname.startsWith(link.href) ? "page" : false} href={link.href}>{link.label}</a>)}
 		</nav>
 		<div class="site-actions">
 			<Search locale={locale} />

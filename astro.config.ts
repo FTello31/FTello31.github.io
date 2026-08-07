@@ -30,6 +30,7 @@ export default defineConfig({
 	redirects: {
 		"/about": "/sobre-mi/",
 		"/certificates": "/certificados/",
+		"/cases": "/casos/",
 		"/notes": "/notas/",
 		"/posts": "/blog/",
 	},
@@ -99,6 +100,11 @@ export default defineConfig({
 	env: {
 		schema: {
 			WEBMENTION_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
+			PUBLIC_PLAUSIBLE_SCRIPT_SRC: envField.string({
+				context: "client",
+				access: "public",
+				optional: true,
+			}),
 			WEBMENTION_URL: envField.string({ context: "client", access: "public", optional: true }),
 			WEBMENTION_PINGBACK: envField.string({ context: "client", access: "public", optional: true }),
 		},

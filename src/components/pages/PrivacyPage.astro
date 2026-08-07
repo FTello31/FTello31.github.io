@@ -1,0 +1,86 @@
+---
+import PageIntro from "@/components/PageIntro.astro";
+import { paths } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import { siteConfig } from "@/site.config";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy =
+	locale === "es"
+		? {
+				alternate: paths.en.privacy,
+				contact: "Correo de contacto",
+				contactDescription: "Para consultas o para ejercer tus derechos puedes escribir a",
+				description:
+					"Información básica sobre el uso de los datos enviados mediante el formulario comercial.",
+				sections: [
+					["Responsable", `${siteConfig.founder}, responsable de ${siteConfig.brand}.`],
+					[
+						"Datos tratados",
+						"Nombre, correo, empresa si se facilita y la información comercial incluida en la consulta.",
+					],
+					[
+						"Finalidad y base",
+						"Responder, valorar y dar seguimiento a la consulta solicitada. La base es tu consentimiento al enviar el formulario.",
+					],
+					[
+						"Proveedor",
+						"Netlify procesa y almacena temporalmente los envíos del formulario como proveedor de alojamiento. No se envía el contenido del formulario a la herramienta de analítica.",
+					],
+					[
+						"Conservación",
+						"Los datos se conservarán durante el tiempo necesario para atender la consulta y las posibles obligaciones derivadas de una relación comercial.",
+					],
+					[
+						"Tus derechos",
+						"Puedes solicitar acceso, rectificación, supresión, limitación u oposición contactando a Fernando mediante cualquiera de los canales publicados en este sitio.",
+					],
+				],
+				title: "Aviso de privacidad",
+			}
+		: {
+				alternate: paths.es.privacy,
+				contact: "Contact email",
+				contactDescription: "For inquiries or to exercise your rights, you can write to",
+				description:
+					"Basic information about how data submitted through the commercial inquiry form is used.",
+				sections: [
+					["Controller", `${siteConfig.founder}, controller of ${siteConfig.brand}.`],
+					[
+						"Data processed",
+						"Name, email, company when provided, and the commercial information included in the inquiry.",
+					],
+					[
+						"Purpose and basis",
+						"To reply to, assess and follow up on the requested inquiry. The basis is your consent when submitting the form.",
+					],
+					[
+						"Provider",
+						"Netlify processes and temporarily stores form submissions as the hosting provider. Form content is not sent to the analytics service.",
+					],
+					[
+						"Retention",
+						"Data is kept for as long as necessary to handle the inquiry and any obligations arising from a commercial relationship.",
+					],
+					[
+						"Your rights",
+						"You may request access, correction, deletion, restriction or objection by contacting Fernando through any channel published on this website.",
+					],
+				],
+				title: "Privacy notice",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: copy.title }}>
+	<PageIntro code="LEGAL / PRIVACY" description={copy.description} title={copy.title} />
+	<section class="legal-content page-section">
+		<p class="legal-content__updated">{locale === "es" ? "Última actualización" : "Last updated"}: 2/08/2026</p>
+		{copy.sections.map(([title, body]) => <section><h2>{title}</h2><p>{body}</p></section>)}
+		<section><h2>{copy.contact}</h2><p>{copy.contactDescription} <a class="text-link" href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>.</p></section>
+	</section>
+</BaseLayout>

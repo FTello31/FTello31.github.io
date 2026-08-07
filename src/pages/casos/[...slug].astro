@@ -1,0 +1,31 @@
+---
+import { render } from "astro:content";
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getCaseStudies } from "@/data/content";
+import { caseStudyPath, entrySlug, paths } from "@/i18n";
+import CaseStudyLayout from "@/layouts/CaseStudy.astro";
+
+export const getStaticPaths = (async () => {
+	const [caseStudies, translations] = await Promise.all([
+		getCaseStudies("es"),
+		getCaseStudies("en"),
+	]);
+	return caseStudies.map((caseStudy) => {
+		const translation = translations.find(
+			(candidate) => candidate.data.translationKey === caseStudy.data.translationKey,
+		);
+		return {
+			params: { slug: entrySlug(caseStudy.id) },
+			props: {
+				alternateUrl: translation ? caseStudyPath("en", translation.id) : paths.en.cases,
+				caseStudy,
+			},
+		};
+	});
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { alternateUrl, caseStudy } = Astro.props;
+const { Content } = await render(caseStudy);
+---
+<CaseStudyLayout alternateUrl={alternateUrl} caseStudy={caseStudy} locale="es"><Content /></CaseStudyLayout>
