@@ -928,7 +928,8 @@ html[data-theme="dark"] {
 	color: var(--color-muted);
 	font-size: 15px;
 }
-.about-grid .button-secondary {
+.about-grid .button-secondary,
+.about-commercial .button-secondary {
 	margin-top: 22px;
 }
 .about-grid h2 {
@@ -2098,6 +2099,20 @@ html[data-theme="dark"] {
 .commercial-process li {
 	grid-template-columns: 45px 1fr;
 }
+.commercial-process {
+	column-gap: clamp(32px, 4vw, 50px);
+}
+
+.commercial-process h2 {
+	font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+.commercial-process__label {
+	color: var(--color-accent);
+	font-size: 11px;
+	letter-spacing: 0.1em;
+}
+
 .commercial-process li strong {
 	display: block;
 	margin-bottom: 5px;
@@ -2325,6 +2340,7 @@ html[data-theme="dark"] {
 	font-size: 28px;
 }
 .ideas-index > div > p {
+	margin: 0 0 38px;
 	color: var(--color-muted);
 }
 .ideas-index .content-list,

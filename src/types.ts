@@ -38,6 +38,7 @@ export interface SiteMeta {
 	locale?: Locale | undefined;
 	ogImage?: string | undefined;
 	noindex?: boolean | undefined;
+	shared?: boolean | undefined;
 	title: string;
 }
 

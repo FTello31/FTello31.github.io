@@ -54,30 +54,95 @@ const copy =
 			};
 ---
 
-<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.services }}>
-	<PageIntro code={locale === "es" ? "SERVICIOS" : "SERVICES"} description={copy.description} title={copy.title} />
+<BaseLayout
+	meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.services }}
+>
+	<PageIntro
+		code={locale === "es" ? "SERVICIOS" : "SERVICES"}
+		description={copy.description}
+		title={copy.title}
+	/>
 	<p class="price-notice">{copy.price}</p>
 	<section class="service-detail-list">
-		{services[locale].map((service, index) => (
-			<article id={service.code.toLowerCase()}>
-				<header><span>{String(index + 1).padStart(2, "0")}</span><strong>{service.code}</strong><h2>{service.title}</h2><p>{service.duration}</p></header>
-				<div>
-					<p>{service.description}</p>
-					<h3>{copy.ideal}</h3><p>{service.idealFor}</p>
-					<h3>{copy.deliverables}</h3><ul>{service.deliverables.map((item) => <li>{item}</li>)}</ul>
-					<h3>{copy.exclusions}</h3><p>{service.exclusions}</p>
-					<a class="button-primary" data-umami-event="Service Contact Click" href={`${paths[locale].contact}?service=${service.code.toLowerCase()}`}>{copy.cta} →</a>
-				</div>
-			</article>
-		))}
+		{
+			services[locale].map((service, index) => (
+				<article id={service.code.toLowerCase()}>
+					<header>
+						<>
+							<span>{String(index + 1).padStart(2, "0")}</span>
+							<strong>{service.code}</strong>
+							<h2>{service.title}</h2>
+							<p>{service.duration}</p>
+						</>
+					</header>
+					<div>
+						<p>{service.description}</p>
+						<>
+							<h3>{copy.ideal}</h3>
+							<p>{service.idealFor}</p>
+						</>
+						<>
+							<h3>{copy.deliverables}</h3>
+							<ul>
+								{service.deliverables.map((item) => (
+									<li>{item}</li>
+								))}
+							</ul>
+						</>
+						<>
+							<h3>{copy.exclusions}</h3>
+							<p>{service.exclusions}</p>
+						</>
+						<a
+							class="button-primary"
+							data-umami-event="Service Contact Click"
+							href={`${paths[locale].contact}?service=${service.code.toLowerCase()}`}
+						>
+							{copy.cta} →
+						</a>
+					</div>
+				</article>
+			))
+		}
 	</section>
 	<section class="process-section commercial-process">
-		<div><span>05 / {locale === "es" ? "PROCESO" : "PROCESS"}</span><h2>{copy.processTitle}</h2><p>{copy.price}</p></div>
-		<ol>{copy.process.map(([title, body], index) => <li><span>0{index + 1}</span><div><strong>{title}</strong><p>{body}</p></div></li>)}</ol>
-		<p class="price-notice">{copy.price}</p>
+		<div>
+			<span class="commercial-process__label">{locale === "es" ? "PROCESO" : "PROCESS"}</span><h2>
+				{copy.processTitle}
+			</h2>
+		</div>
+		<ol>
+			{
+				copy.process.map(([title, body], index) => (
+					<li>
+						<>
+							<span>0{index + 1}</span>
+							<div>
+								<>
+									<strong>{title}</strong>
+									<p>{body}</p>
+								</>
+							</div>
+						</>
+					</li>
+				))
+			}
+		</ol>
 	</section>
 	<section class="closing-cta closing-cta--compact">
-		<h2>{locale === "es" ? "El primer paso es entender si el proyecto encaja." : "The first step is understanding whether the project is a good fit."}</h2>
-		<div class="closing-cta__actions"><a class="button-primary" data-umami-event="Service Contact Click" href={paths[locale].contact}>{copy.cta} →</a><WhatsAppLink label={t.whatsapp} locale={locale} /></div>
+		<h2>
+			{
+				locale === "es"
+					? "El primer paso es entender si el proyecto encaja."
+					: "The first step is understanding whether the project is a good fit."
+			}
+		</h2>
+		<div class="closing-cta__actions">
+			<a
+				class="button-primary"
+				data-umami-event="Service Contact Click"
+				href={paths[locale].contact}>{copy.cta} →</a
+			><WhatsAppLink label={t.whatsapp} locale={locale} />
+		</div>
 	</section>
 </BaseLayout>

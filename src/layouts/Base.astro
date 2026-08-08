@@ -24,7 +24,7 @@ const alternateUrl = meta.alternateUrl ?? paths[locale === "es" ? "en" : "es"].h
 	</head>
 	<body>
 		<a class="skip-link" href="#main">{ui[locale].skip}</a>
-		<Header alternateUrl={alternateUrl} locale={locale} />
+		<Header alternateUrl={alternateUrl} locale={locale} shared={meta.shared} />
 		<main id="main">
 			<slot />
 		</main>

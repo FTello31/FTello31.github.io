@@ -9,8 +9,23 @@ export async function getPosts(locale: Locale) {
 	return posts.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
 }
 
-export async function getNotes(locale: Locale) {
-	const notes = await getCollection("note", ({ data }) => data.lang === locale);
+export async function getNotes() {
+	const notes = await getCollection("note");
+	return notes.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+}
+
+export async function getCourses() {
+	const courses = await getCollection("course");
+	return courses.sort((a, b) => a.data.title.localeCompare(b.data.title, "en"));
+}
+
+export async function getCourseNotes(courseId: string) {
+	const notes = await getCollection("note", ({ data }) => data.course?.id === courseId);
+	return notes.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+}
+
+export async function getStandaloneNotes() {
+	const notes = await getCollection("note", ({ data }) => !data.course);
 	return notes.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
 }
 

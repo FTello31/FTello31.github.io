@@ -12,7 +12,7 @@ interface Props {
 }
 
 const { locale } = Astro.props;
-const [posts, notes] = await Promise.all([getPosts(locale), getNotes(locale)]);
+const [posts, notes] = await Promise.all([getPosts(locale), getNotes()]);
 const t = ui[locale];
 const copy =
 	locale === "es"

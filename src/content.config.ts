@@ -1,4 +1,4 @@
-import { defineCollection } from "astro:content";
+import { defineCollection, reference } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 import {
@@ -40,10 +40,29 @@ const post = defineCollection({
 
 const note = defineCollection({
 	loader: glob({ base: "./content/notes", pattern: "**/*.{md,mdx}" }),
+	schema: z
+		.object({
+			course: reference("course").optional(),
+			description: z.string().optional(),
+			order: z.number().int().positive().optional(),
+			publishDate: toDate,
+			title: z.string().max(120),
+		})
+		.superRefine((entry, context) => {
+			if (entry.course && !entry.order) {
+				context.addIssue({
+					code: "custom",
+					message: "A course lesson requires a positive order.",
+					path: ["order"],
+				});
+			}
+		}),
+});
+
+const course = defineCollection({
+	loader: glob({ base: "./content/courses", pattern: "**/*.{md,mdx}" }),
 	schema: z.object({
-		...localized,
-		description: z.string().optional(),
-		publishDate: toDate,
+		description: z.string(),
 		title: z.string().max(120),
 	}),
 });
@@ -146,4 +165,13 @@ const badge = defineCollection({
 	}),
 });
 
-export const collections = { badge, caseStudy, certificate, experience, note, post, project };
+export const collections = {
+	badge,
+	caseStudy,
+	certificate,
+	course,
+	experience,
+	note,
+	post,
+	project,
+};

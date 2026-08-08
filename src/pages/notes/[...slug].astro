@@ -1,0 +1,75 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { GetStaticPaths } from "astro";
+import Note from "@/components/note/Note.astro";
+import { getCourseNotes, getCourses, getNotes } from "@/data/content";
+import BaseLayout from "@/layouts/Base.astro";
+
+type Props =
+	| { entry: CollectionEntry<"course">; type: "course" }
+	| { entry: CollectionEntry<"note">; type: "note" };
+
+export const getStaticPaths = (async () => {
+	const [courses, notes] = await Promise.all([getCourses(), getNotes()]);
+	return [
+		...courses.map((entry) => ({
+			params: { slug: entry.id },
+			props: { entry, type: "course" as const },
+		})),
+		...notes.map((entry) => ({
+			params: { slug: entry.id },
+			props: { entry, type: "note" as const },
+		})),
+	];
+}) satisfies GetStaticPaths;
+
+const { entry, type } = Astro.props as Props;
+const lessons = type === "course" ? await getCourseNotes(entry.id) : [];
+---
+
+<BaseLayout
+	meta={{
+		description: entry.data.description,
+		locale: "en",
+		shared: true,
+		title: entry.data.title,
+	}}
+>
+	<section class="article-shell">
+		{
+			type === "course" ? (
+				<>
+					<header>
+						<>
+							<h1>{entry.data.title}</h1>
+							<p>{entry.data.description}</p>
+						</>
+					</header>
+					<section class="notes-list">
+						<h2>Lessons</h2>
+						{lessons.map((lesson) => (
+							<article class="note-card note-card--preview">
+								<span>Lesson {lesson.data.order}</span>
+								<h3>
+									<a href={`/notes/${lesson.id}/`}>{lesson.data.title}</a>
+								</h3>
+								{lesson.data.description && (
+									<p class="note-card__description">{lesson.data.description}</p>
+								)}
+							</article>
+						))}
+					</section>
+				</>
+			) : (
+				<>
+					{entry.data.course && (
+						<p>
+							<a href={`/notes/${entry.data.course.id}/`}>← Back to course</a>
+						</p>
+					)}
+					<Note locale="en" note={entry} />
+				</>
+			)
+		}
+	</section>
+</BaseLayout>

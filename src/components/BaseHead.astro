@@ -12,6 +12,7 @@ const {
 	locale = siteConfig.defaultLocale,
 	noindex = false,
 	ogImage,
+	shared = false,
 	title,
 } = Astro.props as SiteMeta;
 
@@ -70,9 +71,9 @@ const jsonLd = {
 	)
 }
 <link href={canonicalURL} rel="canonical" />
-<link href={spanishUrl} hreflang="es" rel="alternate" />
+{!shared && <><link href={spanishUrl} hreflang="es" rel="alternate" />
 <link href={englishUrl} hreflang="en" rel="alternate" />
-<link href={spanishUrl} hreflang="x-default" rel="alternate" />
+<link href={spanishUrl} hreflang="x-default" rel="alternate" /></>}
 <meta content={description} name="description" />
 <meta content={siteConfig.author} name="author" />
 <meta content={noindex ? "noindex, nofollow" : "index, follow"} name="robots" />
@@ -99,7 +100,7 @@ const jsonLd = {
 <meta content={socialImageURL} name="twitter:image" />
 <link href="/sitemap-index.xml" rel="sitemap" />
 <link href={locale === "es" ? "/rss.xml" : "/en/rss.xml"} title="Blog" rel="alternate" type="application/rss+xml" />
-<link href={locale === "es" ? "/notas/rss.xml" : "/en/notes/rss.xml"} title="Notes" rel="alternate" type="application/rss+xml" />
+<link href="/notes/rss.xml" title="Notes" rel="alternate" type="application/rss+xml" />
 <meta content={Astro.generator} name="generator" />
 <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
 <UmamiAnalytics />

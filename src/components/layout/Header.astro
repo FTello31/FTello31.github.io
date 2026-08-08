@@ -7,9 +7,10 @@ import type { Locale } from "@/types";
 interface Props {
 	alternateUrl: string;
 	locale: Locale;
+	shared?: boolean | undefined;
 }
 
-const { alternateUrl, locale } = Astro.props;
+const { alternateUrl, locale, shared = false } = Astro.props;
 const t = ui[locale];
 const links = [
 	{ href: paths[locale].services, label: t.services },
@@ -31,7 +32,7 @@ const links = [
 		</nav>
 		<div class="site-actions">
 			<Search locale={locale} />
-			<a class="language-link" href={alternateUrl} hreflang={locale === "es" ? "en" : "es"}>{t.language}</a>
+			{!shared && <a class="language-link" href={alternateUrl} hreflang={locale === "es" ? "en" : "es"}>{t.language}</a>}
 			<ThemeToggle label={t.theme} />
 			<button aria-controls="site-navigation" aria-expanded="false" aria-label={t.menu} class="menu-toggle" type="button">
 				<span></span><span></span>
