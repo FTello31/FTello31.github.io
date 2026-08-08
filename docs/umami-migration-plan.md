@@ -16,7 +16,7 @@ No se añadirán dependencias, API keys, base de datos, servidor propio, banner 
    - Si el plan gratuito ya no existe o exige un método de pago, detener el despliegue de analítica; no convertir automáticamente la migración en una suscripción.
 4. Registrar un único sitio:
    - Nombre: `Fernando Tello`
-   - Dominio: `fernandotello.me`
+   - Dominio: `fernandotello.netlify.app`
    - Zona horaria: `Europe/Madrid`
 5. Copiar exclusivamente el `Website ID` público generado por Umami.
    - No crear API keys porque el sitio solo necesita enviar eventos mediante el tracker.

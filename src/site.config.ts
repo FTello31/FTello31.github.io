@@ -31,7 +31,7 @@ export const siteConfig: SiteConfig = {
 		{ label: "LinkedIn", url: "https://linkedin.com/in/fernandotello" },
 	],
 	title: "Fernando Tello Studio",
-	url: "https://fernandotello.me/",
+	url: "https://fernandotello.netlify.app/",
 	whatsapp: {
 		messages: {
 			en: "Hi Fernando, I found Fernando Tello Studio and I'd like to discuss a project.",

@@ -36,7 +36,8 @@ Español se publica sin prefijo e inglés bajo `/en/`.
 
 ## Despliegue
 
-El workflow `deploy.yml` valida, compila y publica `dist/` en GitHub Pages. `public/CNAME` conserva
-el dominio `fernandotello.me`.
+Netlify compila la rama `main` con la configuración de `netlify.toml` y publica `dist/` en
+`fernandotello.netlify.app`.
 
-Un webhook de Sanity dispara manualmente este workflow cuando cambia contenido publicado.
+Cuando cambia contenido publicado, un webhook de Sanity invoca el Build Hook de Netlify. Netlify
+recompila el sitio y el contenido aparece en producción unos minutos después.

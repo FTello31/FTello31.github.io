@@ -1,6 +1,6 @@
-# Netlify launch checklist
+# Netlify production checklist
 
-The repository is ready to build on Netlify with `bun run build` and publish `dist`.
+Netlify builds `main` with `bun run build` and publishes `dist`.
 
 ## Preview deployment
 
@@ -12,19 +12,18 @@ The repository is ready to build on Netlify with `bun run build` and publish `di
 6. Verify Sanity content, previews, redirects, RSS feeds, certificates and both confirmation pages.
 7. Keep auto-recharge disabled and review credit usage monthly.
 
-## Domain cutover
+## Production
 
-1. Add `fernandotello.me` to the validated Netlify site and verify SSL.
-2. Change DNS only after the preview, forms and rollback path have been tested.
-3. Confirm the production domain and forms once DNS has propagated.
-4. Disable GitHub Pages and remove `public/CNAME` only after the Netlify domain is working. The current repository intentionally retains both.
+1. Confirm `fernandotello.netlify.app` and both production forms.
+2. Confirm the `Sanity content published` Build Hook targets `main`.
+3. Confirm the Sanity webhook invokes that Build Hook only for published site content.
 
 ## Umami after launch
 
 Configure Umami Cloud Hobby after the first release on Netlify:
 
 1. Create a free Hobby account on [Umami Cloud](https://cloud.umami.is/signup) selecting the **EU** data region.
-2. Register site `Fernando Tello` with domain `fernandotello.me` and timezone `Europe/Madrid`.
+2. Register site `Fernando Tello` with domain `fernandotello.netlify.app` and timezone `Europe/Madrid`.
 3. Set `PUBLIC_UMAMI_WEBSITE_ID` in Netlify limited strictly to the production context. Do not set it for deploy previews or branch builds.
 4. Keep additional features (session replay, heatmaps, event properties) disabled.
 
@@ -49,4 +48,3 @@ In the Umami dashboard, configure goals and funnels:
   - `Service inquiry`: `Service Contact Click` → `Inquiry Start` → `Inquiry Submit`
 
 Review credit usage monthly to stay within the free Hobby tier limit. Keep lead classification (`qualified`, `follow-up`, `not a fit`) private within Netlify submission logs; do not send form content or lead classification to Umami.
-
