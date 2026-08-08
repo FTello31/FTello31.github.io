@@ -17,25 +17,25 @@ const t = ui[locale];
 const copy =
 	locale === "es"
 		? {
-				alternate: paths.en.ideas,
+				alternate: paths.en.journal,
 				description:
 					"Artículos y notas sobre automatización, producto, modernización, rendimiento, IA aplicada y aprendizajes de proyectos.",
 				notesDescription: "Apuntes breves de cursos, experimentos y problemas técnicos.",
 				postsDescription: "Análisis y aprendizajes explicados con más contexto.",
-				title: "Ideas para construir y operar mejor con software.",
+				title: "Bitácora de aprendizajes, cursos y proyectos.",
 			}
 		: {
-				alternate: paths.es.ideas,
+				alternate: paths.es.journal,
 				description:
 					"Articles and notes about automation, product, modernisation, performance, applied AI and lessons from real projects.",
 				notesDescription: "Short notes from courses, experiments and technical problems.",
 				postsDescription: "Analysis and lessons explained with more context.",
-				title: "Ideas for building and operating better with software.",
+				title: "A journal of lessons, courses and projects.",
 			};
 ---
 
-<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.ideas }}>
-	<PageIntro code={`IDEAS / ${posts.length + notes.length}`} description={copy.description} title={copy.title} />
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.journal }}>
+	<PageIntro code={`${locale === "es" ? "BITÁCORA" : "JOURNAL"} / ${String(posts.length + notes.length).padStart(2, "0")}`} description={copy.description} title={copy.title} />
 	<section class="ideas-index page-section">
 		<div>
 			<h2>{t.blog}</h2>

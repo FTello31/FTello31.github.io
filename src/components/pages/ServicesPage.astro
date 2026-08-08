@@ -53,7 +53,7 @@ const copy =
 ---
 
 <BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.services }}>
-	<PageIntro code="SERVICES / 04" description={copy.description} title={copy.title} />
+	<PageIntro code={`${locale === "es" ? "SERVICIOS" : "SERVICES"} / ${String(services[locale].length).padStart(2, "0")}`} description={copy.description} title={copy.title} />
 	<p class="price-notice">{copy.price}</p>
 	<section class="service-detail-list">
 		{services[locale].map((service, index) => (
@@ -70,7 +70,7 @@ const copy =
 		))}
 	</section>
 	<section class="process-section commercial-process">
-		<div><span>05 / PROCESS</span><h2>{copy.processTitle}</h2><p>{copy.price}</p></div>
+		<div><span>05 / {locale === "es" ? "PROCESO" : "PROCESS"}</span><h2>{copy.processTitle}</h2><p>{copy.price}</p></div>
 		<ol>{copy.process.map(([title, body], index) => <li><span>0{index + 1}</span><div><strong>{title}</strong><p>{body}</p></div></li>)}</ol>
 		<p class="price-notice">{copy.price}</p>
 	</section>

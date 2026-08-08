@@ -78,7 +78,7 @@ const copy =
 		{caseStudy.data.externalUrl && <a class="section-link" href={caseStudy.data.externalUrl} rel="noreferrer" target="_blank">{copy.external} ↗</a>}
 	</article>
 	<section class="closing-cta closing-cta--compact">
-		<span>NEXT_STEP</span>
+		<span>{locale === "es" ? "SIGUIENTE PASO" : "NEXT STEP"}</span>
 		<h2>{caseStudy.data.cta.title}</h2>
 		<p>{caseStudy.data.cta.body}</p>
 		<div class="closing-cta__actions">

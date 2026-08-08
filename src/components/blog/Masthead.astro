@@ -18,7 +18,7 @@ const {
 
 <header class="article-masthead">
 	{data.coverImage && <Image alt={data.coverImage.alt} height={630} priority src={data.coverImage.src} width={1200} />}
-	<p>JOURNAL / <FormattedDate date={data.publishDate} locale={locale} /></p>
+	<p>{locale === "es" ? "BITÁCORA" : "JOURNAL"} / <FormattedDate date={data.publishDate} locale={locale} /></p>
 	<h1>{data.title}</h1>
 	<div><span>{readingTime}</span>{data.tags.map((tag) => <span>#{tag}</span>)}</div>
 </header>

@@ -42,10 +42,10 @@ const copy =
 ---
 
 <BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.contact }}>
-	<PageIntro code="INQUIRY / 01" description={copy.description} title={copy.title} />
+	<PageIntro code={locale === "es" ? "CONTACTO" : "CONTACT"} description={copy.description} title={copy.title} />
 	<section class="contact-layout page-section">
 		<div class="contact-aside">
-			<span>WHAT_TO_EXPECT</span>
+			<span>{locale === "es" ? "QUÉ ESPERAR" : "WHAT TO EXPECT"}</span>
 			<ul>{copy.expectations.map((item) => <li>{item}</li>)}</ul>
 			<p>{copy.whatsapp}</p>
 			<div class="contact-channels"><a class="text-link" href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a><WhatsAppLink label={t.whatsapp} locale={locale} /></div>

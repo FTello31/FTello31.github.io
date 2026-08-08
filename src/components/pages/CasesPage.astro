@@ -39,7 +39,7 @@ const copy =
 ---
 
 <BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.cases }}>
-	<PageIntro code={`CASES / ${caseStudies.length}`} description={copy.description} title={copy.title} />
+	<PageIntro code={`${locale === "es" ? "CASOS" : "CASE STUDIES"} / ${String(caseStudies.length).padStart(2, "0")}`} description={copy.description} title={copy.title} />
 	{
 		caseStudies.length > 0 ? (
 			<section class="case-list page-section">

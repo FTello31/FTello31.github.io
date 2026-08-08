@@ -77,7 +77,7 @@ const copy =
 ---
 
 <BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: copy.title }}>
-	<PageIntro code="LEGAL / PRIVACY" description={copy.description} title={copy.title} />
+	<PageIntro code={`LEGAL / ${locale === "es" ? "PRIVACIDAD" : "PRIVACY"}`} description={copy.description} title={copy.title} />
 	<section class="legal-content page-section">
 		<p class="legal-content__updated">{locale === "es" ? "Última actualización" : "Last updated"}: 7/08/2026</p>
 		{copy.sections.map(([title, body]) => <section><h2>{title}</h2><p>{body}</p></section>)}

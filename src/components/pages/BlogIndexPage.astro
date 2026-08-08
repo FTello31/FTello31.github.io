@@ -29,6 +29,6 @@ const copy =
 ---
 
 <BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.blog }}>
-	<PageIntro code={`JOURNAL / ${posts.length}`} description={copy.description} title={copy.title} />
+	<PageIntro code={`BLOG / ${String(posts.length).padStart(2, "0")}`} description={copy.description} title={copy.title} />
 	<section class="content-list">{posts.map((post) => <PostPreview locale={locale} post={post} />)}</section>
 </BaseLayout>

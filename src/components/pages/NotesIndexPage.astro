@@ -29,6 +29,6 @@ const copy =
 ---
 
 <BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.notes }}>
-	<PageIntro code={`NOTES / ${notes.length}`} description={copy.description} title={copy.title} />
+	<PageIntro code={`${locale === "es" ? "NOTAS" : "NOTES"} / ${String(notes.length).padStart(2, "0")}`} description={copy.description} title={copy.title} />
 	<section class="notes-list">{notes.map((note) => <Note locale={locale} note={note} preview />)}</section>
 </BaseLayout>
