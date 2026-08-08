@@ -31,8 +31,12 @@ export default defineConfig({
 		"/about": "/sobre-mi/",
 		"/certificates": "/certificados/",
 		"/cases": "/casos/",
+		"/ideas": "/bitacora/",
 		"/notes": "/notas/",
 		"/posts": "/blog/",
+		"/proyectos": "/casos/",
+		"/en/ideas": "/en/journal/",
+		"/en/projects": "/en/cases/",
 	},
 	image: {
 		domains: ["webmention.io"],
