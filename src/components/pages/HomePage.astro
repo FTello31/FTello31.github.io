@@ -191,7 +191,7 @@ const copy =
 	</section>
 
 	<section class="site-section" id="featured-case">
-		<SectionHeading count={featuredCase ? "01" : "—"} index="01" title={copy.caseSection} />
+		<SectionHeading index="01" title={copy.caseSection} />
 		{featuredCase
 			? <CaseStudyPreview caseStudy={featuredCase} featured locale={locale} />
 			: <div class="case-pending"><span>CASE_001 / PENDING_APPROVAL</span><h3>{copy.casePending}</h3><p>{copy.caseDescription}</p><a class="section-link" href={paths[locale].cases}>{copy.secondaryCase} →</a></div>}
@@ -199,7 +199,7 @@ const copy =
 	</section>
 
 	<section class="site-section">
-		<SectionHeading count={services[locale].length} index="02" title={copy.servicesTitle} />
+		<SectionHeading index="02" title={copy.servicesTitle} />
 		<p class="section-summary">{copy.servicesDescription}</p>
 		<div class="services-grid">
 			{
@@ -218,22 +218,33 @@ const copy =
 	</section>
 
 	<section class="process-section commercial-process">
-		<div><span>03 / {locale === "es" ? "PROCESO" : "PROCESS"}</span><h2>{copy.processTitle}</h2><a class="section-link" href={paths[locale].services}>{locale === "es" ? "Conocer el proceso" : "See the process"} →</a></div>
+		<div>
+			<SectionHeading index="03" title={copy.processTitle} />
+			<a class="section-link" href={paths[locale].services}>{locale === "es" ? "Conocer el proceso" : "See the process"} →</a>
+		</div>
 		<ol>{copy.process.map(([title, body], index) => <li><span>0{index + 1}</span><div><strong>{title}</strong><p>{body}</p></div></li>)}</ol>
 	</section>
 
 	<section class="about-commercial">
-		<div><span>04 / {locale === "es" ? "ESTUDIO" : "STUDIO"}</span><h2>{copy.about}</h2><p>{copy.aboutDescription}</p><a class="button-secondary" href={paths[locale].about}>{locale === "es" ? "Sobre Fernando" : "About Fernando"} →</a></div>
+		<div>
+			<SectionHeading index="04" title={copy.about} />
+			<p>{copy.aboutDescription}</p>
+			<a class="button-secondary" href={paths[locale].about}>{locale === "es" ? "Sobre Fernando" : "About Fernando"} →</a>
+		</div>
 		<div class="about-commercial__facts"><p><strong>6+</strong><span>{locale === "es" ? "años de experiencia" : "years of experience"}</span></p><p><strong>{locale === "es" ? "España" : "Spain"}</strong><span>{locale === "es" ? "trabajo remoto" : "remote work"}</span></p><p><strong>ES / EN</strong><span>{locale === "es" ? "comunicación directa" : "direct communication"}</span></p></div>
 	</section>
 
 	<section class="faq-section site-section">
-		<SectionHeading count={copy.faq.length} index="05" title={copy.faqTitle} />
+		<SectionHeading index="05" title={copy.faqTitle} />
 		<div class="faq-list">{copy.faq.map(([question, answer]) => <details><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div>
 	</section>
 
 	<section class="home-contact" id="contact">
-		<div class="home-contact__intro"><span>06 / {locale === "es" ? "CONTACTO" : "CONTACT"}</span><h2>{copy.contactTitle}</h2><p>{copy.contactDescription}</p><div class="contact-channels"><a class="text-link" href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a><WhatsAppLink label={t.whatsapp} locale={locale} /></div></div>
+		<div class="home-contact__intro">
+			<SectionHeading index="06" title={copy.contactTitle} />
+			<p>{copy.contactDescription}</p>
+			<div class="contact-channels"><a class="text-link" href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a><WhatsAppLink label={t.whatsapp} locale={locale} /></div>
+		</div>
 		<InquiryForm locale={locale} />
 	</section>
 </BaseLayout>

@@ -55,7 +55,7 @@ const copy =
 ---
 
 <BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.services }}>
-	<PageIntro code={`${locale === "es" ? "SERVICIOS" : "SERVICES"} / ${String(services[locale].length).padStart(2, "0")}`} description={copy.description} title={copy.title} />
+	<PageIntro code={locale === "es" ? "SERVICIOS" : "SERVICES"} description={copy.description} title={copy.title} />
 	<p class="price-notice">{copy.price}</p>
 	<section class="service-detail-list">
 		{services[locale].map((service, index) => (

@@ -35,7 +35,7 @@ const copy =
 ---
 
 <BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.journal }}>
-	<PageIntro code={`${locale === "es" ? "BITÁCORA" : "JOURNAL"} / ${String(posts.length + notes.length).padStart(2, "0")}`} description={copy.description} title={copy.title} />
+	<PageIntro code={locale === "es" ? "BITÁCORA" : "JOURNAL"} description={copy.description} title={copy.title} />
 	<section class="ideas-index page-section">
 		<div>
 			<h2>{t.blog}</h2>

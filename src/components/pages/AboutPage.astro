@@ -1,7 +1,6 @@
 ---
 import ExperienceList from "@/components/ExperienceList.astro";
 import PageIntro from "@/components/PageIntro.astro";
-import SectionHeading from "@/components/SectionHeading.astro";
 import { getExperience } from "@/data/content";
 import { paths, ui } from "@/i18n";
 import BaseLayout from "@/layouts/Base.astro";
@@ -68,7 +67,7 @@ const copy =
 		<div><h2>{copy.valuesTitle}</h2><ol>{copy.values.map((value, index) => <li><span>0{index + 1}</span>{value}</li>)}</ol></div>
 	</section>
 	<section class="site-section">
-		<SectionHeading count="6+" index="04" title={t.experience} />
+		<h2 class="subsection-heading">{t.experience}</h2>
 		<ExperienceList experience={experience} locale={locale} />
 	</section>
 </BaseLayout>
