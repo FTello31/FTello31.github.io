@@ -7,23 +7,29 @@ import BaseLayout from "@/layouts/Base.astro";
 
 type Props =
 	| { entry: CollectionEntry<"course">; type: "course" }
-	| { entry: CollectionEntry<"note">; type: "note" };
+	| { course?: CollectionEntry<"course">; entry: CollectionEntry<"note">; type: "note" };
 
 export const getStaticPaths = (async () => {
 	const [courses, notes] = await Promise.all([getCourses(), getNotes()]);
+	const coursesById = new Map(courses.map((course) => [course.id, course]));
 	return [
 		...courses.map((entry) => ({
 			params: { slug: entry.id },
 			props: { entry, type: "course" as const },
 		})),
-		...notes.map((entry) => ({
-			params: { slug: entry.id },
-			props: { entry, type: "note" as const },
-		})),
+		...notes.map((entry) => {
+			const course = entry.data.course ? coursesById.get(entry.data.course.id) : undefined;
+			return {
+				params: { slug: entry.id },
+				props: { entry, type: "note" as const, ...(course && { course }) },
+			};
+		}),
 	];
 }) satisfies GetStaticPaths;
 
-const { entry, type } = Astro.props as Props;
+const props = Astro.props as Props;
+const { entry, type } = props;
+const course = type === "note" ? props.course : undefined;
 const lessons = type === "course" ? await getCourseNotes(entry.id) : [];
 ---
 
@@ -36,6 +42,13 @@ const lessons = type === "course" ? await getCourseNotes(entry.id) : [];
 	}}
 >
 	<section class="article-shell">
+		<nav aria-label="Breadcrumb" class="note-breadcrumb">
+			<ol>
+				<li><a href="/bitacora/">Bitácora</a></li>
+				{course && <li><a href={`/notes/${course.id}/`}>{course.data.title}</a></li>}
+				<li aria-current="page">{entry.data.title}</li>
+			</ol>
+		</nav>
 		{
 			type === "course" ? (
 				<>
@@ -45,30 +58,25 @@ const lessons = type === "course" ? await getCourseNotes(entry.id) : [];
 							<p>{entry.data.description}</p>
 						</>
 					</header>
-					<section class="notes-list">
+					<section>
 						<h2>Lessons</h2>
-						{lessons.map((lesson) => (
-							<article class="note-card note-card--preview">
-								<span>Lesson {lesson.data.order}</span>
-								<h3>
-									<a href={`/notes/${lesson.id}/`}>{lesson.data.title}</a>
-								</h3>
-								{lesson.data.description && (
-									<p class="note-card__description">{lesson.data.description}</p>
-								)}
-							</article>
-						))}
+						<div class="notes-list">
+							{lessons.map((lesson) => (
+								<article class="note-card note-card--preview">
+									<span>Lesson {lesson.data.order}</span>
+									<h3>
+										<a href={`/notes/${lesson.id}/`}>{lesson.data.title}</a>
+									</h3>
+									{lesson.data.description && (
+										<p class="note-card__description">{lesson.data.description}</p>
+									)}
+								</article>
+							))}
+						</div>
 					</section>
 				</>
 			) : (
-				<>
-					{entry.data.course && (
-						<p>
-							<a href={`/notes/${entry.data.course.id}/`}>← Back to course</a>
-						</p>
-					)}
-					<Note locale="en" note={entry} />
-				</>
+				<Note locale="en" note={entry} />
 			)
 		}
 	</section>

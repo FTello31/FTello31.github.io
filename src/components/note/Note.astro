@@ -22,7 +22,7 @@ const { Content } = await render(note);
 			})
 		}</time
 	>
-	<h2>{preview ? <a href={`/notes/${note.id}/`}>{note.data.title}</a> : note.data.title}</h2>
+	{preview ? <h3><a href={`/notes/${note.id}/`}>{note.data.title}</a></h3> : <h1>{note.data.title}</h1>}
 	{note.data.description && <p class="note-card__description">{note.data.description}</p>}
 	{
 		!preview && (

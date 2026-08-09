@@ -727,7 +727,7 @@ html[data-theme="dark"] {
 	line-height: 1.45;
 }
 .content-card h3 a:hover,
-.note-card h2 a:hover {
+.note-card h3 a:hover {
 	color: var(--color-accent);
 }
 .content-card p {
@@ -740,10 +740,8 @@ html[data-theme="dark"] {
 	border: 1px solid var(--color-line);
 	background: var(--color-panel);
 }
-.note-card + .note-card {
-	margin-top: 14px;
-}
-.note-card h2 {
+.note-card h1,
+.note-card h3 {
 	margin: 8px 0;
 	font-size: 17px;
 }
@@ -1396,6 +1394,29 @@ html[data-theme="dark"] {
 	gap: 14px;
 }
 
+.note-breadcrumb {
+	margin-bottom: 32px;
+	color: var(--color-muted);
+	font-size: 12px;
+}
+.note-breadcrumb ol {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.note-breadcrumb li + li::before {
+	margin-right: 8px;
+	color: var(--color-line-strong);
+	content: "/";
+}
+.note-breadcrumb a:hover {
+	color: var(--color-accent);
+}
+
 .article-shell {
 	padding: clamp(46px, 7vw, 84px) clamp(22px, 7vw, 80px);
 	border-bottom: 1px solid var(--color-line);
@@ -1818,9 +1839,13 @@ html[data-theme="dark"] {
 	*,
 	*::before,
 	*::after {
+		/* biome-ignore lint/complexity/noImportantStyles: Reduced-motion preferences must override authored motion. */
 		scroll-behavior: auto !important;
+		/* biome-ignore lint/complexity/noImportantStyles: Reduced-motion preferences must override authored motion. */
 		transition-duration: 0.01ms !important;
+		/* biome-ignore lint/complexity/noImportantStyles: Reduced-motion preferences must override authored motion. */
 		animation-duration: 0.01ms !important;
+		/* biome-ignore lint/complexity/noImportantStyles: Reduced-motion preferences must override authored motion. */
 		animation-iteration-count: 1 !important;
 	}
 }
@@ -2345,7 +2370,33 @@ html[data-theme="dark"] {
 }
 .ideas-index .content-list,
 .ideas-index .notes-list {
+	padding: 0 0 14px;
+}
+.journal-note-group + .journal-note-group {
+	margin-top: 32px;
+}
+.journal-note-group__label {
+	margin: 0 0 12px;
+	color: var(--color-accent);
+	font-size: 11px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+.course-note-card__lessons {
+	margin: 18px 0 0;
 	padding: 0;
+	border-top: 1px solid var(--color-line);
+	list-style: none;
+}
+.course-note-card__lessons li + li {
+	border-top: 1px solid var(--color-line);
+}
+.course-note-card__lessons a {
+	display: block;
+	padding: 10px 0;
+}
+.course-note-card__lessons a:hover {
+	color: var(--color-accent);
 }
 
 .case-study {

@@ -2,7 +2,7 @@
 import PostPreview from "@/components/blog/PostPreview.astro";
 import Note from "@/components/note/Note.astro";
 import PageIntro from "@/components/PageIntro.astro";
-import { getNotes, getPosts } from "@/data/content";
+import { getCourseNotes, getCourses, getPosts, getStandaloneNotes } from "@/data/content";
 import { paths, ui } from "@/i18n";
 import BaseLayout from "@/layouts/Base.astro";
 import type { Locale } from "@/types";
@@ -12,24 +12,37 @@ interface Props {
 }
 
 const { locale } = Astro.props;
-const [posts, notes] = await Promise.all([getPosts(locale), getNotes()]);
+const [posts, courses, notes] = await Promise.all([
+	getPosts(locale),
+	getCourses(),
+	getStandaloneNotes(),
+]);
+const courseGroups = await Promise.all(
+	courses.map(async (course) => ({ course, lessons: await getCourseNotes(course.id) })),
+);
 const t = ui[locale];
 const copy =
 	locale === "es"
 		? {
 				alternate: paths.en.journal,
+				courses: "Cursos",
 				description:
 					"Artículos y notas sobre automatización, producto, modernización, rendimiento, IA aplicada y aprendizajes de proyectos.",
+				lesson: "Lección",
 				notesDescription: "Apuntes breves de cursos, experimentos y problemas técnicos.",
 				postsDescription: "Análisis y aprendizajes explicados con más contexto.",
+				standaloneNotes: "Notas independientes",
 				title: "Bitácora de aprendizajes, cursos y proyectos.",
 			}
 		: {
 				alternate: paths.es.journal,
+				courses: "Courses",
 				description:
 					"Articles and notes about automation, product, modernisation, performance, applied AI and lessons from real projects.",
+				lesson: "Lesson",
 				notesDescription: "Short notes from courses, experiments and technical problems.",
 				postsDescription: "Analysis and lessons explained with more context.",
+				standaloneNotes: "Standalone notes",
 				title: "A journal of lessons, courses and projects.",
 			};
 ---
@@ -45,7 +58,42 @@ const copy =
 		<div>
 			<h2>{t.notes}</h2>
 			<p>{copy.notesDescription}</p>
-			<div class="notes-list">{notes.map((note) => <Note locale={locale} note={note} preview />)}</div>
+			{
+				courseGroups.length > 0 && (
+					<div class="journal-note-group">
+						<p class="journal-note-group__label">{copy.courses}</p>
+						<div class="notes-list">
+							{courseGroups.map(({ course, lessons }) => (
+								<article class="note-card note-card--preview">
+									<h3>
+										<a href={`/notes/${course.id}/`}>{course.data.title}</a>
+									</h3>
+									<p class="note-card__description">{course.data.description}</p>
+									<ol class="course-note-card__lessons">
+										{lessons.map((lesson) => (
+											<li>
+												<a href={`/notes/${lesson.id}/`}>
+													{copy.lesson} {lesson.data.order} · {lesson.data.title}
+												</a>
+											</li>
+										))}
+									</ol>
+								</article>
+							))}
+						</div>
+					</div>
+				)
+			}
+			{
+				notes.length > 0 && (
+					<div class="journal-note-group">
+						<p class="journal-note-group__label">{copy.standaloneNotes}</p>
+						<div class="notes-list">
+							{notes.map((note) => <Note locale={locale} note={note} preview />)}
+						</div>
+					</div>
+				)
+			}
 		</div>
 	</section>
 </BaseLayout>

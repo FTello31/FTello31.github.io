@@ -36,6 +36,7 @@
 				"noSvgWithoutTitle": "off"
 			},
 			"style": {
+				"noDescendingSpecificity": "off",
 				"noParameterAssign": "error",
 				"useAsConstAssertion": "error",
 				"useDefaultParameterLast": "error",
