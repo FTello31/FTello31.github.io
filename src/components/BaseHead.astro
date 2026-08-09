@@ -16,7 +16,7 @@ const {
 	title,
 } = Astro.props as SiteMeta;
 
-const siteTitle = title === siteConfig.title ? title : `${title} — ${siteConfig.title}`;
+const siteTitle = title === siteConfig.title ? title : `${title} - ${siteConfig.title}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const otherLocale = locale === "es" ? "en" : "es";
 const currentLocaleUrl = canonicalURL.href;

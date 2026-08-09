@@ -41,7 +41,7 @@ export function satteriAdmonitionsPlugin(): MdastPluginDefinition {
 			if (node.data !== undefined) return;
 			const admonitionType = node.name;
 			if (!isAdmonition(admonitionType)) {
-				// Unrecognized ::: block — keep the content, drop the styling.
+				// Unrecognized ::: block - keep the content, drop the styling.
 				return h("div", {}, [...node.children]);
 			}
 

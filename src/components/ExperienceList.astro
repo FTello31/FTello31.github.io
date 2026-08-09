@@ -19,7 +19,7 @@ const present = locale === "es" ? "Actualidad" : "Present";
 			<div class="experience-list__rail"><span>{String(index + 1).padStart(2, "0")}</span></div>
 			<article>
 				<div class="experience-list__meta">
-					<span>{entry.data.startDate} — {entry.data.current ? present : entry.data.endDate}</span>
+					<span>{entry.data.startDate} - {entry.data.current ? present : entry.data.endDate}</span>
 					{entry.data.current && <span class="status-dot">LIVE</span>}
 				</div>
 				<h3>{entry.data.role}</h3>

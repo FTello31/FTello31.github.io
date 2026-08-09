@@ -33,7 +33,7 @@ export class ExperienceComponent {
   // experiences: Experience[] = [
   //   {
   //     id: 1,
-  //     date: 'May 2023 — Present',
+  //     date: 'May 2023 - Present',
   //     title: 'Frontend Developer',
   //     company: 'Newfire Global Partners',
   //     companyUrl: 'https://www.newfireglobal.com/',
@@ -52,7 +52,7 @@ export class ExperienceComponent {
   //   },
   //   {
   //     id: 2,
-  //     date: 'Sep 2021 — Apr 2023',
+  //     date: 'Sep 2021 - Apr 2023',
   //     title: 'Frontend Developer',
   //     company: 'Globant',
   //     companyUrl: 'https://www.globant.com/',
@@ -70,7 +70,7 @@ export class ExperienceComponent {
   //   },
   //   {
   //     id: 3,
-  //     date: 'Mar 2021 — Aug 2021',
+  //     date: 'Mar 2021 - Aug 2021',
   //     title: 'Tech Lead',
   //     company: 'Management Solutions',
   //     companyUrl: 'https://www.managementsolutions.com/en',
@@ -88,7 +88,7 @@ export class ExperienceComponent {
   //   },
   //   {
   //     id: 4,
-  //     date: 'Mar 2019 — Mar 2021',
+  //     date: 'Mar 2019 - Mar 2021',
   //     title: 'Full Stack Developer',
   //     company: 'Management Solutions',
   //     companyUrl: 'https://www.managementsolutions.com/en',

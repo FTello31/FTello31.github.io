@@ -14,6 +14,6 @@ export const GET = async () => {
 			title: post.data.title,
 		})),
 		site: siteConfig.url,
-		title: `${siteConfig.title} — Blog`,
+		title: `${siteConfig.title} - Blog`,
 	});
 };

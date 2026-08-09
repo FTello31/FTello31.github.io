@@ -20,7 +20,7 @@ function localized<T>(value: Localized<T>, locale: Locale): T {
 }
 
 function splitPeriod(period: string) {
-	const [startDate, endDate] = period.split(/\s+[—-]\s+/, 2);
+	const [startDate, endDate] = period.split(/\s+-\s+/, 2);
 	return { endDate, startDate };
 }
 

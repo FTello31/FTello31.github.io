@@ -1,7 +1,7 @@
 // NOTE: this cache assumes a filesystem that (a) is writable and (b) persists
 // across requests/builds. True for static builds (cacheDir survives via
 // node_modules caching) and for a persistent SSR server. NOT true for
-// serverless/edge SSR (e.g. Netlify Functions) — ephemeral + often read-only
+// serverless/edge SSR (e.g. Netlify Functions) - ephemeral + often read-only
 // filesystem. If migrating to serverless SSR, swap this for Blobs,
 // Redis, or similar durable KV store.
 
@@ -84,7 +84,7 @@ function writeToCache(data: WebmentionsCache) {
 		console.log("Webmentions saved to cache");
 	} catch (err) {
 		console.warn(
-			"Webmentions cache write failed — if you're running SSR on a serverless/ephemeral filesystem, this cache strategy probably won't work.",
+			"Webmentions cache write failed - if you're running SSR on a serverless/ephemeral filesystem, this cache strategy probably won't work.",
 			err,
 		);
 	}
