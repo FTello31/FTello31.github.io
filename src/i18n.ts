@@ -22,7 +22,7 @@ export const ui = {
 		readMore: "Ver todos",
 		services: "Servicios",
 		skip: "Saltar al contenido",
-		studio: "Estudio",
+		studio: "Studio",
 		theme: "Cambiar tema",
 		whatsapp: "Hablar por WhatsApp",
 		about: "Sobre mí",

@@ -34,7 +34,7 @@
 	--color-line: rgb(23 24 22 / 14%);
 	--color-line-strong: rgb(23 24 22 / 28%);
 	--color-panel: rgb(255 255 255 / 58%);
-	--color-accent: #0a7457;
+	--color-accent: #0d7457;
 	--color-accent-soft: #d5eee4;
 	--color-link: var(--color-accent);
 	--color-quote: var(--color-accent);
@@ -146,16 +146,13 @@ html[data-theme="dark"] {
 	border-right: 1px solid var(--color-line);
 }
 .brand-mark__monogram {
-	display: grid;
-	place-items: center;
-	width: 36px;
+	width: 30px;
 	height: 36px;
-	border: 1px solid var(--color-line-strong);
-	background: var(--color-panel);
-	color: var(--color-accent);
-	font-size: 12px;
-	font-weight: 700;
-	letter-spacing: -0.08em;
+	object-fit: contain;
+}
+html[data-theme="dark"] .brand-mark__monogram,
+html[data-theme="dark"] .commercial-hero__graphic img {
+	filter: invert(1);
 }
 .brand-mark__name {
 	font-size: 13px;
@@ -1958,13 +1955,10 @@ html[data-theme="dark"] {
 	inset: 24px;
 	border: 1px dashed var(--color-line-strong);
 }
-.commercial-hero__graphic span {
-	color: transparent;
-	font-size: clamp(6rem, 11vw, 9rem);
-	font-weight: 700;
-	letter-spacing: -0.16em;
-	-webkit-text-stroke: 1px var(--color-line-strong);
-	transform: rotate(-90deg) skewY(-7deg);
+.commercial-hero__graphic img {
+	width: clamp(90px, 12vw, 150px);
+	height: auto;
+	opacity: 0.82;
 }
 .commercial-hero__graphic small {
 	position: absolute;
@@ -2634,9 +2628,8 @@ html[data-theme="dark"] {
 		min-height: 150px;
 		border-top: 1px solid var(--color-line);
 	}
-	.commercial-hero__graphic span {
-		font-size: 6rem;
-		transform: skewY(-7deg);
+	.commercial-hero__graphic img {
+		width: 78px;
 	}
 	.proof-strip {
 		grid-template-columns: 1fr;

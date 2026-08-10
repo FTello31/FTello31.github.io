@@ -34,8 +34,8 @@ export const siteConfig: SiteConfig = {
 	url: "https://fernandotello.netlify.app/",
 	whatsapp: {
 		messages: {
-			en: "Hi Fernando, I found Fernando Tello Studio and I'd like to discuss a project.",
-			es: "Hola Fernando, he visto Fernando Tello Studio y me gustaría hablar sobre un proyecto.",
+			en: "Hi Fernando, I found your Studio and I'd like to discuss a project.",
+			es: "Hola Fernando, he visto tu estudio y me gustaría hablar sobre un proyecto.",
 		},
 		number: "34672322778",
 	},
