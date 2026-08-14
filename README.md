@@ -37,8 +37,8 @@ privada de Notion durante el build. Ambos orígenes conviven y se publican bajo 
 ### Notion
 
 1. Crea una conexión interna de solo lectura y dale acceso únicamente a la base de notas.
-2. Añade a la base las propiedades `Título` (title), `Slug` (text), `Descripción` (text), `Fecha`
-   (date) y `Publicar` (checkbox).
+2. Añade a la base `Slug` (text), `Descripción` (text), `Fecha` (date) y `Publicar` (checkbox).
+	La columna principal de título puede conservar cualquier nombre, por ejemplo `Name`.
 3. Configura `NOTION_TOKEN` y `NOTION_DATA_SOURCE_ID` en `.env` y en las variables de Netlify. El
    ID se obtiene desde `Manage data sources` → `Copy data source ID` en Notion.
 4. Activa `Publicar` y lanza un deploy manual de Netlify.

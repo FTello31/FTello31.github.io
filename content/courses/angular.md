@@ -1,4 +1,4 @@
 ---
-title: GCP Cloud Practitioner
-description: Practical notes from GCP fundamentals.
+title: Angular
+description: Practical notes from Angular fundamentals.
 ---

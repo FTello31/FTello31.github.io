@@ -47,11 +47,14 @@ function text(property: Property | undefined, type: "rich_text" | "title") {
 }
 
 export function mapNotionPage(page: NotionPage): NotionNote {
-	const title = text(page.properties.Título, "title");
+	const title = text(
+		Object.values(page.properties).find((property) => property.type === "title"),
+		"title",
+	);
 	const id = text(page.properties.Slug, "rich_text");
 	const description = text(page.properties.Descripción, "rich_text");
 	const date = page.properties.Fecha;
-	if (!title) throw new Error(`Notion page ${page.id} is missing Título.`);
+	if (!title) throw new Error(`Notion page ${page.id} is missing its title.`);
 	if (!id || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)) {
 		throw new Error(`Notion page "${title}" has an invalid Slug.`);
 	}

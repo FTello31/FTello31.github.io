@@ -13,7 +13,7 @@ const page = (slug = "nota-publica") => ({
 		Descripción: { rich_text: [{ plain_text: "Descripción" }], type: "rich_text" },
 		Fecha: { date: { start: "2026-08-12" }, type: "date" },
 		Slug: { rich_text: [{ plain_text: slug }], type: "rich_text" },
-		Título: { title: [{ plain_text: "Nota pública" }], type: "title" },
+		Name: { title: [{ plain_text: "Nota pública" }], type: "title" },
 	},
 });
 
