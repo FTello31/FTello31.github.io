@@ -4,7 +4,7 @@ import type { Locale } from "@/types";
 
 interface Props {
 	locale: Locale;
-	note: CollectionEntry<"note">;
+	note: CollectionEntry<"note"> | CollectionEntry<"notionNote">;
 	preview?: boolean;
 }
 

@@ -1,6 +1,8 @@
 import { defineCollection, reference } from "astro:content";
+import { NOTION_DATA_SOURCE_ID, NOTION_TOKEN } from "astro:env/server";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { notionNoteLoader } from "@/loaders/notion";
 import {
 	articleLoader,
 	badgeLoader,
@@ -57,6 +59,18 @@ const note = defineCollection({
 				});
 			}
 		}),
+});
+
+const notionNote = defineCollection({
+	loader: notionNoteLoader({
+		dataSourceId: NOTION_DATA_SOURCE_ID,
+		token: NOTION_TOKEN,
+	}),
+	schema: z.object({
+		description: z.string().optional(),
+		publishDate: z.date(),
+		title: z.string().max(120),
+	}),
 });
 
 const course = defineCollection({
@@ -172,6 +186,7 @@ export const collections = {
 	course,
 	experience,
 	note,
+	notionNote,
 	post,
 	project,
 };

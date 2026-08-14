@@ -62,7 +62,7 @@ const copy =
 		{
 			caseStudy.data.gallery.length > 0 && (
 				<section class="case-study__gallery">
-					{caseStudy.data.gallery.map((item) => <Image alt={item.alt} height={720} loading="lazy" src={item.src} width={1200} />)}
+					{caseStudy.data.gallery.map((item) => <Image alt={item.alt} loading="lazy" src={item.src} />)}
 				</section>
 			)
 		}

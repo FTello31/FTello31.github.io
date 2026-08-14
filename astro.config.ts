@@ -110,6 +110,12 @@ export default defineConfig({
 	},
 	env: {
 		schema: {
+			NOTION_DATA_SOURCE_ID: envField.string({
+				context: "server",
+				access: "secret",
+				optional: true,
+			}),
+			NOTION_TOKEN: envField.string({ context: "server", access: "secret", optional: true }),
 			WEBMENTION_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
 			PUBLIC_UMAMI_WEBSITE_ID: envField.string({
 				context: "client",

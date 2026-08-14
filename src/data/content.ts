@@ -1,4 +1,5 @@
-import { getCollection } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
+import { NOTION_DATA_SOURCE_ID, NOTION_TOKEN } from "astro:env/server";
 import type { Locale } from "@/types";
 
 export async function getPosts(locale: Locale) {
@@ -10,7 +11,13 @@ export async function getPosts(locale: Locale) {
 }
 
 export async function getNotes() {
-	const notes = await getCollection("note");
+	const localNotes = await getCollection("note");
+	const notionNotes: CollectionEntry<"notionNote">[] =
+		NOTION_TOKEN && NOTION_DATA_SOURCE_ID ? await getCollection("notionNote") : [];
+	const localIds = new Set(localNotes.map(({ id }) => id));
+	const collision = notionNotes.find(({ id }) => localIds.has(id));
+	if (collision) throw new Error(`Notion Slug collides with a local note: ${collision.id}`);
+	const notes = [...localNotes, ...notionNotes];
 	return notes.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
 }
 
@@ -25,8 +32,8 @@ export async function getCourseNotes(courseId: string) {
 }
 
 export async function getStandaloneNotes() {
-	const notes = await getCollection("note", ({ data }) => !data.course);
-	return notes.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+	const notes = await getNotes();
+	return notes.filter(({ data }) => !("course" in data) || !data.course);
 }
 
 export async function getProjects(locale: Locale) {

@@ -3,7 +3,7 @@
 :root {
 	--pf-text-muted: var(--color-global-text);
 	--pf-background: var(--color-global-bg);
-	--pf-border-focus: var(--color-accent-2);
+	--pf-border-focus: var(--color-accent);
 	--pf-outline-focus: var(--color-accent);
 	--pf-outline-offset: none;
 	--pf-font: var(--font-mono);
@@ -77,9 +77,10 @@ dialog.pf-modal::backdrop {
 		align-self: flex-start;
 	}
 
+	.pf-result-excerpt,
 	.pf-heading-excerpt {
 		mark {
-			--pf-mark: var(--color-accent-2);
+			--pf-mark: var(--color-accent);
 			font-weight: var(--font-weight-semibold);
 		}
 	}

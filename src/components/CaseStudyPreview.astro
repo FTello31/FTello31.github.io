@@ -13,28 +13,139 @@ interface Props {
 const { caseStudy, featured = false, locale } = Astro.props;
 const labels =
 	locale === "es"
-		? { read: "Ver el caso completo", result: "Resultado" }
-		: { read: "Read the full case study", result: "Outcome" };
+		? {
+				carousel: "Capturas del producto Luna y Junio",
+				dot: "Ir a la captura",
+				next: "Siguiente captura",
+				previous: "Captura anterior",
+				read: "Ver el caso completo",
+				result: "Resultado",
+				status: "Captura {current} de {total}",
+			}
+		: {
+				carousel: "Luna y Junio product screenshots",
+				dot: "Go to screenshot",
+				next: "Next screenshot",
+				previous: "Previous screenshot",
+				read: "Read the full case study",
+				result: "Outcome",
+				status: "Screenshot {current} of {total}",
+			};
 const href = caseStudyPath(locale, caseStudy.id);
 const coverImage = caseStudy.data.coverImage;
 const displayTitle = caseStudy.data.cardTitle ?? caseStudy.data.title;
+const gallery = caseStudy.data.gallery;
+const hasCarousel = featured && gallery.length > 1;
 ---
 
 <article class:list={["case-preview", { "case-preview--featured": featured }]}>
-	<a
-		class:list={[
-			"case-preview__media",
-			`case-preview__media--${caseStudy.data.coverFit}`,
-			{ "case-preview__media--fallback": !coverImage },
-		]}
-		data-umami-event="Case Study View"
-		href={href}
-		tabindex="-1"
-	>
-		{coverImage
-			? <Image alt={coverImage.alt} height={630} loading={featured ? "eager" : "lazy"} src={coverImage.src} width={1200} />
-			: <span><strong>{caseStudy.data.code}</strong><small>{caseStudy.data.clientName}</small></span>}
-	</a>
+	{
+		hasCarousel ? (
+			<>
+			<div class:list={[
+				"case-preview__media",
+				"case-preview__media--carousel",
+				{ "case-preview__media--desktop-only": coverImage },
+			]}>
+				<div
+					aria-label={labels.carousel}
+					aria-roledescription={locale === "es" ? "carrusel" : "carousel"}
+					class="case-carousel"
+					data-case-carousel
+					data-status-template={labels.status}
+					role="region"
+					tabindex="0"
+				>
+					<div class="case-carousel__track" data-carousel-track>
+						{gallery.map((item, index) => (
+							<a
+								class="case-carousel__slide"
+								data-umami-event="Case Study View"
+								href={href}
+								tabindex="-1"
+							>
+								<Image
+									alt={item.alt}
+									height={1500}
+									loading={index === 0 ? "eager" : "lazy"}
+									src={item.src}
+									width={1200}
+								/>
+							</a>
+						))}
+					</div>
+					<div class="case-carousel__controls">
+						<button aria-label={labels.previous} data-carousel-previous disabled type="button">
+							←
+						</button>
+						<div class="case-carousel__dots">
+							{gallery.map((_, index) => (
+								<button
+									aria-current={index === 0 ? "true" : undefined}
+									aria-label={`${labels.dot} ${index + 1}`}
+									data-carousel-dot={index}
+									type="button"
+								/>
+							))}
+						</div>
+						<button aria-label={labels.next} data-carousel-next type="button">
+							→
+						</button>
+					</div>
+					<span aria-live="polite" class="sr-only" data-carousel-status>
+						{labels.status.replace("{current}", "1").replace("{total}", String(gallery.length))}
+					</span>
+				</div>
+			</div>
+			{coverImage && (
+				<a
+					class:list={[
+						"case-preview__media",
+						"case-preview__media--contain",
+						"case-preview__media--mobile-banner",
+					]}
+					data-umami-event="Case Study View"
+					href={href}
+					tabindex="-1"
+				>
+					<Image
+						alt={coverImage.alt}
+						height={630}
+						loading="lazy"
+						src={coverImage.src}
+						width={1200}
+					/>
+				</a>
+			)}
+			</>
+		) : (
+			<a
+				class:list={[
+					"case-preview__media",
+					`case-preview__media--${caseStudy.data.coverFit}`,
+					{ "case-preview__media--fallback": !coverImage },
+				]}
+				data-umami-event="Case Study View"
+				href={href}
+				tabindex="-1"
+			>
+				{coverImage ? (
+					<Image
+						alt={coverImage.alt}
+						height={630}
+						loading={featured ? "eager" : "lazy"}
+						src={coverImage.src}
+						width={1200}
+					/>
+				) : (
+					<span>
+						<strong>{caseStudy.data.code}</strong>
+						<small>{caseStudy.data.clientName}</small>
+					</span>
+				)}
+			</a>
+		)
+	}
 	<div class="case-preview__body">
 		<p class="case-preview__eyebrow">{caseStudy.data.code} / {caseStudy.data.industry}</p>
 		<h3><a data-umami-event="Case Study View" href={href}>{displayTitle}</a></h3>
@@ -43,15 +154,73 @@ const displayTitle = caseStudy.data.cardTitle ?? caseStudy.data.title;
 			caseStudy.data.results[0] && (
 				<div class="case-preview__result">
 					<strong>{caseStudy.data.results[0].value}</strong>
-					<span>{labels.result}: {caseStudy.data.results[0].label}</span>
+					<span>
+						{labels.result}: {caseStudy.data.results[0].label}
+					</span>
 				</div>
 			)
 		}
-		{
-			caseStudy.data.testimonial && (
-				<blockquote>“{caseStudy.data.testimonial.quote}”</blockquote>
-			)
-		}
+		{caseStudy.data.testimonial && <blockquote>“{caseStudy.data.testimonial.quote}”</blockquote>}
 		<a class="text-link" data-umami-event="Case Study View" href={href}>{labels.read} →</a>
 	</div>
 </article>
+
+<script>
+	import { carouselIndex } from "@/utils/carousel";
+
+	for (const root of document.querySelectorAll<HTMLElement>("[data-case-carousel]")) {
+		if (root.dataset.ready) continue;
+		root.dataset.ready = "true";
+
+		const track = root.querySelector<HTMLElement>("[data-carousel-track]");
+		const slides = root.querySelectorAll<HTMLElement>(".case-carousel__slide");
+		const previous = root.querySelector<HTMLButtonElement>("[data-carousel-previous]");
+		const next = root.querySelector<HTMLButtonElement>("[data-carousel-next]");
+		const dots = root.querySelectorAll<HTMLButtonElement>("[data-carousel-dot]");
+		const status = root.querySelector<HTMLElement>("[data-carousel-status]");
+		if (!track || !previous || !next || !status) continue;
+
+		let active = 0;
+		let scrollFrame = 0;
+		const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+		const update = (index: number) => {
+			active = index;
+			previous.disabled = index === 0;
+			next.disabled = index === slides.length - 1;
+			for (const [dotIndex, dot] of dots.entries()) {
+				if (dotIndex === index) dot.setAttribute("aria-current", "true");
+				else dot.removeAttribute("aria-current");
+			}
+			status.textContent = (root.dataset.statusTemplate ?? "{current}/{total}")
+				.replace("{current}", String(index + 1))
+				.replace("{total}", String(slides.length));
+		};
+		const goTo = (index: number) => {
+			if (!slides[index]) return;
+			track.scrollTo({
+				behavior: reducedMotion.matches ? "auto" : "smooth",
+				left: index * track.clientWidth,
+			});
+			update(index);
+		};
+
+		previous.addEventListener("click", () => goTo(active - 1));
+		next.addEventListener("click", () => goTo(active + 1));
+		for (const [index, dot] of dots.entries()) dot.addEventListener("click", () => goTo(index));
+		track.addEventListener(
+			"scroll",
+			() => {
+				cancelAnimationFrame(scrollFrame);
+				scrollFrame = requestAnimationFrame(() =>
+					update(carouselIndex(track.scrollLeft, track.clientWidth, slides.length)),
+				);
+			},
+			{ passive: true },
+		);
+		root.addEventListener("keydown", (event) => {
+			if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+			event.preventDefault();
+			goTo(active + (event.key === "ArrowRight" ? 1 : -1));
+		});
+	}
+</script>

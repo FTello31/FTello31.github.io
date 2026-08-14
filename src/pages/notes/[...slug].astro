@@ -7,7 +7,11 @@ import BaseLayout from "@/layouts/Base.astro";
 
 type Props =
 	| { entry: CollectionEntry<"course">; type: "course" }
-	| { course?: CollectionEntry<"course">; entry: CollectionEntry<"note">; type: "note" };
+	| {
+			course?: CollectionEntry<"course">;
+			entry: CollectionEntry<"note"> | CollectionEntry<"notionNote">;
+			type: "note";
+	  };
 
 export const getStaticPaths = (async () => {
 	const [courses, notes] = await Promise.all([getCourses(), getNotes()]);
@@ -18,7 +22,10 @@ export const getStaticPaths = (async () => {
 			props: { entry, type: "course" as const },
 		})),
 		...notes.map((entry) => {
-			const course = entry.data.course ? coursesById.get(entry.data.course.id) : undefined;
+			const course =
+				"course" in entry.data && entry.data.course
+					? coursesById.get(entry.data.course.id)
+					: undefined;
 			return {
 				params: { slug: entry.id },
 				props: { entry, type: "note" as const, ...(course && { course }) },

@@ -31,8 +31,24 @@ Las Content Collections estructuradas se cargan desde el dataset público `produ
 - `certificate`: certificados.
 - `badge`: insignias profesionales.
 
-Las notas permanecen en `content/notes`. Cada entrada localizada usa `lang` y `translationKey`.
-Español se publica sin prefijo e inglés bajo `/en/`.
+Las notas locales permanecen en `content/notes`. También se pueden cargar notas desde una base
+privada de Notion durante el build. Ambos orígenes conviven y se publican bajo `/notes/`.
+
+### Notion
+
+1. Crea una conexión interna de solo lectura y dale acceso únicamente a la base de notas.
+2. Añade a la base las propiedades `Título` (title), `Slug` (text), `Descripción` (text), `Fecha`
+   (date) y `Publicar` (checkbox).
+3. Configura `NOTION_TOKEN` y `NOTION_DATA_SOURCE_ID` en `.env` y en las variables de Netlify. El
+   ID se obtiene desde `Manage data sources` → `Copy data source ID` en Notion.
+4. Activa `Publicar` y lanza un deploy manual de Netlify.
+
+El slug debe usar minúsculas, números y guiones. La primera versión admite contenido textual;
+multimedia, páginas hijas y bloques no compatibles detienen el build para evitar enlaces privados o
+temporales. La base de Notion no necesita publicarse en la web.
+
+Cada entrada localizada usa `lang` y `translationKey`. Español se publica sin prefijo e inglés bajo
+`/en/`.
 
 ## Despliegue
 
