@@ -7,7 +7,7 @@ export const GET = async () => {
 	return rss({
 		description: "Learning notes by Fernando Tello Studio",
 		items: notes.map((note) => ({
-			link: `/notes/${note.id}/`,
+			link: "externalUrl" in note.data ? note.data.externalUrl : `/notes/${note.id}/`,
 			pubDate: note.data.publishDate,
 			title: note.data.title,
 		})),

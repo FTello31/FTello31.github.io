@@ -11,12 +11,21 @@ export async function getPosts(locale: Locale) {
 }
 
 export async function getNotes() {
-	const localNotes = await getCollection("note");
+	const [localNotes, courses] = await Promise.all([getCollection("note"), getCollection("course")]);
 	const notionNotes: CollectionEntry<"notionNote">[] =
 		NOTION_TOKEN && NOTION_DATA_SOURCE_ID ? await getCollection("notionNote") : [];
 	const localIds = new Set(localNotes.map(({ id }) => id));
 	const collision = notionNotes.find(({ id }) => localIds.has(id));
 	if (collision) throw new Error(`Notion Slug collides with a local note: ${collision.id}`);
+	const courseIds = new Set(courses.map(({ id }) => id));
+	const missingCourse = notionNotes.find(
+		({ data }) => data.course && !courseIds.has(data.course.id),
+	);
+	if (missingCourse) {
+		throw new Error(
+			`Notion page "${missingCourse.data.title}" references an unknown course: ${missingCourse.data.course?.id}`,
+		);
+	}
 	const notes = [...localNotes, ...notionNotes];
 	return notes.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
 }
@@ -27,7 +36,7 @@ export async function getCourses() {
 }
 
 export async function getCourseNotes(courseId: string) {
-	const notes = await getCollection("note", ({ data }) => data.course?.id === courseId);
+	const notes = (await getNotes()).filter(({ data }) => data.course?.id === courseId);
 	return notes.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 }
 

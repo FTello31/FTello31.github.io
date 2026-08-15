@@ -37,15 +37,18 @@ privada de Notion durante el build. Ambos orígenes conviven y se publican bajo 
 ### Notion
 
 1. Crea una conexión interna de solo lectura y dale acceso únicamente a la base de notas.
-2. Añade a la base `Slug` (text), `Descripción` (text), `Fecha` (date) y `Publicar` (checkbox).
-	La columna principal de título puede conservar cualquier nombre, por ejemplo `Name`.
+2. Añade a la base `Slug` (text), `Descripción` (text), `Fecha` (date), `Publicar` (checkbox),
+   `Curso` (Select) y `Orden` (Number). La columna principal de título puede conservar cualquier
+   nombre, por ejemplo `Name`.
 3. Configura `NOTION_TOKEN` y `NOTION_DATA_SOURCE_ID` en `.env` y en las variables de Netlify. El
    ID se obtiene desde `Manage data sources` → `Copy data source ID` en Notion.
-4. Activa `Publicar` y lanza un deploy manual de Netlify.
+4. Publica cada nota en la web desde Notion, activa `Publicar` y lanza un deploy manual de Netlify.
 
-El slug debe usar minúsculas, números y guiones. La primera versión admite contenido textual;
-multimedia, páginas hijas y bloques no compatibles detienen el build para evitar enlaces privados o
-temporales. La base de Notion no necesita publicarse en la web.
+El slug debe usar minúsculas, números y guiones. El portfolio muestra los metadatos y enlaza a la
+página pública de Notion, que sirve directamente su contenido y archivos sin añadirlos al bundle.
+
+Para incluir una nota en un curso, crea primero `content/courses/<slug>.md`, usa exactamente ese
+slug en `Curso` y asigna un `Orden` entero positivo. Las notas sin curso dejan ambos campos vacíos.
 
 Cada entrada localizada usa `lang` y `translationKey`. Español se publica sin prefijo e inglés bajo
 `/en/`.

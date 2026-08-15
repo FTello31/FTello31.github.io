@@ -66,11 +66,24 @@ const notionNote = defineCollection({
 		dataSourceId: NOTION_DATA_SOURCE_ID,
 		token: NOTION_TOKEN,
 	}),
-	schema: z.object({
-		description: z.string().optional(),
-		publishDate: z.date(),
-		title: z.string().max(120),
-	}),
+	schema: z
+		.object({
+			course: reference("course").optional(),
+			description: z.string().optional(),
+			externalUrl: z.url(),
+			order: z.number().int().positive().optional(),
+			publishDate: z.date(),
+			title: z.string().max(120),
+		})
+		.superRefine((entry, context) => {
+			if (entry.course && !entry.order) {
+				context.addIssue({
+					code: "custom",
+					message: "A Notion course lesson requires a positive order.",
+					path: ["order"],
+				});
+			}
+		}),
 });
 
 const course = defineCollection({

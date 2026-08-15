@@ -9,7 +9,9 @@ interface Props {
 }
 
 const { locale, note, preview = false } = Astro.props;
-const { Content } = await render(note);
+const externalUrl = "externalUrl" in note.data ? note.data.externalUrl : undefined;
+const href = externalUrl ?? `/notes/${note.id}/`;
+const Content = !preview && !externalUrl ? (await render(note)).Content : undefined;
 ---
 
 <article class:list={["note-card", preview && "note-card--preview"]} data-pagefind-body>
@@ -22,10 +24,20 @@ const { Content } = await render(note);
 			})
 		}</time
 	>
-	{preview ? <h3><a href={`/notes/${note.id}/`}>{note.data.title}</a></h3> : <h1>{note.data.title}</h1>}
+	{
+		preview ? (
+			<h3>
+				<a href={href} rel={externalUrl ? "noreferrer noopener" : undefined} target={externalUrl ? "_blank" : undefined}>
+					{note.data.title}
+				</a>
+			</h3>
+		) : (
+			<h1>{note.data.title}</h1>
+		)
+	}
 	{note.data.description && <p class="note-card__description">{note.data.description}</p>}
 	{
-		!preview && (
+		Content && (
 			<div class="prose">
 				<Content />
 			</div>

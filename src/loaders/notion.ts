@@ -2,36 +2,34 @@ import type { Loader } from "astro/loaders";
 
 const API_URL = "https://api.notion.com/v1";
 const API_VERSION = "2026-03-11";
-const forbiddenContent =
-	/!\[[^\]]*\]\(|<(?:audio|callout|column|columns|database|details|empty-block|file|mention-|page|pdf|synced_block|table_of_contents|unknown|video)\b|https?:\/\/(?:www\.)?notion\.(?:com|site|so)\b/i;
 
 type Fetcher = typeof fetch;
 type RichText = { plain_text: string };
 type Property = {
 	checkbox?: boolean;
 	date?: { start: string } | null;
+	number?: number | null;
 	rich_text?: RichText[];
+	select?: { name: string } | null;
 	title?: RichText[];
 	type: string;
 };
 type NotionPage = {
 	id: string;
 	properties: Record<string, Property>;
+	public_url: string | null;
 };
 type QueryResponse = {
 	has_more: boolean;
 	next_cursor: string | null;
 	results: NotionPage[];
 };
-type MarkdownResponse = {
-	markdown: string;
-	truncated: boolean;
-	unknown_block_ids: string[];
-};
-
 export interface NotionNote extends Record<string, unknown> {
+	course?: string;
 	description?: string;
+	externalUrl: string;
 	id: string;
+	order?: number;
 	publishDate: Date;
 	title: string;
 }
@@ -54,6 +52,8 @@ export function mapNotionPage(page: NotionPage): NotionNote {
 	const id = text(page.properties.Slug, "rich_text");
 	const description = text(page.properties.Descripción, "rich_text");
 	const date = page.properties.Fecha;
+	const courseProperty = page.properties.Curso;
+	const orderProperty = page.properties.Orden;
 	if (!title) throw new Error(`Notion page ${page.id} is missing its title.`);
 	if (!id || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)) {
 		throw new Error(`Notion page "${title}" has an invalid Slug.`);
@@ -65,21 +65,35 @@ export function mapNotionPage(page: NotionPage): NotionNote {
 	if (Number.isNaN(publishDate.getTime())) {
 		throw new Error(`Notion page "${title}" has an invalid Fecha.`);
 	}
+	if (!page.public_url) {
+		throw new Error(`Notion page "${title}" must be published to the web.`);
+	}
+	if (courseProperty?.type !== "select") {
+		throw new Error(`Notion property "Curso" must be a Select.`);
+	}
+	if (orderProperty?.type !== "number") {
+		throw new Error(`Notion property "Orden" must be a Number.`);
+	}
+	const course = courseProperty.select?.name.trim();
+	const order = orderProperty.number ?? undefined;
+	if (course && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(course)) {
+		throw new Error(`Notion page "${title}" has an invalid Curso slug.`);
+	}
+	if (course && (!Number.isInteger(order) || (order ?? 0) <= 0)) {
+		throw new Error(`Notion page "${title}" requires a positive integer Orden.`);
+	}
+	if (!course && order !== undefined) {
+		throw new Error(`Notion page "${title}" has Orden but no Curso.`);
+	}
 	return {
+		...(course && { course }),
 		...(description && { description }),
+		externalUrl: page.public_url,
 		id,
+		...(order !== undefined && { order }),
 		publishDate,
 		title,
 	};
-}
-
-export function validateNotionMarkdown(note: NotionNote, response: MarkdownResponse) {
-	if (response.truncated || response.unknown_block_ids.length > 0) {
-		throw new Error(`Notion page "${note.title}" contains truncated or inaccessible content.`);
-	}
-	if (forbiddenContent.test(response.markdown)) {
-		throw new Error(`Notion page "${note.title}" contains unsupported media or child content.`);
-	}
 }
 
 export function assertUniqueSlugs(notes: NotionNote[]) {
@@ -141,7 +155,7 @@ export function notionNoteLoader(options: {
 }): Loader {
 	return {
 		name: "notion-notes",
-		async load({ generateDigest, logger, parseData, renderMarkdown, store }) {
+		async load({ generateDigest, logger, parseData, store }) {
 			const { dataSourceId, fetcher = fetch, token } = options;
 			if (!token && !dataSourceId) {
 				logger.warn("Notion notes disabled: NOTION_TOKEN and NOTION_DATA_SOURCE_ID are not set.");
@@ -157,22 +171,12 @@ export function notionNoteLoader(options: {
 			const notes = pages.map(mapNotionPage);
 			assertUniqueSlugs(notes);
 			const entries = [];
-			for (const [index, page] of pages.entries()) {
-				const note = notes[index];
-				if (!note) throw new Error(`Notion page ${page.id} could not be mapped.`);
-				const response = await request<MarkdownResponse>(
-					`/pages/${page.id}/markdown`,
-					token,
-					fetcher,
-				);
-				validateNotionMarkdown(note, response);
+			for (const note of notes) {
 				const data = await parseData({ id: note.id, data: note });
 				entries.push({
-					body: response.markdown,
 					data,
-					digest: generateDigest(response.markdown),
+					digest: generateDigest(JSON.stringify(note)),
 					id: note.id,
-					rendered: await renderMarkdown(response.markdown),
 				});
 			}
 

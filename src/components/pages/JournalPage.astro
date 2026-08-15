@@ -47,13 +47,21 @@ const copy =
 			};
 ---
 
-<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.journal }}>
-	<PageIntro code={locale === "es" ? "BITÁCORA" : "JOURNAL"} description={copy.description} title={copy.title} />
+<BaseLayout
+	meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.journal }}
+>
+	<PageIntro
+		code={locale === "es" ? "BITÁCORA" : "JOURNAL"}
+		description={copy.description}
+		title={copy.title}
+	/>
 	<section class="ideas-index page-section">
 		<div>
 			<h2>{t.blog}</h2>
 			<p>{copy.postsDescription}</p>
-			<div class="content-list">{posts.map((post) => <PostPreview locale={locale} post={post} />)}</div>
+			<div class="content-list">
+				{posts.map((post) => <PostPreview locale={locale} post={post} />)}
+			</div>
 		</div>
 		<div>
 			<h2>{t.notes}</h2>
@@ -72,8 +80,17 @@ const copy =
 									<ol class="course-note-card__lessons">
 										{lessons.map((lesson) => (
 											<li>
-												<a href={`/notes/${lesson.id}/`}>
-													{copy.lesson} {lesson.data.order} · {lesson.data.title}
+												<a
+													href={
+														"externalUrl" in lesson.data
+															? lesson.data.externalUrl
+															: `/notes/${lesson.id}/`
+													}
+													rel={"externalUrl" in lesson.data ? "noreferrer noopener" : undefined}
+													target={"externalUrl" in lesson.data ? "_blank" : undefined}
+												>
+													{/* {copy.lesson} {lesson.data.order} ·  */}
+													{lesson.data.title}
 												</a>
 											</li>
 										))}
@@ -89,7 +106,9 @@ const copy =
 					<div class="journal-note-group">
 						<p class="journal-note-group__label">{copy.standaloneNotes}</p>
 						<div class="notes-list">
-							{notes.map((note) => <Note locale={locale} note={note} preview />)}
+							{notes.map((note) => (
+								<Note locale={locale} note={note} preview />
+							))}
 						</div>
 					</div>
 				)

@@ -21,16 +21,18 @@ export const getStaticPaths = (async () => {
 			params: { slug: entry.id },
 			props: { entry, type: "course" as const },
 		})),
-		...notes.map((entry) => {
-			const course =
-				"course" in entry.data && entry.data.course
-					? coursesById.get(entry.data.course.id)
-					: undefined;
-			return {
-				params: { slug: entry.id },
-				props: { entry, type: "note" as const, ...(course && { course }) },
-			};
-		}),
+		...notes
+			.filter((entry) => !("externalUrl" in entry.data))
+			.map((entry) => {
+				const course =
+					"course" in entry.data && entry.data.course
+						? coursesById.get(entry.data.course.id)
+						: undefined;
+				return {
+					params: { slug: entry.id },
+					props: { entry, type: "note" as const, ...(course && { course }) },
+				};
+			}),
 	];
 }) satisfies GetStaticPaths;
 
@@ -72,7 +74,13 @@ const lessons = type === "course" ? await getCourseNotes(entry.id) : [];
 								<article class="note-card note-card--preview">
 									<span>Lesson {lesson.data.order}</span>
 									<h3>
-										<a href={`/notes/${lesson.id}/`}>{lesson.data.title}</a>
+										<a
+											href={"externalUrl" in lesson.data ? lesson.data.externalUrl : `/notes/${lesson.id}/`}
+											rel={"externalUrl" in lesson.data ? "noreferrer noopener" : undefined}
+											target={"externalUrl" in lesson.data ? "_blank" : undefined}
+										>
+											{lesson.data.title}
+										</a>
 									</h3>
 									{lesson.data.description && (
 										<p class="note-card__description">{lesson.data.description}</p>
