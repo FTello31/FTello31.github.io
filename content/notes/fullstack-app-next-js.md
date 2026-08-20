@@ -2,6 +2,8 @@
 title: Build a Fullstack Next.js App, v4 | Frontend Masters (WIP)
 description: by  Brian Holt • Feb 13, 2026.
 publishDate: 2026-08-15
+course: nextjs
+order: 3
 ---
 
 https://fullstack-v4.holt.courses/

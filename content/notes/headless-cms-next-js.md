@@ -2,6 +2,8 @@
 title: Headless CMSs with Next.js | Frontend Masters (WIP)
 description: by Scott Moss.
 publishDate: 2026-08-15
+course: nextjs
+order: 2
 ---
 
 
