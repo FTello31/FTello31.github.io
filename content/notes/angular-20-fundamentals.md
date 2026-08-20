@@ -1,5 +1,5 @@
 ---
-title: Angular 20 Fundamentals
+title: Angular 20 Fundamentals | Frontend Masters
 description: Course notes for Angular 20 Fundamentals by Mark Techson.
 publishDate: 2026-08-15
 course: angular

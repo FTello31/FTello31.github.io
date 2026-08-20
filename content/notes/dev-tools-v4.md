@@ -1,5 +1,5 @@
 ---
-title: Mastering Chrome Developer Tools
+title: Mastering Chrome Developer Tools | Frontend Masters
 description: Course notes for Chrome Developer Tools by Jon Kuperman
 publishDate: 2026-08-15
 ---
