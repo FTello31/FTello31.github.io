@@ -20,7 +20,7 @@ export const siteConfig: SiteConfig = {
 	},
 	defaultLocale: "es",
 	description:
-		"Automatizaciones, herramientas internas y aplicaciones web para pymes que necesitan operar mejor.",
+		"Desarrollo software a medida para pymes: automatizaciones, herramientas internas y aplicaciones web que ahorran tiempo.",
 	founder: "Fernando Tello",
 	lang: "es",
 	locales: ["es", "en"],

@@ -6,21 +6,30 @@ interface Props {
 	locale: Locale;
 }
 const { locale } = Astro.props;
+const label = locale === "es" ? "Buscar" : "Search";
 ---
 
 <script>
-	(() => {
-		if (import.meta.env.DEV) return;
-		const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
-		onIdle(async () => {
+	if (import.meta.env.PROD) {
+		const loader = document.querySelector<HTMLButtonElement>("[data-search-loader]");
+		loader?.addEventListener("click", async () => {
+			loader.disabled = true;
 			await import("@pagefind/component-ui");
+			const trigger = document.querySelector<HTMLElement & { openModal: () => void }>(
+				"pagefind-modal-trigger",
+			);
+			if (!trigger) return;
+			trigger.hidden = false;
+			loader.hidden = true;
+			trigger.openModal();
 		});
-	})();
+	}
 </script>
 
+{import.meta.env.PROD && <button aria-label={label} class="search-loader" data-search-loader type="button"><span aria-hidden="true"></span></button>}
 <pagefind-config
 	baseUrl={`${import.meta.env.BASE_URL}`}
 	bundle-path={`${import.meta.env.BASE_URL.replace(/\/$/, "")}/pagefind/`}
 	lang={locale}></pagefind-config>
-<pagefind-modal-trigger id="search" class="ms-auto" hide-shortcut compact></pagefind-modal-trigger>
+<pagefind-modal-trigger hidden id="search" class="ms-auto" hide-shortcut compact></pagefind-modal-trigger>
 <pagefind-modal></pagefind-modal>

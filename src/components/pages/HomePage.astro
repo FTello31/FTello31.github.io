@@ -26,7 +26,7 @@ const copy =
 					"Estudio independiente dirigido por Fernando: hablas directamente con quien diseña y desarrolla.",
 				aboutDescription:
 					"Más de seis años construyendo software y mejorando sistemas en producción. Combino visión de producto, desarrollo full stack y una comunicación directa para reducir riesgo y dejar una base mantenible.",
-				allCases: "Ver Luna y Junio y Plannick",
+				allCases: "Ver todos los casos",
 				alternate: paths.en.home,
 				caseDescription:
 					"El primer caso comercial se publicará cuando el cliente haya autorizado el contexto, las imágenes y al menos un resultado.",
@@ -35,7 +35,7 @@ const copy =
 				contactDescription: `Comparte el contexto, el presupuesto orientativo y el plazo. Te responderé personalmente en ${siteConfig.contact.responseTime.es} para decidir si tiene sentido avanzar.`,
 				contactTitle: "¿Qué proceso necesita moverse mejor?",
 				description:
-					"Diseño y construyo automatizaciones, herramientas internas y aplicaciones web para pymes que necesitan operar mejor sin ampliar su equipo técnico.",
+					"Desarrollo software a medida para pymes: automatizaciones, herramientas internas y aplicaciones web que ahorran tiempo.",
 				faq: [
 					[
 						"¿Quién es propietario del código?",
@@ -101,7 +101,7 @@ const copy =
 					"An independent studio run by Fernando: you speak directly with the person who designs and builds.",
 				aboutDescription:
 					"More than six years building software and improving production systems. I combine product thinking, full-stack development and direct communication to reduce risk and leave a maintainable foundation.",
-				allCases: "See Luna y Junio and Plannick",
+				allCases: "See all cases",
 				alternate: paths.es.home,
 				caseDescription:
 					"The first commercial case study will be published once the client has authorised the context, imagery and at least one outcome.",
@@ -110,7 +110,7 @@ const copy =
 				contactDescription: `Share the context, indicative budget and timeline. I will reply personally within ${siteConfig.contact.responseTime.en} so we can decide whether it makes sense to move forward.`,
 				contactTitle: "Which process needs to move better?",
 				description:
-					"I design and build automation, internal tools and web applications for SMEs that need to operate better without expanding their technical team.",
+					"Custom software for SMEs: automation, internal tools and web applications that save time.",
 				faq: [
 					[
 						"Who owns the code?",
@@ -170,7 +170,7 @@ const copy =
 			};
 ---
 
-<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: siteConfig.title }}>
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: locale === "es" ? "Desarrollo de software a medida" : "Custom software development" }}>
 	<section class="commercial-hero">
 		<div class="commercial-hero__content">
 			<p class="commercial-hero__label">{copy.heroLabel}</p>
@@ -183,7 +183,6 @@ const copy =
 			<p class="commercial-hero__microcopy">{copy.microcopy}</p>
 			<p class="commercial-hero__proof">{copy.proofLine}</p>
 		</div>
-		<div class="commercial-hero__graphic" aria-hidden="true"><img alt="" height="747" src="/PNG/Recurso%203@2x.png" width="612" /><small>FIG_001 / OPERATIONS</small></div>
 	</section>
 
 	<section class="proof-strip" aria-label={locale === "es" ? "Prueba y experiencia" : "Proof and experience"}>

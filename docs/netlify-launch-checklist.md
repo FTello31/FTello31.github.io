@@ -1,22 +1,48 @@
 # Netlify production checklist
 
-Netlify builds `main` with `bun run build` and publishes `dist`.
+Netlify builds `main` with Node 24, Bun 1.3.14 and `bun run build`, then publishes `dist`.
+`fernandotello.netlify.app` remains provisional until the final domain is chosen.
 
-## Preview deployment
+## Automated readiness
 
-1. Import the repository into Netlify without changing the current DNS.
-2. Confirm the build settings loaded from `netlify.toml`.
-3. In Netlify, enable **Form detection** and redeploy.
-4. Submit both `project-inquiry-es` and `project-inquiry-en` from the Netlify subdomain.
-5. Configure submission notifications to the owner's email.
-6. Verify Sanity content, previews, redirects, RSS feeds, certificates and both confirmation pages.
-7. Keep auto-recharge disabled and review credit usage monthly.
+- [x] `bun test`, `bun run check` and `bun run build` pass.
+- [x] `bun audit --production` reports no known vulnerabilities.
+- [x] Sitemap contains only indexable pages; 404 and confirmation pages are excluded.
+- [x] `robots.txt` references the sitemap index using the configured canonical URL.
+- [x] Indexable pages have a description, canonical URL, one `h1` and a unique title.
+- [x] RSS feeds, manifest, generated icons and Pagefind output exist in `dist`.
+- [x] Mobile layouts have no horizontal overflow at 390 px.
+- [x] Search downloads Pagefind only after the user opens it.
+- [x] Lighthouse production scores for home, services, case study, contact and a note are at least
+  90 for performance and 100 for accessibility, best practices and SEO.
 
-## Production
+## Deploy Preview
 
-1. Confirm `fernandotello.netlify.app` and both production forms.
-2. Confirm the `Sanity content published` Build Hook targets `main`.
-3. Confirm the Sanity webhook invokes that Build Hook only for published site content.
+- [ ] Import or reconnect the repository without changing production DNS.
+- [ ] Confirm Netlify loads `netlify.toml`, uses `main`, and installs from `bun.lock`.
+- [ ] Set required Notion variables and `PUBLIC_UMAMI_WEBSITE_ID` only in their intended contexts.
+- [ ] Confirm Deploy Preview responses include `X-Robots-Tag: noindex`.
+- [ ] Enable **Form detection**, redeploy, and submit `project-inquiry-es` and
+  `project-inquiry-en` with non-sensitive test data.
+- [ ] Confirm honeypot handling, confirmation pages, email notifications and deletion/retention
+  of test submissions.
+- [ ] Verify Sanity and Notion content, redirects, RSS, certificates, search, CV download, theme,
+  language switching and the custom 404 page.
+- [ ] Check response headers, keyboard navigation, visible focus, contrast and mobile layouts.
+
+## Production release
+
+- [ ] Choose the definitive domain; the release remains blocked until this is decided.
+- [ ] Update `siteConfig.url`, the social card URL, Umami and any domain-specific copy.
+- [ ] Configure the primary Netlify domain, DNS and HTTPS; redirect the Netlify subdomain and any
+  aliases to the canonical domain with 301 responses.
+- [ ] Rebuild and verify canonical URLs, `hreflang`, `robots.txt`, sitemap and Open Graph against
+  the public HTTPS URL.
+- [ ] Submit `sitemap-index.xml` to Google Search Console.
+- [ ] Repeat both form submissions in production and remove the test records.
+- [ ] Confirm the `Sanity content published` Build Hook targets `main` and only fires for published
+  site content.
+- [ ] Keep auto-recharge disabled and review Netlify and Umami usage monthly.
 
 ## Umami after launch
 

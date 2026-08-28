@@ -17,15 +17,16 @@ export const getStaticPaths = (async () => {
 		return {
 			params: { slug: entrySlug(caseStudy.id) },
 			props: {
-				alternateUrl: translation ? caseStudyPath("es", translation.id) : paths.es.cases,
+				alternateUrl: translation ? caseStudyPath("es", translation.id) : undefined,
 				caseStudy,
+				languageUrl: translation ? undefined : paths.es.cases,
 			},
 		};
 	});
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-const { alternateUrl, caseStudy } = Astro.props;
+const { alternateUrl, caseStudy, languageUrl } = Astro.props;
 const { Content } = await render(caseStudy);
 ---
-<CaseStudyLayout alternateUrl={alternateUrl} caseStudy={caseStudy} locale="en"><Content /></CaseStudyLayout>
+<CaseStudyLayout alternateUrl={alternateUrl} caseStudy={caseStudy} languageUrl={languageUrl} locale="en"><Content /></CaseStudyLayout>

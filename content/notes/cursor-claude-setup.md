@@ -1,10 +1,10 @@
 ---
-title: Cursor & Claude Code: Professional AI Setup | Frontend Masters
-description: by Steve Kinney • Sep 21, 2025.
+title: "Cursor & Claude Code: Professional AI Setup | Frontend Masters"
+description: Course notes on AI-assisted development with Cursor, Claude Code and MCP by Steve Kinney.
 publishDate: 2026-08-15
 ---
 
-# AI Development with Cursor & MCP Notes
+## AI Development with Cursor & MCP Notes
 
 ## Course Notes
 
@@ -24,7 +24,7 @@ This is where Cursor-specific configuration can be managed.
 
 ---
 
-# Background Agents
+## Background Agents
 
 Background Agents are remote, asynchronous coding agents that can work on a repository without requiring the local editor session to remain active.
 
@@ -59,7 +59,7 @@ The main idea is that the agent performs its work in a remote environment rather
 
 ---
 
-# Cursor Agents & Dashboard
+## Cursor Agents & Dashboard
 
 Cursor provides a dashboard for viewing and managing agent activity.
 
@@ -83,7 +83,7 @@ Accept, modify, or reject changes
 
 ---
 
-# MCP Overview
+## MCP Overview
 
 ## What is MCP?
 
@@ -134,7 +134,7 @@ The protocol makes integrations more reusable and consistent.
 
 ---
 
-# MCP Architecture
+## MCP Architecture
 
 MCP commonly involves three main concepts:
 
@@ -227,7 +227,7 @@ A useful mental model:
 
 ---
 
-# MCP Host, Client & Server
+## MCP Host, Client & Server
 
 Full architecture:
 
@@ -276,7 +276,7 @@ GitHub
 
 ---
 
-# MCP Capabilities
+## MCP Capabilities
 
 Depending on the server, MCP can expose different types of functionality.
 
@@ -325,7 +325,7 @@ MCP Server
 
 ---
 
-# MCP as "Plug and Play"
+## MCP as "Plug and Play"
 
 One of the main benefits of MCP is that integrations can behave more like plug-and-play components.
 
@@ -345,7 +345,7 @@ Instead of manually implementing every integration inside the AI application, th
 
 ---
 
-# MCP Directory & Discovery
+## MCP Directory & Discovery
 
 Cursor MCP directory:
 
@@ -355,7 +355,7 @@ This can be used to discover MCP servers and integrations that can be connected 
 
 ---
 
-# Useful MCP Servers & Integrations
+## Useful MCP Servers & Integrations
 
 ## Notion MCP
 
@@ -509,7 +509,7 @@ This is particularly useful when:
 
 ---
 
-# Other AI Development Resources
+## Other AI Development Resources
 
 ## ChatGPT Codex
 
@@ -519,7 +519,7 @@ Codex provides coding-agent workflows for working with software-development task
 
 ---
 
-# MCP Mental Model
+## MCP Mental Model
 
 A concise way to remember MCP:
 
@@ -547,7 +547,7 @@ GitHub repository
 
 ---
 
-# MCP vs. Traditional API Integration
+## MCP vs. Traditional API Integration
 
 ## Traditional Integration
 
@@ -583,7 +583,7 @@ The client communicates using a standardized protocol.
 
 ---
 
-# Quick Reference
+## Quick Reference
 
 ## Cursor
 

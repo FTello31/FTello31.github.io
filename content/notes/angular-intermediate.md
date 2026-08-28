@@ -1,13 +1,13 @@
 ---
-title: Intermediate Angular: Signals & Dependency Injection | Frontend Masters (WIP)
-description: by Alex Okrushko
+title: "Intermediate Angular: Signals & Dependency Injection | Frontend Masters (WIP)"
+description: Course notes on Angular signals, dependency injection and component patterns by Alex Okrushko.
 publishDate: 2026-08-15
 course: angular
 order: 3
 ---
 
 
-# Intermediate Angular
+## Intermediate Angular
 
 
 ## Quick Reference
@@ -386,7 +386,7 @@ Pipes are particularly useful for presentation formatting because they keep disp
 
 frontend master notes: 
 
-# Intermediate Angular: Signals & Dependency Injection | Frontend Masters
+## Intermediate Angular: Signals & Dependency Injection | Frontend Masters
 
 ### Introduction
 

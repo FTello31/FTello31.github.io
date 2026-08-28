@@ -150,8 +150,7 @@ html[data-theme="dark"] {
 	height: 36px;
 	object-fit: contain;
 }
-html[data-theme="dark"] .brand-mark__monogram,
-html[data-theme="dark"] .commercial-hero__graphic img {
+html[data-theme="dark"] .brand-mark__monogram {
 	filter: invert(1);
 }
 .brand-mark__name {
@@ -1471,6 +1470,7 @@ html[data-theme="dark"] .commercial-hero__graphic img {
 	color: var(--color-global-text);
 	font-size: 16px;
 	line-height: 1.75;
+	overflow-wrap: anywhere;
 }
 .prose h2,
 .prose h3 {
@@ -1491,6 +1491,11 @@ html[data-theme="dark"] .commercial-hero__graphic img {
 .prose code {
 	padding: 2px 5px;
 	background: var(--color-panel);
+}
+.prose table {
+	display: block;
+	max-width: 100%;
+	overflow-x: auto;
 }
 
 .site-footer {
@@ -1894,7 +1899,6 @@ html[data-theme="dark"] .commercial-hero__graphic img {
 
 .commercial-hero {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) minmax(260px, 280px);
 	min-height: min(648px, calc(100svh - var(--header-height)));
 	border-bottom: 1px solid var(--color-line);
 }
@@ -1904,7 +1908,6 @@ html[data-theme="dark"] .commercial-hero__graphic img {
 	flex-direction: column;
 	justify-content: center;
 	padding: clamp(36px, 4.5vw, 56px);
-	border-right: 1px solid var(--color-line);
 }
 .commercial-hero__label,
 .commercial-hero__microcopy,
@@ -1954,34 +1957,6 @@ html[data-theme="dark"] .commercial-hero__graphic img {
 }
 .commercial-hero__actions {
 	margin-top: 22px;
-}
-.commercial-hero__graphic {
-	position: relative;
-	display: grid;
-	place-items: center;
-	min-width: 0;
-	overflow: hidden;
-	background-image:
-		linear-gradient(135deg, transparent 49.8%, var(--color-line) 50%, transparent 50.2%),
-		linear-gradient(45deg, transparent 49.8%, var(--color-line) 50%, transparent 50.2%);
-}
-.commercial-hero__graphic::before {
-	content: "";
-	position: absolute;
-	inset: 24px;
-	border: 1px dashed var(--color-line-strong);
-}
-.commercial-hero__graphic img {
-	width: clamp(90px, 12vw, 150px);
-	height: auto;
-	opacity: 0.82;
-}
-.commercial-hero__graphic small {
-	position: absolute;
-	right: 13px;
-	bottom: 10px;
-	color: var(--color-muted);
-	font-size: 10px;
 }
 .proof-strip {
 	display: grid;
@@ -2669,9 +2644,6 @@ html[data-theme="dark"] .commercial-hero__graphic img {
 }
 
 @media (max-width: 960px) {
-	.commercial-hero {
-		grid-template-columns: minmax(0, 1fr) 230px;
-	}
 	.commercial-hero__content {
 		padding: 40px 32px;
 	}
@@ -2704,9 +2676,7 @@ html[data-theme="dark"] .commercial-hero__graphic img {
 		flex-direction: column;
 	}
 	.commercial-hero__content {
-		order: 1;
 		padding: 34px 20px 30px;
-		border-right: 0;
 	}
 	.commercial-hero h1 {
 		margin-top: 17px;
@@ -2730,14 +2700,6 @@ html[data-theme="dark"] .commercial-hero__graphic img {
 	}
 	.commercial-hero__proof {
 		margin-top: 8px;
-	}
-	.commercial-hero__graphic {
-		order: 2;
-		min-height: 150px;
-		border-top: 1px solid var(--color-line);
-	}
-	.commercial-hero__graphic img {
-		width: 78px;
 	}
 	.proof-strip {
 		grid-template-columns: 1fr;

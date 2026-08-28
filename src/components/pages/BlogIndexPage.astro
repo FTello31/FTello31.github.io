@@ -2,7 +2,7 @@
 import PostPreview from "@/components/blog/PostPreview.astro";
 import PageIntro from "@/components/PageIntro.astro";
 import { getPosts } from "@/data/content";
-import { paths, ui } from "@/i18n";
+import { paths } from "@/i18n";
 import BaseLayout from "@/layouts/Base.astro";
 import type { Locale } from "@/types";
 
@@ -11,7 +11,6 @@ interface Props {
 }
 const { locale } = Astro.props;
 const posts = await getPosts(locale);
-const t = ui[locale];
 const copy =
 	locale === "es"
 		? {
@@ -28,7 +27,7 @@ const copy =
 			};
 ---
 
-<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.blog }}>
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: locale === "es" ? "Blog de software" : "Software blog" }}>
 	<PageIntro code={`BLOG / ${String(posts.length).padStart(2, "0")}`} description={copy.description} title={copy.title} />
 	<section class="content-list">{posts.map((post) => <PostPreview locale={locale} post={post} />)}</section>
 </BaseLayout>

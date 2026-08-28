@@ -7,12 +7,13 @@ import BaseLayout from "@/layouts/Base.astro";
 import type { Locale } from "@/types";
 
 interface Props {
-	alternateUrl: string;
+	alternateUrl?: string | undefined;
 	caseStudy: CollectionEntry<"caseStudy">;
+	languageUrl?: string | undefined;
 	locale: Locale;
 }
 
-const { alternateUrl, caseStudy, locale } = Astro.props;
+const { alternateUrl, caseStudy, languageUrl, locale } = Astro.props;
 const t = ui[locale];
 const socialImage = caseStudy.data.coverImage
 	? await getImage({
@@ -43,7 +44,7 @@ const copy =
 			};
 ---
 
-<BaseLayout meta={{ alternateUrl, description: caseStudy.data.description, locale, ogImage: socialImage?.src, title: caseStudy.data.title }}>
+<BaseLayout meta={{ alternateUrl, description: caseStudy.data.description, languageUrl, locale, ogImage: socialImage?.src, title: caseStudy.data.title }}>
 	<article class="case-study" data-pagefind-body data-pagefind-filter={`lang:${locale}`}>
 		<header class="case-study__masthead">
 			<p>{caseStudy.data.code} / {caseStudy.data.industry}</p>

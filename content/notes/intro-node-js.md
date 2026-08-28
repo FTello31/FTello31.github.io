@@ -1,11 +1,11 @@
 ---
 title: Introduction to Node.js, v3 | Frontend Masters
-description: by Scott Moss • Jul 26, 2026.
+description: Course notes on Node.js fundamentals, modules, asynchronous programming and servers by Scott Moss.
 publishDate: 2026-08-15
 ---
 
 
-# Introduction to Node.js v3
+## Introduction to Node.js v3
 
 
 
@@ -504,7 +504,7 @@ node --experimental-vm-modules node_modules/jest/bin/jest.js
 
 frontend master notes: 
 
-# Introduction to Node.js, v3 | Frontend Masters
+## Introduction to Node.js, v3 | Frontend Masters
 
 ### Introduction
 

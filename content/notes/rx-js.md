@@ -3,7 +3,7 @@ title: Rx.js Fundamentals | Frontend Masters
 description: Course notes for Rx.js Fundamentals by Steve Kinney.
 publishDate: 2026-08-15
 ---
-# RxJS Operators Notes
+## RxJS Operators Notes
 
 ## Operators
 
@@ -212,7 +212,7 @@ The same value continues through the stream.
 
 ---
 
-# Combining Operators
+## Combining Operators
 
 ## `takeUntil`
 
@@ -244,7 +244,7 @@ Once `start$` emits, values from `source$` begin passing through.
 
 ---
 
-# Manipulating Time
+## Manipulating Time
 
 ## `delay`
 
@@ -322,7 +322,7 @@ emit: "hello"
 
 ---
 
-# Merging Timelines
+## Merging Timelines
 
 ## `merge`
 
@@ -425,7 +425,7 @@ A common use case is executing multiple independent HTTP requests and waiting fo
 
 ---
 
-# Higher-Order Observables
+## Higher-Order Observables
 
 A higher-order Observable is an Observable that emits other Observables.
 
@@ -615,7 +615,7 @@ Useful for preventing duplicate actions such as:
 
 ---
 
-# Combining Latest Values
+## Combining Latest Values
 
 ## `combineLatestAll`
 
@@ -653,7 +653,7 @@ is emitted whenever any source emits a new value.
 
 ---
 
-# `NEVER` vs `EMPTY`
+## `NEVER` vs `EMPTY`
 
 ## `EMPTY`
 
@@ -692,7 +692,7 @@ It stays subscribed forever unless something unsubscribes from it.
 
 ---
 
-# Flattening Operator Cheat Sheet
+## Flattening Operator Cheat Sheet
 
 | Operator | Concurrent? | Keeps order? | Cancels previous? | Ignores new values? |
 |---|---:|---:|---:|---:|
@@ -722,7 +722,7 @@ It stays subscribed forever unless something unsubscribes from it.
 
 --- 
 
-# Rx.js Fundamentals | Frontend Masters
+## Rx.js Fundamentals | Frontend Masters
 
 ### Observables
 
@@ -852,5 +852,4 @@ Here's a link to check out [redux-observable](https://redux-observable.js.org/)
 
 [00:12:09](https://master.dev/courses/rx-js/wrapping-up?t=729)
 Here's a link to check out the [Rx.js docs](https://rxjs.dev/)
-
 

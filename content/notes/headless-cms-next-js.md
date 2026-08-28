@@ -1,6 +1,6 @@
 ---
 title: Headless CMSs with Next.js | Frontend Masters (WIP)
-description: by Scott Moss.
+description: Course notes on headless CMS architecture and Next.js integration by Scott Moss.
 publishDate: 2026-08-15
 course: nextjs
 order: 2
@@ -9,7 +9,7 @@ order: 2
 
 Course repo: https://github.com/Hendrixer/headless-nextjs
 
-# Headless CMS with Next.js Notes
+## Headless CMS with Next.js Notes
 
 ## Introduction
 
@@ -136,9 +136,9 @@ https://master.dev/courses/headless-cms-nextjs/content-model-in-contentful/
 
 
 
-# Frontend masters notes: 
+## Frontend masters notes:
 
-# Headless CMSs with Next.js | Frontend Masters
+## Headless CMSs with Next.js | Frontend Masters
 
 ### Introduction
 

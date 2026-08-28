@@ -14,17 +14,18 @@ interface Props {
 
 const { meta } = Astro.props;
 const locale: Locale = meta.locale ?? siteConfig.defaultLocale;
-const alternateUrl = meta.alternateUrl ?? paths[locale === "es" ? "en" : "es"].home;
+const languageUrl =
+	meta.languageUrl ?? meta.alternateUrl ?? paths[locale === "es" ? "en" : "es"].home;
 ---
 
 <html class="scroll-smooth" lang={locale}>
 	<head>
-		<BaseHead {...meta} alternateUrl={alternateUrl} locale={locale} />
+		<BaseHead {...meta} locale={locale} />
 		<ThemeProvider />
 	</head>
 	<body>
 		<a class="skip-link" href="#main">{ui[locale].skip}</a>
-		<Header alternateUrl={alternateUrl} locale={locale} shared={meta.shared} />
+		<Header alternateUrl={languageUrl} locale={locale} shared={meta.shared} />
 		<main id="main">
 			<slot />
 		</main>

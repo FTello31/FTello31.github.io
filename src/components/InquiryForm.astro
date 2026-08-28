@@ -103,7 +103,7 @@ const copy =
 	</div>
 	<label>{copy.timeline}<select name="timeline" required>{copy.timelineOptions.map(([value, label]) => <option disabled={!value} selected={!value} value={value}>{label}</option>)}</select></label>
 	<label>{copy.context}<textarea aria-describedby="context-help" minlength="30" name="context" required rows="8"></textarea><small id="context-help">{copy.contextHelp}</small></label>
-	<label class="form-consent"><input name="privacy-accepted" required type="checkbox" /><span>{copy.privacy} · <a href={paths[locale].privacy} target="_blank">{locale === "es" ? "Leer aviso" : "Read notice"} ↗</a></span></label>
+	<label class="form-consent"><input name="privacy-accepted" required type="checkbox" /><span>{copy.privacy} · <a href={paths[locale].privacy} rel="noreferrer" target="_blank">{locale === "es" ? "Leer aviso" : "Read notice"} ↗</a></span></label>
 	<button class="button-primary" type="submit">{copy.submit} →</button>
 </form>
 

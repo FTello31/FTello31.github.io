@@ -1,6 +1,6 @@
 ---
 title: Build a Fullstack Next.js App, v4 | Frontend Masters (WIP)
-description: by  Brian Holt • Feb 13, 2026.
+description: Course notes on building a full-stack Next.js application by Brian Holt.
 publishDate: 2026-08-15
 course: nextjs
 order: 3
@@ -11,7 +11,7 @@ https://fullstack-v4.holt.courses/
 https://github.com/btholt/fullstack-next-wiki
 
 
-# Build a Fullstack Next.js App, v4
+## Build a Fullstack Next.js App, v4
 
 ## Quick Reference
 
@@ -206,7 +206,7 @@ From the Neon dashboard:
 
 Example:
 
-```env
+```text
 DATABASE_URL="postgresql://..."
 ```
 
@@ -252,7 +252,7 @@ Drizzle can be used for:
 
 frontend masters notes; 
 
-# Build a Fullstack Next.js App, v4 | Frontend Masters
+## Build a Fullstack Next.js App, v4 | Frontend Masters
 
 ### Introduction
 

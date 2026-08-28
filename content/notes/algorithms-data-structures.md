@@ -1,13 +1,13 @@
 ---
 title: Algorithms & Data Structures | Frontend Masters (WIP)
-description: by The ThePrimeagen.
+description: Course notes on core algorithms and data structures by ThePrimeagen.
 publishDate: 2026-08-15
 ---
 
 course notes: https://theprimeagen.github.io/fem-algos/
 exercises: https://github.com/ThePrimeagen/kata-machine
 
-# Algorithms & Data Structures
+## Algorithms & Data Structures
 
 ## Quick Reference
 ### Algorithms
@@ -299,7 +299,7 @@ dequeue: O(1)
 
 Frontend masters notes: 
 
-# The Last Algorithms Course You'll Need | Frontend Masters
+## The Last Algorithms Course You'll Need | Frontend Masters
 
 ### Introduction
 

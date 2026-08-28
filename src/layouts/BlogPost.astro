@@ -6,19 +6,20 @@ import BaseLayout from "@/layouts/Base.astro";
 import type { Locale } from "@/types";
 
 interface Props {
-	alternateUrl: string;
+	alternateUrl?: string | undefined;
+	languageUrl?: string | undefined;
 	locale: Locale;
 	post: CollectionEntry<"post">;
 }
 
-const { alternateUrl, locale, post } = Astro.props;
+const { alternateUrl, languageUrl, locale, post } = Astro.props;
 const { description, ogImage, publishDate, title, updatedDate } = post.data;
 const articleDate = (updatedDate ?? publishDate).toISOString();
 const { headings, remarkPluginFrontmatter } = await render(post);
 const readingTime: string = remarkPluginFrontmatter.readingTime;
 ---
 
-<BaseLayout meta={{ alternateUrl, articleDate, description, locale, ogImage, title }}>
+<BaseLayout meta={{ alternateUrl, articleDate, description, languageUrl, locale, ogImage, title }}>
 	<article class="article-shell" data-pagefind-body data-pagefind-filter={`lang:${locale}`}>
 		<Masthead content={post} locale={locale} readingTime={readingTime} />
 		<div class="article-layout">

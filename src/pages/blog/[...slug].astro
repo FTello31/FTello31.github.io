@@ -16,9 +16,8 @@ export const getStaticPaths = (async () => {
 			return {
 				params: { slug: entrySlug(post.id) },
 				props: {
-					alternateUrl: translation
-						? `${paths.en.blog}${entrySlug(translation.id)}/`
-						: paths.en.blog,
+					alternateUrl: translation ? `${paths.en.blog}${entrySlug(translation.id)}/` : undefined,
+					languageUrl: translation ? undefined : paths.en.blog,
 					post,
 				},
 			};
@@ -26,7 +25,7 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-const { alternateUrl, post } = Astro.props;
+const { alternateUrl, languageUrl, post } = Astro.props;
 const { Content } = await render(post);
 ---
-<PostLayout alternateUrl={alternateUrl} locale="es" post={post}><Content /></PostLayout>
+<PostLayout alternateUrl={alternateUrl} languageUrl={languageUrl} locale="es" post={post}><Content /></PostLayout>

@@ -5,7 +5,6 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@tailwindcss/vite";
 import { defineConfig, envField } from "astro/config";
 import expressiveCode from "astro-expressive-code";
-import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
 import webmanifest from "astro-webmanifest";
 import { satteriAdmonitionsPlugin } from "./src/plugins/admonitions";
@@ -45,13 +44,12 @@ export default defineConfig({
 		"/en/ideas": "/en/journal/",
 		"/en/projects": "/en/cases/",
 	},
-	image: {
-		domains: ["webmention.io"],
-	},
 	integrations: [
 		expressiveCode(expressiveCodeOptions),
-		icon(),
-		sitemap(),
+		sitemap({
+			filter: (page) =>
+				!["/contacto/gracias/", "/en/contact/thanks/"].includes(new URL(page).pathname),
+		}),
 		mdx(),
 		robotsTxt(),
 		webmanifest({
@@ -116,14 +114,11 @@ export default defineConfig({
 				optional: true,
 			}),
 			NOTION_TOKEN: envField.string({ context: "server", access: "secret", optional: true }),
-			WEBMENTION_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
 			PUBLIC_UMAMI_WEBSITE_ID: envField.string({
 				context: "client",
 				access: "public",
 				optional: true,
 			}),
-			WEBMENTION_URL: envField.string({ context: "client", access: "public", optional: true }),
-			WEBMENTION_PINGBACK: envField.string({ context: "client", access: "public", optional: true }),
 		},
 	},
 });

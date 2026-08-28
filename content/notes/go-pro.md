@@ -1,13 +1,13 @@
 ---
 title: Complete Go for Professional Developers | Frontend Masters (WIP)
-description: by Melkey.
+description: Course notes on production Go services, PostgreSQL storage and HTTP APIs by Melkey.
 publishDate: 2026-08-15
 ---
 
 Course: https://github.com/Melkeydev/fem-project-live 
 
 
-# Go Course Notes
+## Go Course Notes
 
 ## Loops
 
@@ -367,7 +367,7 @@ Consider pointers when:
 
 ---
 
-# Building the Go Project
+## Building the Go Project
 
 ## Creating the Go Project
 
@@ -526,7 +526,7 @@ Then configure the returned router as the HTTP server's `Handler`.
 
 ---
 
-# PostgreSQL
+## PostgreSQL
 
 ## PostgreSQL Database Docker Container
 
@@ -678,7 +678,7 @@ psql -U postgres -h localhost -p 5432
 
 ---
 
-# Store Layer
+## Store Layer
 
 ## Defining Data Types in Store
 
@@ -797,7 +797,7 @@ https://github.com/Melkeydev/fem-project-live/blob/main/internal/store/workout_s
 
 ---
 
-# API Layer
+## API Layer
 
 ## CreateWorkout Handler
 
@@ -907,7 +907,7 @@ fmt.Println(*port)
 
 ---
 
-# Key Go Concepts
+## Key Go Concepts
 
 ## Values vs. pointers
 
@@ -977,9 +977,9 @@ This makes the application easier to test and change.
 
 
 
-# Frontend Masters notes: 
+## Frontend Masters notes:
 
-# Complete Go for Professional Developers | Frontend Masters
+## Complete Go for Professional Developers | Frontend Masters
 
 ### Introduction
 
