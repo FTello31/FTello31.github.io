@@ -1,12 +1,12 @@
 ---
 title: Introduction to Node.js, v3 | Frontend Masters
 description: Course notes on Node.js fundamentals, modules, asynchronous programming and servers by Scott Moss.
-publishDate: 2026-08-15
+publishDate: 2026-08-13
+course: nodejs
+order: 1
 ---
 
-
 ## Introduction to Node.js v3
-
 
 
 ## Node.js

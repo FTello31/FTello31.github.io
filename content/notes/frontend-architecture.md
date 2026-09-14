@@ -4,6 +4,11 @@ description: by Maxi Ferreira.
 publishDate: 2026-09-10
 ---
 
+slides: https://fem-course-slides.pages.dev/#0
+course repo: https://github.com/Charca/fem-frontend-architecture
+
+
+
 # Frontend Architecture Notes
 
 ## Module Boundary Exercise
