@@ -2,33 +2,41 @@
 import Search from "@/components/Search.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
 import { paths, ui } from "@/i18n";
-import type { Locale } from "@/types";
+import type { Locale, SiteVariant } from "@/types";
 
 interface Props {
 	alternateUrl: string;
 	locale: Locale;
 	shared?: boolean | undefined;
+	variant?: SiteVariant;
 }
 
-const { alternateUrl, locale, shared = false } = Astro.props;
+const { alternateUrl, locale, shared = false, variant = "studio" } = Astro.props;
 const t = ui[locale];
-const links = [
-	{ href: paths[locale].services, label: t.services },
-	{ href: paths[locale].cases, label: t.cases },
-	{ href: paths[locale].about, label: t.about },
-	{ href: paths[locale].journal, label: t.journal },
-	{ href: paths[locale].contact, label: t.contact },
-];
+const links =
+	variant === "personal"
+		? [
+				{ href: `${paths[locale].profile}#projects`, label: t.projects },
+				{ href: `${paths[locale].profile}#experience`, label: t.experience },
+				{ href: `${paths[locale].profile}#education`, label: t.education },
+				{ href: paths[locale].certificates, label: t.certificates },
+			]
+		: [
+				{ href: paths[locale].services, label: t.services },
+				{ href: paths[locale].cases, label: t.cases },
+				{ href: paths[locale].journal, label: t.journal },
+				{ href: paths[locale].contact, label: t.contact },
+			];
 ---
 
 <header class="site-header" id="site-header">
 	<div class="site-header__inner">
-		<a aria-label={t.home} class="brand-mark" href={paths[locale].home}>
+		<a aria-label={t.home} class="brand-mark" href={variant === "personal" ? paths[locale].profile : paths[locale].home}>
 			<img alt="" class="brand-mark__monogram" height="747" src="/PNG/Recurso%203@2x.png" width="612" />
-			<span class="brand-mark__name">Fernando Tello <span>{t.studio}</span></span>
+			<span class="brand-mark__name">Fernando Tello {variant === "studio" && <span>{t.studio}</span>}</span>
 		</a>
 		<nav aria-label={locale === "es" ? "Principal" : "Main"} class="site-nav" id="site-navigation">
-			{links.map((link) => <a aria-current={Astro.url.pathname.startsWith(link.href) ? "page" : false} href={link.href}>{link.label}</a>)}
+			{links.map((link) => <a aria-current={!link.href.includes("#") && Astro.url.pathname.startsWith(link.href) ? "page" : false} href={link.href}>{link.label}</a>)}
 		</nav>
 		<div class="site-actions">
 			<Search locale={locale} />
@@ -47,5 +55,11 @@ const links = [
 	toggle?.addEventListener("click", () => {
 		const open = header?.classList.toggle("menu-open") ?? false;
 		toggle.setAttribute("aria-expanded", String(open));
+	});
+	header?.querySelectorAll(".site-nav a").forEach((link) => {
+		link.addEventListener("click", () => {
+			header.classList.remove("menu-open");
+			toggle?.setAttribute("aria-expanded", "false");
+		});
 	});
 </script>

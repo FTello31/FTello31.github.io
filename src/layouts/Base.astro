@@ -13,6 +13,7 @@ interface Props {
 }
 
 const { meta } = Astro.props;
+const variant = meta.variant ?? "studio";
 const locale: Locale = meta.locale ?? siteConfig.defaultLocale;
 const languageUrl =
 	meta.languageUrl ?? meta.alternateUrl ?? paths[locale === "es" ? "en" : "es"].home;
@@ -25,12 +26,12 @@ const languageUrl =
 	</head>
 	<body>
 		<a class="skip-link" href="#main">{ui[locale].skip}</a>
-		<Header alternateUrl={languageUrl} locale={locale} shared={meta.shared} />
+		<Header alternateUrl={languageUrl} locale={locale} shared={meta.shared} variant={variant} />
 		<main id="main">
 			<slot />
 		</main>
-		<Footer locale={locale} />
-		<WhatsAppLink class="whatsapp-float" label={ui[locale].whatsapp} locale={locale} />
+		<Footer locale={locale} variant={variant} />
+		{variant === "studio" && <WhatsAppLink class="whatsapp-float" label={ui[locale].whatsapp} locale={locale} />}
 		<script>
 			function prepareCommercialInteractions() {
 				const floatingWhatsApp = document.querySelector<HTMLElement>(".whatsapp-float");

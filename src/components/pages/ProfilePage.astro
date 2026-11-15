@@ -1,0 +1,159 @@
+---
+import ExperienceList from "@/components/ExperienceList.astro";
+import PageIntro from "@/components/PageIntro.astro";
+import ProjectGrid from "@/components/ProjectGrid.astro";
+import { getExperience, getProjects } from "@/data/content";
+import { paths, ui } from "@/i18n";
+import BaseLayout from "@/layouts/Base.astro";
+import { siteConfig } from "@/site.config";
+import type { Locale } from "@/types";
+
+interface Props {
+	locale: Locale;
+}
+const { locale } = Astro.props;
+const [experience, projects] = await Promise.all([getExperience(locale), getProjects(locale)]);
+const t = ui[locale];
+const copy =
+	locale === "es"
+		? {
+				alternate: paths.en.profile,
+				description:
+					"Software engineer con más de seis años construyendo aplicaciones escalables y liderando mejoras de arquitectura, calidad y rendimiento.",
+				intro: [
+					"Mi experiencia full stack me permite entender tanto la interfaz que usa una persona como los sistemas y datos que la hacen posible. Trabajo con TypeScript y Angular, con especial atención a las pruebas, la arquitectura y el rendimiento.",
+					"Exploro cómo aplicar IA de forma útil, medible y segura al desarrollo de producto. También desarrollo proyectos como freelance a través de mi estudio independiente.",
+				],
+				portraitAlt: "Ilustración de Fernando Tello trabajando con su portátil",
+				portraitLabel: "Fernando Tello · Software Engineer",
+				title: "Fernando Tello · Software Engineer",
+				contactDescription:
+					"Para oportunidades profesionales y colaboraciones, puedes escribirme o conocer más sobre mi trabajo en GitHub y LinkedIn.",
+				education: [
+					[
+						"2025",
+						"Máster en Inteligencia Artificial Avanzada y Generativa",
+						"MBIT · Madrid, España",
+					],
+					["2024", "Máster en Educación", "Universidad Peruana de Ciencias Aplicadas · Lima, Perú"],
+					["2020", "Cloud DevOps Engineer Nanodegree", "Udacity"],
+					["2018", "Ingeniería de Sistemas", "Universidad de Lima · Lima, Perú"],
+				],
+				values: [
+					"Simple antes que frágil",
+					"Calidad que se puede comprobar",
+					"Producto antes que tecnología",
+					"Aprender y compartir",
+				],
+				valuesTitle: "Principios",
+			}
+		: {
+				alternate: paths.es.profile,
+				description:
+					"Software engineer with more than six years building scalable applications and leading improvements in architecture, quality and performance.",
+				intro: [
+					"My full-stack background helps me understand both the interface a person uses and the systems and data behind it. I work with TypeScript and Angular, focusing on testing, architecture and performance.",
+					"I explore how to apply AI to product development in useful, measurable and safe ways. I also build freelance projects through my independent studio.",
+				],
+				portraitAlt: "Illustration of Fernando Tello working on his laptop",
+				portraitLabel: "Fernando Tello · Software Engineer",
+				title: "Fernando Tello · Software Engineer",
+				contactDescription:
+					"For professional opportunities and collaborations, email me or explore my work on GitHub and LinkedIn.",
+				education: [
+					[
+						"2025",
+						"Master in Advanced and Generative Artificial Intelligence",
+						"MBIT · Madrid, Spain",
+					],
+					["2024", "Master in Education", "Universidad Peruana de Ciencias Aplicadas · Lima, Peru"],
+					["2020", "Cloud DevOps Engineer Nanodegree", "Udacity"],
+					["2018", "System Engineering", "Universidad de Lima · Lima, Peru"],
+				],
+				values: [
+					"Simple over fragile",
+					"Quality you can verify",
+					"Product before technology",
+					"Learn and share",
+				],
+				valuesTitle: "Principles",
+			};
+---
+
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: "Portfolio", variant: "personal" }}>
+	<PageIntro code="PORTFOLIO / SOFTWARE ENGINEER" description={copy.description} title={copy.title} />
+	<section class="about-grid">
+		<div class="about-profile">
+			<div>{copy.intro.map((paragraph) => <p>{paragraph}</p>)}<div class="profile-actions"><a class="button-primary" data-umami-event="CV Download" href="/resume.pdf" rel="noreferrer" target="_blank">{t.cv} ↗</a><a class="button-secondary" href="#projects">{t.portfolio} ↓</a></div></div>
+			<figure>
+				<img alt={copy.portraitAlt} height="1024" loading="lazy" src="/fernando-tello.png" width="1024" />
+				<figcaption>{copy.portraitLabel}</figcaption>
+			</figure>
+		</div>
+		<div><h2>{copy.valuesTitle}</h2><ol>{copy.values.map((value, index) => <li><span>0{index + 1}</span>{value}</li>)}</ol></div>
+	</section>
+	<section class="site-section" id="projects">
+		<h2 class="subsection-heading">{t.projects}</h2>
+		<ProjectGrid locale={locale} projects={projects} />
+	</section>
+	<section class="site-section" id="experience">
+		<h2 class="subsection-heading">{t.experience}</h2>
+		<ExperienceList experience={experience} locale={locale} />
+	</section>
+	<section class="site-section" id="education">
+		<h2 class="subsection-heading">{t.education}</h2>
+		<ol class="profile-education">
+			{copy.education.map(([year, title, institution]) => <li><time datetime={year}>{year}</time><div><h3>{title}</h3><p>{institution}</p></div></li>)}
+		</ol>
+		<a class="section-link" href={paths[locale].certificates}>{t.certificates} →</a>
+	</section>
+	<section class="site-section" id="contact">
+		<h2 class="subsection-heading">{t.contact}</h2>
+		<p class="section-summary">{copy.contactDescription}</p>
+		<div class="profile-actions">
+			<a class="button-primary" href={`mailto:${siteConfig.contact.email}`}>{t.email} ↗</a>
+			{siteConfig.socialLinks.map((link) => <a class="button-secondary" href={link.url} rel="noreferrer" target="_blank">{link.label} ↗</a>)}
+			<a class="text-link" href={paths[locale].home}>{t.myStudio} →</a>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	section[id] {
+		scroll-margin-top: calc(var(--header-height) + 16px);
+	}
+	.profile-actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 16px;
+		margin-top: 22px;
+	}
+	.profile-actions .button-secondary {
+		margin-top: 0;
+	}
+	.profile-education {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 24px;
+	}
+	.profile-education li {
+		display: grid;
+		grid-template-columns: 4ch minmax(0, 1fr);
+		gap: 24px;
+		padding: 24px 0;
+		border-top: 1px solid var(--color-line);
+	}
+	.profile-education time {
+		color: var(--color-accent);
+	}
+	.profile-education h3 {
+		margin: 0 0 8px;
+		font-size: 16px;
+	}
+	.profile-education p {
+		margin: 0;
+		color: var(--color-muted);
+	}
+</style>
+

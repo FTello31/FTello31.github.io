@@ -1,5 +1,6 @@
 ---
 import UmamiAnalytics from "@/components/UmamiAnalytics.astro";
+import { paths } from "@/i18n";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
 import "@/styles/global.css";
@@ -13,15 +14,21 @@ const {
 	ogImage,
 	shared = false,
 	title,
+	variant = "studio",
 } = Astro.props as SiteMeta;
 
-const siteTitle = title === siteConfig.title ? title : `${title} - ${siteConfig.title}`;
+const personal = variant === "personal";
+const brand = personal ? siteConfig.author : siteConfig.title;
+const siteTitle = title === brand ? title : `${title} - ${brand}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const otherLocale = locale === "es" ? "en" : "es";
 const currentLocaleUrl = canonicalURL.href;
 const otherLocaleUrl = alternateUrl ? new URL(alternateUrl, Astro.site).href : undefined;
 const spanishUrl = locale === "es" ? currentLocaleUrl : otherLocaleUrl;
-const socialImageURL = new URL(ogImage ?? "/social-card.png", Astro.site).href;
+const socialImageURL = new URL(
+	ogImage ?? (personal ? "/fernando-tello.png" : "/social-card.png"),
+	Astro.site,
+).href;
 const ogLocale = locale === "es" ? "es_ES" : "en_US";
 const jsonLd = {
 	"@context": "https://schema.org",
@@ -29,28 +36,32 @@ const jsonLd = {
 		{
 			"@type": "Person",
 			name: siteConfig.founder,
-			url: siteConfig.url,
+			url: new URL(paths[locale].profile, Astro.site).href,
 			sameAs: siteConfig.socialLinks.map(({ url }) => url),
 			jobTitle: "Software Engineer",
 		},
 		{
 			"@type": "WebSite",
-			name: siteConfig.brand,
-			url: siteConfig.url,
+			name: brand,
+			url: personal ? new URL(paths[locale].profile, Astro.site).href : siteConfig.url,
 			inLanguage: siteConfig.locales,
 		},
-		{
-			"@type": "Service",
-			name: siteConfig.brand,
-			provider: { "@type": "Person", name: siteConfig.founder },
-			areaServed: "Remote",
-			serviceType: [
-				"Operations automation",
-				"Internal tools",
-				"Custom web applications",
-				"Software modernisation",
-			],
-		},
+		...(personal
+			? []
+			: [
+					{
+						"@type": "Service",
+						name: siteConfig.brand,
+						provider: { "@type": "Person", name: siteConfig.founder },
+						areaServed: "Remote",
+						serviceType: [
+							"Operations automation",
+							"Internal tools",
+							"Custom web applications",
+							"Software modernisation",
+						],
+					},
+				]),
 	],
 };
 ---
@@ -64,7 +75,7 @@ const jsonLd = {
 		<>
 			<link rel="icon" href="/favicon-32x32.png" type="image/png" />
 			<link href="/icons/apple-touch-icon.png" rel="apple-touch-icon" />
-			<link href="/manifest.webmanifest" rel="manifest" />
+			{!personal && <link href="/manifest.webmanifest" rel="manifest" />}
 		</>
 	)
 }
@@ -79,12 +90,12 @@ const jsonLd = {
 <meta content={siteTitle} property="og:title" />
 <meta content={description} property="og:description" />
 <meta content={canonicalURL} property="og:url" />
-<meta content={siteConfig.title} property="og:site_name" />
+<meta content={brand} property="og:site_name" />
 <meta content={ogLocale} property="og:locale" />
 <meta content={socialImageURL} property="og:image" />
 <meta content={siteTitle} property="og:image:alt" />
-<meta content="1200" property="og:image:width" />
-<meta content="630" property="og:image:height" />
+<meta content={personal && !ogImage ? "1024" : "1200"} property="og:image:width" />
+<meta content={personal && !ogImage ? "1024" : "630"} property="og:image:height" />
 {
 	articleDate && (
 		<>

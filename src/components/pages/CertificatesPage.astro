@@ -89,7 +89,7 @@ const dateFormatter = new Intl.DateTimeFormat(locale === "es" ? "es-ES" : "en-US
 });
 ---
 
-<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.certificates }}>
+<BaseLayout meta={{ alternateUrl: copy.alternate, description: copy.description, locale, title: t.certificates, variant: "personal" }}>
 	<PageIntro code={`${locale === "es" ? "CERTIFICADOS" : "CERTIFICATES"} / ${String(certificates.length).padStart(2, "0")}`} description={copy.description} title={copy.title} />
 	<section class="certificate-section">
 		<div class="certificate-toolbar">

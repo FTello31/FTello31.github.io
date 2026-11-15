@@ -69,13 +69,19 @@ export const projectLoader = () =>
 			data: {
 				description: localized(document.description as Localized<string>, lang),
 				featured: true,
-				imageUrl: document.image,
+				imageUrl:
+					document.image === "https://miraquelindoperu.com/assets/images/logo-sin-fondo.png"
+						? "https://atelier-carmen-catalog.web.app/assets/images/logo-sin-fondo.png"
+						: document.image,
 				lang,
 				order: document.order,
 				technologies: document.technologies,
 				title: localized(document.title as Localized<string>, lang),
 				translationKey: String(document.id),
-				url: document.link,
+				url:
+					document.link === "https://miraquelindoperu.com"
+						? "https://atelier-carmen-catalog.web.app/"
+						: document.link,
 			},
 		})),
 	);

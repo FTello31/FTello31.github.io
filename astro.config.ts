@@ -27,7 +27,7 @@ export default defineConfig({
 		routing: { prefixDefaultLocale: false },
 	},
 	redirects: {
-		"/about": "/sobre-mi/",
+		"/about": "/fernando/",
 		"/certificates": "/certificados/",
 		"/cases": "/casos/",
 		"/ideas": "/bitacora/",
@@ -40,9 +40,9 @@ export default defineConfig({
 		"/en/notes/rss.xml": "/notes/rss.xml",
 		"/notas/bienvenida/": "/notes/welcome/",
 		"/posts": "/blog/",
-		"/proyectos": "/casos/",
+		"/proyectos": "/fernando/#projects",
 		"/en/ideas": "/en/journal/",
-		"/en/projects": "/en/cases/",
+		"/en/projects": "/en/fernando/#projects",
 	},
 	integrations: [
 		expressiveCode(expressiveCodeOptions),

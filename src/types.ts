@@ -31,7 +31,10 @@ export interface PaginationLink {
 	url: string;
 }
 
+export type SiteVariant = "studio" | "personal";
+
 export interface SiteMeta {
+	variant?: SiteVariant | undefined;
 	alternateUrl?: string | undefined;
 	articleDate?: string | undefined;
 	description?: string | undefined;

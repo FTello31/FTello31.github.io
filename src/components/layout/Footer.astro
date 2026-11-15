@@ -1,23 +1,27 @@
 ---
 import { paths, ui } from "@/i18n";
 import { siteConfig } from "@/site.config";
-import type { Locale } from "@/types";
+import type { Locale, SiteVariant } from "@/types";
 
 interface Props {
 	locale: Locale;
+	variant?: SiteVariant;
 }
-const { locale } = Astro.props;
+const { locale, variant = "studio" } = Astro.props;
 const t = ui[locale];
 ---
 
 <footer class="site-footer">
 	<div>
-		<strong>{siteConfig.brand}</strong>
-		<span>{t.copyright} · {new Date().getFullYear()}</span>
+		<strong>{variant === "personal" ? siteConfig.author : siteConfig.brand}</strong>
+		<span>{variant === "personal" ? "Software Engineer" : t.copyright} · {new Date().getFullYear()}</span>
 	</div>
-	<nav aria-label="Footer">
+	<nav aria-label={locale === "es" ? "Pie de página" : "Footer"}>
+		{variant === "personal"
+			? <a href={paths[locale].home}>{t.myStudio} →</a>
+			: <a href={paths[locale].profile}>{t.about}</a>}
 		<a href={paths[locale].privacy}>{locale === "es" ? "Privacidad" : "Privacy"}</a>
 		<a href={`mailto:${siteConfig.contact.email}`}>{t.email}</a>
-		{siteConfig.socialLinks.map((link) => <a href={link.url} rel="noreferrer" target="_blank">{link.label}</a>)}
+		{variant === "personal" && siteConfig.socialLinks.map((link) => <a href={link.url} rel="noreferrer" target="_blank">{link.label}</a>)}
 	</nav>
 </footer>
