@@ -25,7 +25,7 @@ export const ui = {
 		studio: "Studio",
 		theme: "Cambiar tema",
 		whatsapp: "Hablar por WhatsApp",
-		about: "Sobre Fernando",
+		about: "Sobre mí",
 		education: "Formación",
 		myStudio: "Mi estudio",
 		portfolio: "Ver portfolio",
@@ -54,7 +54,7 @@ export const ui = {
 		studio: "Studio",
 		theme: "Change theme",
 		whatsapp: "Chat on WhatsApp",
-		about: "About Fernando",
+		about: "About me",
 		education: "Education",
 		myStudio: "My studio",
 		portfolio: "View portfolio",
@@ -65,6 +65,7 @@ export const ui = {
 export const paths = {
 	es: {
 		profile: "/fernando/",
+		about: "/sobre-mi/",
 		blog: "/blog/",
 		cases: "/casos/",
 		certificates: "/certificados/",
@@ -78,6 +79,7 @@ export const paths = {
 	},
 	en: {
 		profile: "/en/fernando/",
+		about: "/en/about/",
 		blog: "/en/blog/",
 		cases: "/en/cases/",
 		certificates: "/en/certificates/",

@@ -1122,16 +1122,10 @@ html[data-theme="dark"] .brand-mark__monogram {
 	text-transform: uppercase;
 }
 .certificate-card__flags .is-verified,
-.certificate-dialog__flags .is-verified,
-.certificate-card__flags .is-valid,
-.certificate-dialog__flags .is-valid {
+.certificate-dialog__flags .is-verified {
 	border-color: color-mix(in srgb, var(--color-accent) 38%, transparent);
 	background: var(--color-accent-soft);
 	color: var(--color-accent);
-}
-.certificate-card__flags .is-expired,
-.certificate-dialog__flags .is-expired {
-	border-style: dashed;
 }
 .certificate-grid h2 {
 	margin: 20px 0 8px;

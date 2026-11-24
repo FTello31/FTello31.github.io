@@ -19,7 +19,7 @@ const t = ui[locale];
 	<nav aria-label={locale === "es" ? "Pie de página" : "Footer"}>
 		{variant === "personal"
 			? <a href={paths[locale].home}>{t.myStudio} →</a>
-			: <a href={paths[locale].profile}>{t.about}</a>}
+			: <a href={paths[locale].about}>{t.about}</a>}
 		<a href={paths[locale].privacy}>{locale === "es" ? "Privacidad" : "Privacy"}</a>
 		<a href={`mailto:${siteConfig.contact.email}`}>{t.email}</a>
 		{variant === "personal" && siteConfig.socialLinks.map((link) => <a href={link.url} rel="noreferrer" target="_blank">{link.label}</a>)}

@@ -23,7 +23,6 @@ const copy =
 				description:
 					"Una selección visual de credenciales en cloud, desarrollo, DevOps e inteligencia artificial. Explora cada certificado sin descargarlo.",
 				empty: "No hay certificados que coincidan con la búsqueda.",
-				expired: "Expirada",
 				expires: "Válida hasta",
 				featured: "Destacadas",
 				filter: "Filtrar por entidad",
@@ -44,7 +43,6 @@ const copy =
 					"learning-path": "Ruta de aprendizaje",
 					nanodegree: "Nanodegree",
 				},
-				valid: "Vigente",
 				verified: "Verificable",
 				verify: "Verificar con el emisor",
 			}
@@ -56,7 +54,6 @@ const copy =
 				description:
 					"A visual selection of credentials across cloud, development, DevOps and artificial intelligence. Explore every certificate without downloading it.",
 				empty: "No certificates match your search.",
-				expired: "Expired",
 				expires: "Valid until",
 				featured: "Featured",
 				filter: "Filter by issuer",
@@ -77,7 +74,6 @@ const copy =
 					"learning-path": "Learning path",
 					nanodegree: "Nanodegree",
 				},
-				valid: "Active",
 				verified: "Verifiable",
 				verify: "Verify with issuer",
 			};
@@ -150,7 +146,6 @@ const dateFormatter = new Intl.DateTimeFormat(locale === "es" ? "es-ES" : "en-US
 							<div class="certificate-card__flags">
 								<span>{copy.type[data.credentialType]}</span>
 								{data.verificationUrl && <span class="is-verified">{copy.verified}</span>}
-								{data.expirationDate && <span data-expiration-status data-expiration={expirationIso}></span>}
 							</div>
 							<h2>{data.title}</h2>
 							<p>{data.issuer}</p>
@@ -168,9 +163,7 @@ const dateFormatter = new Intl.DateTimeFormat(locale === "es" ? "es-ES" : "en-US
 
 	<dialog
 		class="certificate-dialog"
-		data-expired-label={copy.expired}
 		data-preview-missing={copy.previewMissing}
-		data-valid-label={copy.valid}
 		id="certificate-dialog"
 	>
 		<div class="certificate-dialog__shell">
@@ -188,7 +181,6 @@ const dateFormatter = new Intl.DateTimeFormat(locale === "es" ? "es-ES" : "en-US
 					<div class="certificate-dialog__flags">
 						<span id="certificate-dialog-type"></span>
 						<span class="is-verified" hidden id="certificate-dialog-verified">{copy.verified}</span>
-						<span hidden id="certificate-dialog-status"></span>
 					</div>
 					<h2 id="certificate-dialog-title" tabindex="-1"></h2>
 					<p class="certificate-dialog__issuer" id="certificate-dialog-issuer"></p>
@@ -238,7 +230,6 @@ const dateFormatter = new Intl.DateTimeFormat(locale === "es" ? "es-ES" : "en-US
 	const dialogOriginal = document.querySelector<HTMLAnchorElement>("#certificate-dialog-original");
 	const dialogVerify = document.querySelector<HTMLAnchorElement>("#certificate-dialog-verify");
 	const dialogVerified = document.querySelector<HTMLElement>("#certificate-dialog-verified");
-	const dialogStatus = document.querySelector<HTMLElement>("#certificate-dialog-status");
 	const dialogCounter = document.querySelector<HTMLElement>("#certificate-dialog-counter");
 	const previousButton = document.querySelector<HTMLButtonElement>("[data-dialog-previous]");
 	const nextButton = document.querySelector<HTMLButtonElement>("[data-dialog-next]");
@@ -314,24 +305,6 @@ const dateFormatter = new Intl.DateTimeFormat(locale === "es" ? "es-ES" : "en-US
 		applyFilters();
 	});
 
-	const expirationStatus = (expiration: string) => {
-		if (!expiration) return null;
-		const expired = new Date(`${expiration}T23:59:59Z`).getTime() < Date.now();
-		return {
-			expired,
-			label: expired ? dialog?.dataset.expiredLabel ?? "Expired" : dialog?.dataset.validLabel ?? "Active",
-		};
-	};
-
-	for (const status of document.querySelectorAll<HTMLElement>("[data-expiration-status]")) {
-		const value = expirationStatus(status.dataset.expiration ?? "");
-		if (value) {
-			status.textContent = value.label;
-			status.classList.toggle("is-expired", value.expired);
-			status.classList.toggle("is-valid", !value.expired);
-		}
-	}
-
 	for (const image of document.querySelectorAll<HTMLImageElement>(".certificate-card__media img")) {
 		image.addEventListener("error", () => image.parentElement?.classList.add("is-missing"));
 	}
@@ -356,13 +329,6 @@ const dateFormatter = new Intl.DateTimeFormat(locale === "es" ? "es-ES" : "en-US
 		if (dialogExpirationRow && dialogExpiration) {
 			dialogExpirationRow.hidden = !expiration;
 			dialogExpiration.textContent = card.dataset.expirationLabel ?? "";
-		}
-		const status = expirationStatus(expiration);
-		if (dialogStatus) {
-			dialogStatus.hidden = !status;
-			dialogStatus.textContent = status?.label ?? "";
-			dialogStatus.classList.toggle("is-expired", status?.expired === true);
-			dialogStatus.classList.toggle("is-valid", status?.expired === false);
 		}
 
 		const credentialId = card.dataset.credentialId ?? "";
